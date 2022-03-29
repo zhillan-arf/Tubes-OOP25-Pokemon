@@ -7,8 +7,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.System;
+import java.util.Scanner;
 
 public class Main {
+    // KAMUS
     // Base statics
     private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
             "configs/monsterpool.csv",
@@ -16,12 +19,9 @@ public class Main {
             "configs/element-type-effectivity-chart.csv"));
     
     // New statics
-    private static void showMenuSelection2() {
-        // Menu to display AFTER the game begin
-        // Move, Switch, View Monsters Info, View Game Info, Help
-    }
+    //...
 
-    // Main
+    // ALGORIITMA PROGRAM UTAMA
     public static void main(String[] args) {
         for (String fileName : CSV_FILE_PATHS) {
             // [zh]: This section reach each file in CSV_FILE_PATHS and print them to the terminal. 
@@ -56,20 +56,76 @@ public class Main {
          */
 
         // Game Initialization
-        ArrayList arrayPlayer = new ArrayList<>();  // [zh]: Idk how to fill the parameters or set up generics
+        Player arrayPlayer[] = new Player[2];
         //...
 
         // For each player, choose one random currentMonster
+        //...
 
         // Game Begins!
         boolean isGameEnd = false;
 
-        // Loop
+        // Loop game
         while (!isGameEnd) {
-            // Players makes moves
+            // A turn starts
             for (int i = 0; i <= 1; i++) {
-                showMenuSelection2();
-                // Get player[i]'s response
+                // arrayPlayer[i]'s turn. Loop scanner
+                boolean isRunningTurnScanner = true;
+                while (isRunningTurnScanner) {
+                    Scanner scanner2 = new Scanner(System.in);
+                    try {
+                            // Show menu
+                            System.out.println(
+                                "Select action!\n" +
+                                "> Move\n" +
+                                "> Switch\n" +
+                                "> View Monsters Info\n" +
+                                "> View Game Info\n" +
+                                "> Help");
+                            System.out.print("\n>> ");
+
+                            // Get arrayPlayer[i]'s input
+                            switch ((scanner2.next()).toLowerCase()) {
+                                case "move" :
+                                    (arrayPlayer[i].getCurrentMonster()).printMoves();
+                                    String inputMove = scanner2.next();
+                                    //...
+                                    isRunningTurnScanner = false;
+                                    break;
+
+                                case "switch" :
+                                    //
+                                    isRunningTurnScanner = false;
+                                    break;
+
+                                case "view monsters info" :
+                                    //
+                                    break;
+
+                                case "view game info" :
+                                    //
+                                    break;
+
+                                case "help" :
+                                    //
+                                    break;
+
+                                default :
+                                    // throws exception
+                                    break;
+                            }
+                        }
+                    catch (Exception e) {
+                        // Ideally should be a specific exception
+                        
+                    }
+                    finally {
+                        scanner2.close();
+                    }
+                }
+
+
+                
                 // Switch case for each
                     // Move
                     // 1. Show available moves
