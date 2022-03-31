@@ -5,6 +5,7 @@ import com.monstersaku.util.CSVReader;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.System;
@@ -19,7 +20,17 @@ public class Main {
             "configs/element-type-effectivity-chart.csv"));
     
     // New statics
-    //...
+    private static final void printActions() {
+        System.out.println(
+            "Select action!\n" +
+            "> Move\n" +
+            "> Switch\n" +
+            "> View Monsters Info\n" +
+            "> View Game Info\n" +
+            "> Help"
+        );
+        System.out.print("\n>> ");
+    }
 
     // ALGORIITMA PROGRAM UTAMA
     public static void main(String[] args) {
@@ -62,40 +73,61 @@ public class Main {
         // For each player, choose one random currentMonster
         //...
 
-        // Game Begins!
+        // Game Begins! Loops
         boolean isGameEnd = false;
-
-        // Loop game
         while (!isGameEnd) {
             // A turn starts
+            ArrayList<Object> listActs = new ArrayList<Object>();
             for (int i = 0; i <= 1; i++) {
                 // arrayPlayer[i]'s turn. Loop scanner
-                boolean isRunningTurnScanner = true;
-                while (isRunningTurnScanner) {
+                boolean isTurnForPlayer = true;
+                while (isTurnForPlayer) {
                     Scanner scanner2 = new Scanner(System.in);
                     try {
                             // Show menu
-                            System.out.println(
-                                "Select action!\n" +
-                                "> Move\n" +
-                                "> Switch\n" +
-                                "> View Monsters Info\n" +
-                                "> View Game Info\n" +
-                                "> Help");
-                            System.out.print("\n>> ");
+                            printActions();
 
                             // Get arrayPlayer[i]'s input
+                            Monster currentMonster = arrayPlayer[i].getCurrentMonster();
                             switch ((scanner2.next()).toLowerCase()) {
                                 case "move" :
-                                    (arrayPlayer[i].getCurrentMonster()).printMoves();
-                                    String inputMove = scanner2.next();
-                                    //...
-                                    isRunningTurnScanner = false;
+                                    boolean isInputValid = true;
+                                    int idxNum;
+                                    while (isInputValid) {
+                                        try {
+                                            currentMonster.printMoves();
+                                            idxNum = scanner2.nextInt() - 1;
+                                            if (idxNum == 0) {
+                                                // Cancel
+                                                System.out.println("Returning to your turn...");
+                                                Thread.sleep(1000);
+                                                isInputValid = true;
+                                            }
+                                            else {
+                                                // Adds selected move to action list
+                                                listActs.add(currentMonster.getNumthMove(idxNum));
+                                                isInputValid = false;
+                                                isTurnForPlayer = false;
+                                            }
+                                        }
+                                        catch (InputMismatchException e) {
+                                            System.out.println("......");
+                                            Thread.sleep(1000);
+                                            System.out.println("ERROR. Enter a number! (e.g. '1')");
+                                            Thread.sleep(1000);
+                                        }
+                                        catch (IndexOutOfBoundsException e) {
+                                            System.out.println("......");
+                                            Thread.sleep(1000);
+                                            System.out.println("ERROR. Enter a valid number! (e.g. '1')");
+                                            Thread.sleep(1000);
+                                        }
+                                    }
                                     break;
 
                                 case "switch" :
                                     //
-                                    isRunningTurnScanner = false;
+                                    isTurnForPlayer = false;
                                     break;
 
                                 case "view monsters info" :

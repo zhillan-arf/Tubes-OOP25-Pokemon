@@ -1,5 +1,5 @@
 package com.monstersaku;
 
-public interface Element {
+public interface ElementType {
     
 }
