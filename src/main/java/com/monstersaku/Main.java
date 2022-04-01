@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.lang.System;
 import java.util.Scanner;
 
+import javax.swing.event.TableColumnModelListener;
+
 public class Main {
     // KAMUS
     // Base statics
@@ -20,6 +22,17 @@ public class Main {
             "configs/element-type-effectivity-chart.csv"));
     
     // New statics
+    
+    //[mzh] Melakukan print pilihan command di main menu
+    private static final void printMainMenuCommands() {
+        System.out.println(
+        		"Select Command!\n" +
+        		"> Start Game\n" +
+        		"> Help\n" +
+        		"> Exit"
+        		);
+    }
+    
     private static final void printActions() {
         System.out.println(
             "Select action!\n" +
@@ -31,6 +44,51 @@ public class Main {
         );
         System.out.print("\n>> ");
     }
+    
+    
+    // [mzh]: Melakukan print logo utama
+    public static final void printArt() {
+    	System.out.println("=============================================================================");
+    	System.out.println("");
+    	System.out.println(" ____    ____  ______  ____  _____   _______ _________ _________ ________    ");
+    	System.out.println("|_   \\  /   _|/      \\ |_   \\|_   _|/  ___  |  _   _  |_   ___  |_   __  \\   ");
+    	System.out.println("  |   \\/   | /  /--\\  \\ |   \\ | |  |  (___\\_|_/ | | \\_| | |_  \\_| | |__)  |  ");
+    	System.out.println("  | |\\  /| | | |    | | | |\\ \\| |   \\____  \\    | |     |  _|  _  |  __  /   ");
+    	System.out.println(" _| |_\\/_| |_\\  \\--/  /_| |_\\   |_|| \\___)  |  _| |_   _| |___/ |_| |  \\ \\_ ");
+    	System.out.println("|_____||_____|\\______/|_____|\\____||_______/  |_____| |_________|____| |___|");
+    	System.out.println("                  _______      __      ___  ____  _____  _____ ");
+    	System.out.println("                 /  ___  |    /  \\    |_  ||_  _||_   _||_   _|");
+    	System.out.println("                |  (__ \\_|   / /\\ \\     | |_/ /    | |    | |  ");
+    	System.out.println("                 \\____  \\   / ____ \\    |  __ \\    | |    | |  ");
+    	System.out.println("                |\\____) | _/ /    \\ \\_ _| |  \\ \\_   \\ \\__/ /   ");
+    	System.out.println("                |_______/|____|  |____|____||____|   \\____/    ");
+    	System.out.println("");
+    	System.out.println("=============================================================================\n");
+    }
+    
+    // [mzh]: Melakukan print pesan Help
+    public static void printHelp() {
+    	System.out.println(
+    			"\n[Game Description]\n"
+    			+ "Monster Saku is a pokemon battle adaptation on a CLI style\n"
+    			+ "It covers the duel battle system with 6 random starting monsters\n"
+    			+ "on each player at the start.\n"
+    			+ "\n"
+    			+ "[How to Start?]\n"
+    			+ "At the main menu, enter\n"
+    			+ "\"Start Game\"\n"
+    			+ "as input to start playing.\n"
+    			+ "\n"
+    			+ "[How to Play?]\n"
+    			+ "Each player are given 6 random monsters at the start of the game.\n"
+    			+ "Players will be given turns to either use a move or switch monster.\n"
+    			+ "Your goal is to bring your opponent's monster HP to 0.\n"
+    			+ "Exploit their weakness to deal higher damage.\n"
+    			+ "Switch your monster to avoid getting hit.\n"
+    			+ "Use the best strategy to win the game.\n"
+    			);
+    }
+    
 
     // ALGORIITMA PROGRAM UTAMA
     public static void main(String[] args) {
@@ -66,13 +124,47 @@ public class Main {
          * 5. etc
          */
 
+       
+        // Print ASCII Art
+        try {
+        	printArt();
+			Thread.sleep(1000);
+		} 
+        catch (InterruptedException e) {
+		}
+        
+        //Main Menu
+        printMainMenuCommands();
+
+        Scanner scanner1 = new Scanner(System.in);
+        boolean startGame = false;
+        while (!startGame) {
+        	String commandMainMenu =  scanner1.nextLine();
+        	if (commandMainMenu.equals("Help")) {
+        		printHelp();
+        		printMainMenuCommands();
+        	}
+        	else if (commandMainMenu.equals("Exit")) {
+        		System.exit(-1);
+        	}
+        	else if (commandMainMenu.equals("Start Game")) {
+        		startGame = true;
+        	}
+        	else {
+        		System.out.println("Invalid command");
+        		printMainMenuCommands();
+        	}
+        	
+        }
+        scanner1.close();
+        
         // Game Initialization
         Player arrayPlayer[] = new Player[2];
         //...
 
         // For each player, choose one random currentMonster
         //...
-
+        
         // Game Begins! Loops
         boolean isGameEnd = false;
         while (!isGameEnd) {
