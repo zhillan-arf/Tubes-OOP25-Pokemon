@@ -13,8 +13,9 @@ public class Monster {
 
     // Methods
     public void printMoves() {
-        // Print all of the monster's moves to terminal, and an option to cancel
-        // Player will then input a number (<-- not relevant for this method)
+        // Print all of the monster's moves to terminal, 
+        // numbered from 1...moves.size(), and an option to 
+        // cancel for 0
 
     }
     public Move getNumthMove(int num) {

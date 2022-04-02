@@ -21,6 +21,7 @@ public class Main {
     
     // New statics
     private static final void printActions() {
+        // Used in turns
         System.out.println(
             "Select action!\n" +
             "> Move\n" +
@@ -30,6 +31,11 @@ public class Main {
             "> Help"
         );
         System.out.print("\n>> ");
+    }
+
+    private static final void fatalError() {
+        System.out.println("FATAL ERROR. Something went TERRIBLY wrong...");
+        System.exit(1);
     }
 
     // ALGORIITMA PROGRAM UTAMA
@@ -68,7 +74,7 @@ public class Main {
 
         // Game Initialization
         Player arrayPlayer[] = new Player[2];
-        //...
+        //...?
 
         // For each player, choose one random currentMonster
         //...
@@ -83,77 +89,143 @@ public class Main {
                 boolean isTurnForPlayer = true;
                 while (isTurnForPlayer) {
                     Scanner scanner2 = new Scanner(System.in);
-                    try {
-                            // Show menu
-                            printActions();
+                        // Show menu
+                        printActions();
 
-                            // Get arrayPlayer[i]'s input
-                            Monster currentMonster = arrayPlayer[i].getCurrentMonster();
-                            switch ((scanner2.next()).toLowerCase()) {
-                                case "move" :
-                                    boolean isInputValid = true;
-                                    int idxNum;
-                                    while (isInputValid) {
-                                        try {
-                                            currentMonster.printMoves();
-                                            idxNum = scanner2.nextInt() - 1;
-                                            if (idxNum == 0) {
-                                                // Cancel
+                        // Get arrayPlayer[i]'s input
+                        Monster currentMonster = arrayPlayer[i].getCurrentMonster();
+                        boolean isInputValid = false;
+                        int idxNum;
+                        switch ((scanner2.next()).toLowerCase()) {
+                            case "move" :
+                                while (!isInputValid) {
+                                    try {
+                                        currentMonster.printMoves();
+                                        idxNum = scanner2.nextInt() - 1;
+                                        // If input isnt a number, throw InputMismatchException
+                                        // If not, proceeds
+                                        if (idxNum == 0) {
+                                            // 0 = cancel
+                                            try {
                                                 System.out.println("Returning to your turn...");
                                                 Thread.sleep(1000);
                                                 isInputValid = true;
                                             }
-                                            else {
-                                                // Adds selected move to action list
-                                                listActs.add(currentMonster.getNumthMove(idxNum));
-                                                isInputValid = false;
-                                                isTurnForPlayer = false;
+                                            catch (InterruptedException sleepE) {
+                                                fatalError();
                                             }
+                                            
                                         }
-                                        catch (InputMismatchException e) {
+                                        else {
+                                            // Adds selected move to action list
+                                            listActs.add(currentMonster.getNumthMove(idxNum));
+                                            // If idxNum out of bounds, throw IndexOutOfBoundsException
+                                            // if not, proceeds
+                                            isInputValid = false;
+                                            isTurnForPlayer = false;
+                                        }
+                                    }
+                                    catch (InputMismatchException e) {
+                                        try {
                                             System.out.println("......");
                                             Thread.sleep(1000);
                                             System.out.println("ERROR. Enter a number! (e.g. '1')");
                                             Thread.sleep(1000);
+                                            // Return to input idxNum
                                         }
-                                        catch (IndexOutOfBoundsException e) {
-                                            System.out.println("......");
-                                            Thread.sleep(1000);
-                                            System.out.println("ERROR. Enter a valid number! (e.g. '1')");
-                                            Thread.sleep(1000);
+                                        catch (InterruptedException sleepE) {
+                                            fatalError();
                                         }
                                     }
-                                    break;
+                                    catch (IndexOutOfBoundsException e) {
+                                        try {
+                                            System.out.println("......");
+                                            Thread.sleep(1000);
+                                            System.out.println("ERROR. Enter a *valid* number! (e.g. '1')");
+                                            Thread.sleep(1000);
+                                            // Return to input idxNum
+                                        }
+                                        catch (InterruptedException sleepE) {
+                                            fatalError();
+                                        }
+                                    }
+                                }
+                                // End of loop, caancelled or move inputted
+                                break;
 
-                                case "switch" :
-                                    //
-                                    isTurnForPlayer = false;
-                                    break;
+                            case "switch" :
+                                while (!isInputValid) {
+                                    try {
+                                        currentMonster.printMoves();
+                                        idxNum = scanner2.nextInt() - 1;
+                                        // If input isnt a number, throw InputMismatchException
+                                        // If not, proceeds
+                                        if (idxNum == 0) {
+                                            // 0 = cancel
+                                            try {
+                                                System.out.println("Returning to your turn...");
+                                                Thread.sleep(1000);
+                                                isInputValid = true;
+                                            }
+                                            catch (InterruptedException sleepE) {
+                                                fatalError();
+                                            }
+                                            
+                                        }
+                                        else {
+                                            // Adds selected move to action list
+                                            listActs.add(currentMonster.getNumthMove(idxNum));
+                                            // If idxNum out of bounds, throw IndexOutOfBoundsException
+                                            // if not, proceeds
+                                            isInputValid = false;
+                                            isTurnForPlayer = false;
+                                        }
+                                    }
+                                    catch (InputMismatchException e) {
+                                        try {
+                                            System.out.println("......");
+                                            Thread.sleep(1000);
+                                            System.out.println("ERROR. Enter a number! (e.g. '1')");
+                                            Thread.sleep(1000);
+                                            // Return to input idxNum
+                                        }
+                                        catch (InterruptedException sleepE) {
+                                            fatalError();
+                                        }
+                                    }
+                                    catch (IndexOutOfBoundsException e) {
+                                        try {
+                                            System.out.println("......");
+                                            Thread.sleep(1000);
+                                            System.out.println("ERROR. Enter a *valid* number! (e.g. '1')");
+                                            Thread.sleep(1000);
+                                            // Return to input idxNum
+                                        }
+                                        catch (InterruptedException sleepE) {
+                                            fatalError();
+                                        }
+                                    }
+                                }
+                                // End of loop, caancelled or move inputted
+                                break;
 
-                                case "view monsters info" :
-                                    //
-                                    break;
+                            case "view monsters info" :
+                                //
+                                break;
 
-                                case "view game info" :
-                                    //
-                                    break;
+                            case "view game info" :
+                                //
+                                break;
 
-                                case "help" :
-                                    //
-                                    break;
+                            case "help" :
+                                //
+                                break;
 
-                                default :
-                                    // throws exception
-                                    break;
-                            }
+                            default :
+                                // throws exception
+                                break;
                         }
-                    catch (Exception e) {
-                        // Ideally should be a specific exception
-                        
-                    }
-                    finally {
-                        scanner2.close();
-                    }
+                    scanner2.close();
                 }
 
 
