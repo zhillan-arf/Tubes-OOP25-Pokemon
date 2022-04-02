@@ -17,7 +17,7 @@ public class Monster {
         this.moves = new ArrayList<Move>();
     }
 
-    // Methods
+    // Methods getter 
     public void printMonsterMoves() {
         /**
          * Print all of the monster's move to terminal
