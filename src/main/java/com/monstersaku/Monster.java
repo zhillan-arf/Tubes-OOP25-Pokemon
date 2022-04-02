@@ -1,5 +1,6 @@
 package com.monstersaku;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Monster {
     // Attributes
@@ -9,6 +10,12 @@ public class Monster {
     List<Move> moves;
 
     // Konstruktor
+    public Monster(String nama, Stats baseStats){
+        this.nama = nama;
+        this.elementTypes = new ArrayList<ElementType>();
+        this.baseStats = baseStats;
+        this.moves = new ArrayList<Move>();
+    }
 
     // Methods
     public void printMonsterMoves() {
@@ -21,8 +28,36 @@ public class Monster {
               (Cont...)
               0. Cancel
          */
-
+        System.out.println(this.nama + " move list: ");
+        for (int i = 0; i < this.getMove().size(); i++){
+            System.out.println((i+1) + ". " + this.moves.get(i).name + "(Elmt. " + this.moves.get(i).elementType + ", Amm. " + this.moves.get(i).ammunition + ")");
+        }
     }
+    public String getNama(){
+        return this.nama;
+    }
+
+    public Stats getBaseStats(){
+        return this.baseStats;
+    }
+
+    public void addElement(ElementType elements){
+        this.elementTypes.add(elements);
+    }
+
+    public List<lementType> getElement(){
+        return this.elementTypes;
+    }
+
+    public void addMoves(Move move){
+        this.moves.add(move);
+    }
+
+    public list<moves> getMoves(){
+        return this.moves;
+    }
+
+
     public void printMonsterAttr() {
         /**
          * Print all of the monster's attributes
@@ -42,6 +77,21 @@ public class Monster {
          * Of course, MOVES uses printMoves()
          * [zh] If this isn't aesthetic pelase replace with another design
          */
+        System.out.println(){
+            System.out.println(this.nama);
+            System.out.printf("Element: "));
+            for (ElementType e : this.elementTypes){
+                System.out.printf(e + " ");
+            }
+            System.out.println("");
+            System.out.println("HP: " + this.baseStats.getHealthPoint());
+            System.out.println("Attack: " + this.baseStats.getAttack());
+            System.out.println("Defense: " + this.baseStats.getDefense());
+            System.out.println("Special Attack: " + this.baseStats.getSpecialAttack());
+            System.out.println("Special Defense: " + this.baseStats.getSpecialDefense());
+            System.out.println("Speed: " + this.baseStats.getSpeed());
+            printMonsterMoves();
+        }   
     }
     public Move getNumthMove(int num) {
         // Get numth move

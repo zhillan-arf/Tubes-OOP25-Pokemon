@@ -1,5 +1,7 @@
 package com.monstersaku;
 
-public interface ElementType {
-    
+public enum ElementType {
+    NORMAL,
+    FIRE,
+    WATER
 }
