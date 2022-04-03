@@ -109,21 +109,19 @@ public class Monster {
          * Of course, MOVES uses printMoves()
          * [zh] If this isn't aesthetic pelase replace with another design
          */
-        System.out.println(){
-            System.out.println(this.nama);
-            System.out.printf("Element: "));
-            for (ElementType e : this.elementTypes){
-                System.out.printf(e + " ");
-            }
-            System.out.println("");
-            System.out.println("HP: " + this.baseStats.getHealthPoint());
-            System.out.println("Attack: " + this.baseStats.getAttack());
-            System.out.println("Defense: " + this.baseStats.getDefense());
-            System.out.println("Special Attack: " + this.baseStats.getSpecialAttack());
-            System.out.println("Special Defense: " + this.baseStats.getSpecialDefense());
-            System.out.println("Speed: " + this.baseStats.getSpeed());
-            printMonsterMoves();
-        }   
+        System.out.println(this.nama);
+        System.out.printf("Element: "));
+        for (ElementType e : this.elementTypes){
+            System.out.printf(e + " ");
+        }
+        System.out.println("");
+        System.out.println("HP: " + this.baseStats.getHealthPoint());
+        System.out.println("Attack: " + this.baseStats.getAttack());
+        System.out.println("Defense: " + this.baseStats.getDefense());
+        System.out.println("Special Attack: " + this.baseStats.getSpecialAttack());
+        System.out.println("Special Defense: " + this.baseStats.getSpecialDefense());
+        System.out.println("Speed: " + this.baseStats.getSpeed());
+        printMonsterMoves();
     }
     public Move getNumthMove(int num) {
         // Get numth move
