@@ -5,9 +5,11 @@ import java.util.ArrayList;
 public class Monster {
     // Attributes
     private String nama;
-    List<ElementType> elementTypes;
-    Stats baseStats;
-    List<Move> moves;
+    private List<ElementType> elementTypes;
+    private Stats baseStats;
+    private List<Move> moves;
+    private StatusCondition status = StatusCondition.NONE;
+    private int sleepDuration = 0;
 
     // Konstruktor
     public Monster(String nama, Stats baseStats){
@@ -57,6 +59,36 @@ public class Monster {
         return this.moves;
     }
 
+    public StatusCondition getStatusCondition(){
+        return this.status;
+    }
+
+    public void setStatusCondition (StatusCondition status){
+        this.status = status;
+        int min = 1;
+        int max = 7;
+        int rand = (int)Math.floor(Math.random()*(max-min+1)+min);
+        if (status = StatusCondition.SLEEP){
+            setSleepDuration(rand);
+        }
+    }
+
+    public int getSleepDuration(){
+        return this.sleepDuration;
+
+    }
+    public void setSleepDuration(int rand){
+        this.sleepDuration = rand;
+    }
+
+    public void reduceSleepDuration(){
+        if (sleepDuration > 0){
+            this.sleepDuration -= 1;
+        }
+        else{
+            this.status = StatusCondition.NONE;
+        }
+    }
 
     public void printMonsterAttr() {
         /**
