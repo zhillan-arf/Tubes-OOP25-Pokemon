@@ -46,8 +46,8 @@ public class MonsterPoolConfig {
                 for (int i=0;i<6;i++){
                     baseStats[i] = Integer.valueOf(bs[i]);
                 }
-                Stats baseStats = new Stats(baseStats[0], baseStats[1], baseStats[2], baseStats[3], baseStats[4], baseStats[5]);
-                Monster monsread = new Monster(id, name, eltype, fixBaseStats);
+                Stats attrBaseStats = new Stats(baseStats[0], baseStats[0], baseStats[1], baseStats[2], baseStats[3], baseStats[4], baseStats[5]);
+                Monster monsread = new Monster(id, name, eltype, attrBaseStats);
 
                 //add move -> pake movepool config 
             }    

@@ -2,13 +2,13 @@ package com.monstersaku;
 
 public class Stats {
     // Attributes
-    double healthPoint;
-    double maxHealthPoint;
-    double attack;
-    double defense;
-    double specialAttack;
-    double specialDefense;
-    double speed;
+    private double healthPoint;
+    public final double maxHealthPoint;
+    private double attack;
+    private double defense;
+    private double specialAttack;
+    private double specialDefense;
+    private double speed;
 
     // Konstruktor
     public Stats(double healthPoint, double maxHealthPoint, double attack, double defense, 
