@@ -12,9 +12,9 @@ public class Monster {
     private int sleepDuration = 0;
 
     // Konstruktor
-    public Monster(String nama, Stats baseStats){
+    public Monster(String nama, ElementType elementTypes, Stats baseStats){
         this.nama = nama;
-        this.elementTypes = new ArrayList<ElementType>();
+        this.elementTypes = elementType;
         this.baseStats = baseStats;
         this.moves = new ArrayList<Move>();
     }
@@ -49,6 +49,14 @@ public class Monster {
 
     public List<lementType> getElement(){
         return this.elementTypes;
+    }
+
+    public void setStats(Stats baseStats){
+        this.baseStats = baseStats
+    }
+
+    public void setMove(Move moves){
+        this.moves = moves
     }
 
     public void addMoves(Move move){
@@ -87,6 +95,15 @@ public class Monster {
         }
         else{
             this.status = StatusCondition.NONE;
+        }
+    }
+
+    public boolean isMonsterAlive(){
+        if (baseStats.getHealthPoint() > 0){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
