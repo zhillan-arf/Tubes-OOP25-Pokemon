@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Monster {
     // Attributes
+    private int id;
     private String nama;
     private List<ElementType> elementTypes;
     private Stats baseStats;
@@ -12,7 +13,8 @@ public class Monster {
     private int sleepDuration = 0;
 
     // Konstruktor
-    public Monster(String nama, ElementType elementTypes, Stats baseStats){
+    public Monster(int id, String nama, ElementType elementTypes, Stats baseStats){
+        this.id = id;
         this.nama = nama;
         this.elementTypes = elementType;
         this.baseStats = baseStats;
