@@ -27,14 +27,14 @@ public class Monster {
          * Print all of the monster's move to terminal
          * Numbered from 1...moves.size() + 0- for cancel
          * Looks like this:
-              1. Surf (Elmt. WATER, Amm. 12/15)
-              2. Slack Off (Elmt. WATER, Amm. 7/10)
-              (Cont...)
+            1. Surf (Elmt. WATER, Amm. 12/15)
+            2. Slack Off (Elmt. WATER, Amm. 7/10)
+            (Cont...)
          */
         for (int i = 0; i < this.getMoves().size(); i++){
             System.out.println(
                 (i+1) + ". " + this.moves.get(i).getName() 
-                + "(Elmt. " + this.moves.get(i).getElementType() 
+                + " (Elmt. " + this.moves.get(i).getElementType() 
                 + ", Amm. " + this.moves.get(i).getAmmunition() + ")");
         }
     }
