@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.lang.System;
 import java.util.Scanner;
 
-import javax.swing.event.TableColumnModelListener;
-
 public class Main {
     // "KAMUS"
     // Base statics
@@ -229,6 +227,7 @@ public class Main {
                             while (!isInputValid) {
                                 try {
                                     currentMonster.printMonsterMoves();
+                                    System.out.println("0. Cancel");
                                     System.out.print("\n> ");
                                     num = scanner2.nextInt() - 1;
                                     // If input isnt a number, throw InputMismatchException
@@ -287,8 +286,8 @@ public class Main {
                             while (!isInputValid) {
                                 try {
                                     arrayPlayers[i].printMonsters();
-                                    currentMonster.printMonsterMoves();
-                                    num = scanner2.nextInt() - 1;
+                                    System.out.println("0. Cancel");
+                                    num = scanner2.nextInt();
                                     // If input isnt a number, throw InputMismatchException
                                     // If not, proceeds
                                     if (num == 0) {
@@ -301,7 +300,6 @@ public class Main {
                                         catch (InterruptedException sleepE) {
                                             fatalError();
                                         }
-                                        
                                     }
                                     else {
                                         // Adds selected move to action list
@@ -460,20 +458,10 @@ public class Main {
                     }
                     scanner2.close();
                 }
-
-
                 
-                // Switch case for each
-                    // Move
-                    // 1. Show available moves
-                    // 2. Receive player response
-                    // 2. Calculate and implement effects
-                    // Switch
-                    // Other commands
-                // switch Players
             }
-            // Effects are calculated
-            
+            // listActs is now filled with two items. Calculate effects. 
+            //...         
         }
     }
 }

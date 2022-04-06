@@ -13,10 +13,10 @@ public class Monster {
     private int sleepDuration = 0;
 
     // Konstruktor
-    public Monster(int id, String nama, ElementType elementTypes, Stats baseStats){
+    public Monster(int id, String nama, List<ElementType> elementTypes, Stats baseStats){
         this.id = id;
         this.nama = nama;
-        this.elementTypes = elementType;
+        this.elementTypes = elementTypes;
         this.baseStats = baseStats;
         this.moves = new ArrayList<Move>();
     }
@@ -30,11 +30,12 @@ public class Monster {
               1. Surf (Elmt. WATER, Amm. 12/15)
               2. Slack Off (Elmt. WATER, Amm. 7/10)
               (Cont...)
-              0. Cancel
          */
-        System.out.println(this.nama + " move list: ");
-        for (int i = 0; i < this.getMove().size(); i++){
-            System.out.println((i+1) + ". " + this.moves.get(i).name + "(Elmt. " + this.moves.get(i).elementType + ", Amm. " + this.moves.get(i).ammunition + ")");
+        for (int i = 0; i < this.getMoves().size(); i++){
+            System.out.println(
+                (i+1) + ". " + this.moves.get(i).getName() 
+                + "(Elmt. " + this.moves.get(i).getElementType() 
+                + ", Amm. " + this.moves.get(i).getAmmunition() + ")");
         }
     }
     public String getNama(){
@@ -49,23 +50,23 @@ public class Monster {
         this.elementTypes.add(elements);
     }
 
-    public List<lementType> getElement(){
+    public List<ElementType> getElement(){
         return this.elementTypes;
     }
 
     public void setStats(Stats baseStats){
-        this.baseStats = baseStats
+        this.baseStats = baseStats;
     }
 
-    public void setMove(Move moves){
-        this.moves = moves
+    public void setMove(List<Move> moves){
+        this.moves = moves;
     }
 
     public void addMoves(Move move){
         this.moves.add(move);
     }
 
-    public list<moves> getMoves(){
+    public List<Move> getMoves(){
         return this.moves;
     }
 
@@ -78,7 +79,7 @@ public class Monster {
         int min = 1;
         int max = 7;
         int rand = (int)Math.floor(Math.random()*(max-min+1)+min);
-        if (status = StatusCondition.SLEEP){
+        if (status == StatusCondition.SLEEP){
             setSleepDuration(rand);
         }
     }
@@ -129,17 +130,18 @@ public class Monster {
          * [zh] If this isn't aesthetic pelase replace with another design
          */
         System.out.println(this.nama);
-        System.out.printf("Element: "));
+        System.out.printf("Element: ");
         for (ElementType e : this.elementTypes){
             System.out.printf(e + " ");
         }
         System.out.println("");
-        System.out.println("HP: " + this.baseStats.getHealthPoint());
-        System.out.println("Attack: " + this.baseStats.getAttack());
-        System.out.println("Defense: " + this.baseStats.getDefense());
-        System.out.println("Special Attack: " + this.baseStats.getSpecialAttack());
-        System.out.println("Special Defense: " + this.baseStats.getSpecialDefense());
-        System.out.println("Speed: " + this.baseStats.getSpeed());
+        System.out.println("HP      : " + this.baseStats.getHealthPoint());
+        System.out.println("ATK     : " + this.baseStats.getAttack());
+        System.out.println("DEF     : " + this.baseStats.getDefense());
+        System.out.println("SP. ATK : " + this.baseStats.getSpecialAttack());
+        System.out.println("SP. DEF : " + this.baseStats.getSpecialDefense());
+        System.out.println("SPEED   : " + this.baseStats.getSpeed());
+        System.out.println("MOVES   :");
         printMonsterMoves();
     }
     public Move getNumthMove(int num) {

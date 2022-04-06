@@ -1,4 +1,4 @@
-package TUBES.Tubes-OOP25-Pokemon.src.main.java.com.monstersaku.util;
+package com.monstersaku.util;
 import com.monstersaku.Monster;
 import com.monstersaku.Stats;
 import com.monstersaku.Move;
@@ -13,10 +13,10 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import com.monstersaku.Main;
-import com.monstersaku.elementType;
+import com.monstersaku.ElementType;
 
 public class MonsterPoolConfig {
-    private static String filename = "configs.monsterpool.csv";
+    private static String fileName = "configs.monsterpool.csv";
 
     public static List<Monster> create(){
         List<Monster> monsterlist = new ArrayList<Monster>();
@@ -47,13 +47,13 @@ public class MonsterPoolConfig {
                     baseStats[i] = Integer.valueOf(bs[i]);
                 }
                 Stats attrBaseStats = new Stats(baseStats[0], baseStats[0], baseStats[1], baseStats[2], baseStats[3], baseStats[4], baseStats[5]);
-                Monster monsread = new Monster(id, name, eltype, attrBaseStats);
+                Monster monsread = new Monster(id, nama, eltype, attrBaseStats);
 
                 //add move -> pake movepool config 
             }    
         }
         catch (Exception e){
-            System.out.println("Monster configuration failed")
+            System.out.println("Monster configuration failed");
         }
         return monsterlist;
     }

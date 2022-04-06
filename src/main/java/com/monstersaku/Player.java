@@ -2,14 +2,14 @@ package com.monstersaku;
 import java.util.List;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 
 
 public class Player {
     // Attributes
     private String playerName;
-    private List<Monster> monsters = new ArrayList<Monster>();
+    private List<Monster> monsters;
     private Monster currentMonster;
     private int countMonster;
 
@@ -21,7 +21,7 @@ public class Player {
     //add 6 random monster
     public void getMonster(Player player, List<Monster> monsterPool){
         List<Monster> playermonster = new ArrayList<Monster>();
-        List<Monster> allmonster = monsterpool;
+        List<Monster> allmonster = monsterPool;
 
         for (int i = 0; i < 6; i++){
             Collections.shuffle(allmonster);
@@ -85,7 +85,10 @@ public class Player {
          * [zh] If this isn't aesthetic pelase replace with another design
          */
         for (int i = 0; i < this.monsters.size(); i ++){
-            System.out.printf((i+1) + ". " + this.monsters.get(i).getBaseStats().getNama() + " (" + this.monsters.get(i).getBaseStats().getHealthPoint() + "/" + this.monsters.get(i).getBaseStats().getMaxHealthPoint() + ")");
+            System.out.printf(
+                (i+1) + ". " + this.monsters.get(i).getNama() 
+                + " (" + this.monsters.get(i).getBaseStats().getHealthPoint() 
+                + "/" + this.monsters.get(i).getBaseStats().getMaxHealthPoint() + ")");
         }
     }
     public Monster getNumthMonster(int num) {
