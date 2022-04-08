@@ -577,6 +577,12 @@ public class Main {
                 }
 
                 // Phase 2C: If targetMonster became K-O'd after attacks
+                if (!targetMonster.isMonsterAlive()) {
+                    System.out.printf("%s's %s fainted!\n", 
+                        arrayPlayers[i].getPlayerName(), 
+                        arrayPlayers[i].getCurrentMonster().getNama());
+                }
+
                 if (!arrayPlayers[targetIdx].hasAliveMonsters())  {
                     // targetPlayer has lost
                     playerWin = arrayPlayers[i];
@@ -621,6 +627,7 @@ public class Main {
                                 // Return to input num
                             }
                             catch (InterruptedException sleepE) {
+                                scanner3.close();
                                 fatalError();
                             }
                         }
@@ -633,6 +640,7 @@ public class Main {
                                 // Return to input num
                             }
                             catch (InterruptedException sleepE) {
+                                scanner3.close();
                                 fatalError();
                             }
                         }
@@ -650,5 +658,6 @@ public class Main {
         // Game has ended
 
         // Post-game events
+
     }
 }
