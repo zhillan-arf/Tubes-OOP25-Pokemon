@@ -1,4 +1,4 @@
-package TUBES.Tubes-OOP25-Pokemon.src.main.java.com.monstersaku.util;
+package com.monstersaku.util;
 
 import com.monstersaku.Main;
 import com.monstersaku.ElementType;
@@ -14,7 +14,7 @@ public class EffectivityConfig {
     private static String fileName;
 
     public static void setFileName(String fn){
-        this.fileName = fn;
+        fileName = fn;
     }
 
     public static double getEffectivity(ElementType source, ElementType target){
@@ -27,7 +27,7 @@ public class EffectivityConfig {
             for (String[] line : lines){
                 ElementType sourceType = ElementType.valueOf(line[0]);
                 ElementType targetType = ElementType.valueOf(line[1]);
-                if (souce == sourceType && target == targetType){
+                if (source == sourceType && target == targetType){
                     value = Double.valueOf(line[2]);
                     break;
                 }
