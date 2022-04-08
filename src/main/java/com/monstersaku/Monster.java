@@ -156,7 +156,8 @@ public class Monster {
 
     public void damage(double statusMultiplier) {
         double dmg = this.baseStats.getMaxHealthPoint() * statusMultiplier;
+        if (dmg > this.baseStats.getHealthPoint()) dmg = this.baseStats.getHealthPoint();
         this.baseStats.setHealthPoint(this.baseStats.getHealthPoint() - dmg);
-        if (this.baseStats.getHealthPoint() <= 0) this.baseStats.setHealthPoint(0);
+        System.out.printf("%s receives %d damages!\n", this.nama, dmg);
     }
 }

@@ -200,6 +200,8 @@ public class Main {
         // Game Begins! Loops
         boolean isGameEnd = false;
         int ctrTurn = 0;
+        Player playerWin;
+        Player playerLost;
         while (!isGameEnd) {
             // A turn starts
             ctrTurn++;
@@ -292,6 +294,7 @@ public class Main {
                                             isInputValid = true;
                                         }
                                         catch (InterruptedException sleepE) {
+                                            scanner2.close();
                                             fatalError();
                                         }
                                     }
@@ -303,7 +306,7 @@ public class Main {
                                          * If not, proceeds
                                         */
                                         Monster selectedMonster = arrayPlayers[i].getNumthMonster(num);
-                                        if (selectedMonster.getBaseStats().getHealthPoint() <= 0) {
+                                        if (!selectedMonster.isMonsterAlive()) {
                                             // Monster is K.O.
                                             throw new IndexOutOfBoundsException("Monster is K.O.");
                                         }
@@ -324,6 +327,7 @@ public class Main {
                                         // Return to input num
                                     }
                                     catch (InterruptedException sleepE) {
+                                        scanner2.close();
                                         fatalError();
                                     }
                                 }
@@ -336,6 +340,7 @@ public class Main {
                                         // Return to input num
                                     }
                                     catch (InterruptedException sleepE) {
+                                        scanner2.close();
                                         fatalError();
                                     }
                                 }
@@ -362,6 +367,7 @@ public class Main {
                                         boolean hasSelectedMonster = false;
                                         int numM;
                                         while (!hasSelectedMonster) {
+                                            System.out.printf("What will %s do?\n", arrayPlayers[i].getCurrentMonster().getNama());
                                             System.out.println("Select monster number: ");
                                             arrayPlayers[idx].printMonsters();
                                             numM = scanner2.nextInt();
@@ -405,6 +411,7 @@ public class Main {
                                 }
                                 catch (InterruptedException e) {
                                     fatalError();
+                                    scanner2.close();
                                 }
                                 catch (InputMismatchException e) {
                                     try {
@@ -415,6 +422,7 @@ public class Main {
                                         // Return to input num
                                     }
                                     catch (InterruptedException sleepE) {
+                                        scanner2.close();
                                         fatalError();
                                     }
                                 }
@@ -427,6 +435,7 @@ public class Main {
                                         // Return to input num
                                     }
                                     catch (InterruptedException sleepE) {
+                                        scanner2.close();
                                         fatalError();
                                     }
                                 }
@@ -441,6 +450,7 @@ public class Main {
                                 Thread.sleep(1000);
                             }
                             catch (InterruptedException e) {
+                                scanner2.close();
                                 fatalError();
                             }
                             break;
@@ -453,6 +463,7 @@ public class Main {
                                 Thread.sleep(1000);
                             }
                             catch (InterruptedException e) {
+                                scanner2.close();
                                 fatalError();
                             }
                             break;
@@ -532,34 +543,112 @@ public class Main {
                 // Depend on type of listAct content
                 if (listActs.get(i) instanceof Monster) {
                     // Switch monster
+                    System.out.printf("%s, good job! Get back!\n", 
+                        arrayPlayers[i].getCurrentMonster().getNama());
                     Monster monster = (Monster) listActs.get(i);
                     arrayPlayers[i].setCurrentMonster(monster);
-                    System.out.printf("PKMN Trainer %s sent out %S!\n", arrayPlayers[i].getPlayerName(), monster.getNama());
+                    System.out.printf("PKMN Trainer %s sent out %S!\n", 
+                        arrayPlayers[i].getPlayerName(), 
+                        monster.getNama());
                 }
                 else {
                     // Execute move upon the other player
                     Move move = (Move) listActs.get(i);
+                    System.out.printf("%s's %s used %s!\n", 
+                        arrayPlayers[i].getPlayerName(), 
+                        arrayPlayers[i].getCurrentMonster().getNama(),
+                        move.getName());
                     move.executeMove(
                         arrayPlayers[i].getCurrentMonster(),
                         arrayPlayers[targetIdx].getCurrentMonster());
-                    }
-                    // Move has been executed
+                }
+                // Move has been executed
                     
-                // Phase 2b: calculate after damages
+                // Phase 2B: calculate after damages
                 Monster targetMonster = arrayPlayers[targetIdx].getCurrentMonster();
                 StatusCondition statusCondition = targetMonster.getStatusCondition();
                 if (statusCondition == StatusCondition.BURN) {
+                    System.out.printf("%s is BURNED!\n", targetMonster.getNama());
                     targetMonster.damage(1/8);
                 }
                 else if (statusCondition == StatusCondition.POISON) {
+                    System.out.printf("%s is POISONED!\n", targetMonster.getNama());
                     targetMonster.damage(1/16);
                 }
 
                 // Phase 2C: If targetMonster became K-O'd after attacks
-                if (!targetMonster.isMonsterAlive()) {
-                    // targetMonster is KO. targetPlayer chooses new monster
+                if (!arrayPlayers[targetIdx].hasAliveMonsters())  {
+                    // targetPlayer has lost
+                    playerWin = arrayPlayers[i];
+                    playerLost = arrayPlayers[targetIdx];
+                    // break loop, force end turn, force end game
+                    isGameEnd = true;
+                    break;
                 }
+                else if (!targetMonster.isMonsterAlive()) {
+                    // targetMonster is KO. targetPlayer chooses new monster
+                    Scanner scanner3 = new Scanner(System.in);
+                    boolean isKOReplaced = false;
+                    while (!isKOReplaced) {
+                        try {
+                            System.out.println("Select a monster: ");
+                            arrayPlayers[targetIdx].printAliveMonsters();
+                            System.out.print(">> ");
+                            /**
+                             * Try replace currentMonster with a new one
+                             * If monster of selected num is KO, throw an
+                             * IndexOutOfBoundsException
+                             * If it tries to access a num larger than the List,
+                             * it will also throw the similar
+                             */
+                            int num = scanner3.nextInt();
+                            Monster selectedMonster = arrayPlayers[targetIdx].getNumthMonster(num);
+                            if (!selectedMonster.isMonsterAlive()) {
+                                // Selected monster is KO (and doesnt appear on terminal)
+                                throw new IndexOutOfBoundsException("Selected monster is KO!");
+                            }
+                            else {
+                                arrayPlayers[targetIdx].setCurrentMonster(selectedMonster);
+                                isKOReplaced = true;
+                            }
+                        }
+                        catch (InputMismatchException e) {
+                            try {
+                                System.out.println("......");
+                                Thread.sleep(1000);
+                                System.out.println("ERROR. Enter a number! (e.g. '1')\n");
+                                Thread.sleep(1000);
+                                // Return to input num
+                            }
+                            catch (InterruptedException sleepE) {
+                                fatalError();
+                            }
+                        }
+                        catch (IndexOutOfBoundsException e) {
+                            try {
+                                System.out.println("......");
+                                Thread.sleep(1000);
+                                System.out.println("ERROR. Enter a *valid* number! (e.g. '1')\n");
+                                Thread.sleep(1000);
+                                // Return to input num
+                            }
+                            catch (InterruptedException sleepE) {
+                                fatalError();
+                            }
+                        }
+                        finally {
+                            scanner3.close();
+                        }
+                        // Loop ends
+                    }
+                    // Break loop and force go to next turn
+                    break;
+                }
+                // else: turn continues process
             }
         }
+        // Game has ended
+
+        // Post-game events
     }
 }

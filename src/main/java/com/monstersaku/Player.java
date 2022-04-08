@@ -54,6 +54,10 @@ public class Player {
         return countMonster;
     }
 
+    public boolean hasAliveMonsters() {
+        return this.countMonster() != 0;
+    }
+
     public void setMonster(List<Monster> monsters){
         this.monsters = monsters;
     }
