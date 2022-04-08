@@ -153,4 +153,10 @@ public class Monster {
         // Get moves size
         return moves.size();
     }
+
+    public void damage(double statusMultiplier) {
+        double dmg = this.baseStats.getMaxHealthPoint() * statusMultiplier;
+        this.baseStats.setHealthPoint(this.baseStats.getHealthPoint() - dmg);
+        if (this.baseStats.getHealthPoint() <= 0) this.baseStats.setHealthPoint(0);
+    }
 }

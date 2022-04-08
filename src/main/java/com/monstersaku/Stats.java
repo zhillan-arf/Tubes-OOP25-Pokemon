@@ -10,7 +10,7 @@ public class Stats {
     private double specialDefense;
     private double speed;
 
-    // Konstruktor
+    // Constructor
     public Stats(double healthPoint, double maxHealthPoint, double attack, double defense, 
     double specialAttack, double specialDefense, double speed){
         this.healthPoint = healthPoint;
@@ -22,7 +22,7 @@ public class Stats {
         this.speed = speed;
     }
 
-    // Method
+    // Getter methods
     public double getHealthPoint(){
         return this.healthPoint;
     }
@@ -49,6 +49,11 @@ public class Stats {
 
     public double getSpeed(){
         return this.speed;
+    }
+
+    // Setter methods
+    public void setHealthPoint(double healthPoint) {
+        this.healthPoint = healthPoint;
     }
 
     public void printStats(){

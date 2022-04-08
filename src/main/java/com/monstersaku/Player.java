@@ -62,28 +62,23 @@ public class Player {
         return this.monsters;
     }
 
-    public void setCurrentMonster(int idMonster){
-        try{
-            this.currentMonster = monsters.get(idMonster -1);
-        }
-        catch (Exception e){
-            System.out.println("Monster tidak tersedia");
-        }
+    public void setCurrentMonster(Monster monster){
+        this.currentMonster = monster;
     }
 
+    // Return reference to current monster
     public Monster getCurrentMonster() {
-        // Return reference to current monster
         return currentMonster;
     }
+
+    /**
+     * Print all monsters, NUMBERED from 1...monsters.size()
+     * Looks like this:
+     * 1. Charizard (155/213)
+     * 2. Pikachu (140/193)
+     * (Cont...)
+     */
     public void printMonsters() {
-        /**
-         * Print all monsters, NUMBERED from 1...monsters.size()
-         * Looks like this:
-         * 1. Charizard (155/213)
-         * 2. Pikachu (140/193)
-         * (Cont...)
-         * [zh] If this isn't aesthetic pelase replace with another design
-         */
         for (int i = 0; i < this.monsters.size(); i ++){
             System.out.printf(
                 (i+1) + ". " + this.monsters.get(i).getNama() 
@@ -91,6 +86,27 @@ public class Player {
                 + "/" + this.monsters.get(i).getBaseStats().getMaxHealthPoint() + ")");
         }
     }
+
+    /**
+     * Print only alive  monsters, NUMBERED from 1...monsters.size()
+     * Looks like this:
+     * 1. Charizard (155/213)
+     * 2. Pikachu (140/193)
+     * (Cont...)
+     */
+    public void printAliveMonsters() {
+        for (int i = 0; i < this.monsters.size(); i ++){
+            if (this.monsters.get(i).getBaseStats().getHealthPoint() > 0) {
+                // Moster is alive
+                System.out.printf(
+                (i+1) + ". " + this.monsters.get(i).getNama() 
+                + " (" + this.monsters.get(i).getBaseStats().getHealthPoint() 
+                + "/" + this.monsters.get(i).getBaseStats().getMaxHealthPoint() + ")");
+            }
+            // else: Monster is K.O. and skipped
+        }
+    }
+
     public Monster getNumthMonster(int num) {
         // Get the num-th monster
         // monsters uses an indexing system of [1..monsters.size()]

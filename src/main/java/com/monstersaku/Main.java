@@ -3,13 +3,7 @@ package com.monstersaku;
 import com.monstersaku.util.CSVReader;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.ArrayList;
-import java.lang.System;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     // "KAMUS"
@@ -188,7 +182,7 @@ public class Main {
          *      a. User input (watch out for space char! If we enter "Shuuya Kano" using Scanner object,
          *         it will only receive "Shuuya" and pass "Kano" to the next functions, causing 
          *         disaster). Or
-         *      b. If it's too hard, then just use PLAYER1 and PLAYER2
+         *      b. If it's too hard, then just use PLAYER0 and PLAYER1
          * 2. re-Read the CSV files. Create a code (how? idk for now) to pick 6 random monsters, 
          *    instantiate them, and assign them to each player. There's an example on CSV management
          *    on the tubes template.
@@ -285,7 +279,7 @@ public class Main {
                         case "2" :
                             while (!isInputValid) {
                                 try {
-                                    arrayPlayers[i].printMonsters();
+                                    arrayPlayers[i].printAliveMonsters();
                                     System.out.println("0. Cancel");
                                     num = scanner2.nextInt();
                                     // If input isnt a number, throw InputMismatchException
@@ -302,12 +296,23 @@ public class Main {
                                         }
                                     }
                                     else {
-                                        // Adds selected move to action list
-                                        listActs.add(arrayPlayers[i].getNumthMonster(num));
-                                        // If num out of bounds, throw IndexOutOfBoundsException
-                                        // if not, proceeds
-                                        isInputValid = false;
-                                        isTurnForPlayer = false;
+                                        /**
+                                         * Try add selected Monster to action list
+                                         * If monster is K.O. or number out of bounds,
+                                         * throw IndexOutOfBoundsException.
+                                         * If not, proceeds
+                                        */
+                                        Monster selectedMonster = arrayPlayers[i].getNumthMonster(num);
+                                        if (selectedMonster.getBaseStats().getHealthPoint() <= 0) {
+                                            // Monster is K.O.
+                                            throw new IndexOutOfBoundsException("Monster is K.O.");
+                                        }
+                                        else {
+                                            // Moster is alive. Switch.
+                                            listActs.add(selectedMonster);
+                                            isInputValid = false;
+                                            isTurnForPlayer = false;
+                                        }
                                     }
                                 }
                                 catch (InputMismatchException e) {
@@ -460,8 +465,119 @@ public class Main {
                 }
                 
             }
-            // listActs is now filled with two items. Calculate effects. 
-            //...         
+            // End of loop
+            // listActs is now filled with two items. Start calculate effects.
+            int[] P0First = {0, 1};
+            int[] P1First = {1, 0};
+            int[] arrOrder = P0First;
+
+            // Phase 1. Determine order based on type -> priority -> speed -> random
+            // Current order: P0, P1
+            if (!(listActs.get(0) instanceof Monster) && (listActs.get(1) instanceof Monster)) {
+                // Switch is executed first
+                arrOrder = P1First;
+                // Current order: P1, P0
+            }
+            else if((listActs.get(0) instanceof Move) && (listActs.get(1) instanceof Move)) {
+                // Both players chose move; executes based on priority
+                Move move0 = (Move) listActs.get(0);
+                Move move1 = (Move) listActs.get(1);
+                if (move0.getPriority() > move1.getPriority()) {
+                    // P0 goes first
+                    // Current order: P0, P1
+                }
+                else if (move0.getPriority() < move1.getPriority()) {
+                    // P1 goes first
+                    arrOrder = P1First;
+                    // Current order: P1, P0
+                }
+                else {
+                    // Same priority. Excutes based on speed
+                    double speed0 = arrayPlayers[0].getCurrentMonster().getBaseStats().getSpeed();
+                    double speed1 = arrayPlayers[1].getCurrentMonster().getBaseStats().getSpeed();
+                    if (speed0 > speed1) {
+                        // P0 goes first
+                        // Current order: P0, P1
+                    }
+                    else if(speed0 < speed1) {
+                        // P1 goes first
+                        arrOrder = P1First;
+                        // Current order: P1, P0
+                    }
+                    else {
+                        // Same speed. Executes randomly
+                        Random random = new Random();
+                        if (random.nextInt(10) <= random.nextInt(10)) {
+                            // P0 goes first
+                            // Current order: P0, P1
+                        }
+                        else {
+                            // P1 goes first
+                            arrOrder = P1First;
+                            // Current order: P1, P0
+                        }
+                    }
+                }
+            }
+            // else: P0-S P1-M or P0-S P1-S. In both instance, order = P0, P1
+            // listAct is now ordered
+
+            // Phase 2a: Executes actions
+            for (int i : arrOrder) {
+                // Get the i of the other player. Why is this so complex
+                int targetIdx;
+                if (i == 0) targetIdx = 0;
+                else targetIdx = 1;
+
+                // Depend on type of listAct content
+                if (listActs.get(i) instanceof Monster) {
+                    // Switch monster
+                    Monster monster = (Monster) listActs.get(i);
+                    arrayPlayers[i].setCurrentMonster(monster);
+                    System.out.printf("PKMN Trainer %s sent out %S!\n", arrayPlayers[i].getPlayerName(), monster.getNama());
+                }
+                else {
+                    // Execute move upon the other player
+                    Move move = (Move) listActs.get(i);
+                    MoveType moveType = move.getMoveType();
+                    switch (moveType) {
+                        case NORMAL :
+                            move.executeMove(arrayPlayers[targetIdx].getCurrentMonster());
+                            break;
+                        case SPECIAL :
+                            move.executeMove(arrayPlayers[targetIdx].getCurrentMonster());
+                            break;
+                        case DEFAULT :
+                            DefaultMove moveD = (DefaultMove) move;
+                            moveD.executeMove(
+                                arrayPlayers[i].getCurrentMonster(),
+                                arrayPlayers[targetIdx].getCurrentMonster());
+                            break;
+                        case STATUS :
+                            StatusMove moveS = (StatusMove) move;
+                            moveS.executeMove(
+                                arrayPlayers[i].getCurrentMonster(),
+                                arrayPlayers[targetIdx].getCurrentMonster());
+                            break;
+                    }
+                    // Move has been executed
+                }
+                    
+                // Phase 2b: calculate after damages
+                Monster targetMonster = arrayPlayers[targetIdx].getCurrentMonster();
+                StatusCondition statusCondition = targetMonster.getStatusCondition();
+                if (statusCondition == StatusCondition.BURN) {
+                    targetMonster.damage(1/8);
+                }
+                else if (statusCondition == StatusCondition.POISON) {
+                    targetMonster.damage(1/16);
+                }
+
+                // Phase 2C: If targetMonster became K-O'd after attacks
+                if (!targetMonster.isMonsterAlive()) {
+                    // targetMonster is KO. targetPlayer chooses new monster
+                }
+            }
         }
     }
 }

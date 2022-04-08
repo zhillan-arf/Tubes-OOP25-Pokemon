@@ -3,30 +3,57 @@ package com.monstersaku;
 public class Move {
     // Attributes
     private String name;
+    private MoveType moveType;
     private ElementType elementType;
     private int accuracy;
     private int priority;
     private int ammunition;
-    private final int maxAmmunition;
+    
 
     // Konstruktor
-    public Move(String name, ElementType elementType, int accuracy, int priority, int ammunition, int maxAmmunition) {
-        this.name = name;
-        this.elementType = elementType;
-        this.accuracy = accuracy;
-        this.priority = priority;
-        this.ammunition = ammunition;
-        this.maxAmmunition = maxAmmunition;
+    public Move(
+            String name, 
+            MoveType moveType, 
+            ElementType elementType, 
+            int accuracy, 
+            int priority, 
+            int ammunition
+        ) {
+            this.name = name;
+            this.moveType = moveType;
+            this.elementType = elementType;
+            this.accuracy = accuracy;
+            this.priority = priority;
+            this.ammunition = ammunition;
     }
 
     // Method Getter
     public String getName() {
-        return name;
+        return this.name;
     }
+
+    public MoveType getMoveType() {
+        return this.moveType;
+    }
+
     public ElementType getElementType() {
-        return elementType;
+        return this.elementType;
     }
+
+    public int getAccuracy() {
+        return this.accuracy;
+    }
+
     public int getAmmunition() {
-        return ammunition;
+        return this.ammunition;
+    }
+
+    public int getPriority() {
+        return this.priority;
+    }
+
+    // Method eksekusi move
+    public void executeMove(Monster targetMonster) {
+        // Left empty. Overriden/overloaded by subclasses
     }
 }
