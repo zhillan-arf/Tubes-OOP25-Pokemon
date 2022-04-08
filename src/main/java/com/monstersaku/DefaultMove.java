@@ -6,17 +6,16 @@ public class DefaultMove extends Move {
     // Constructor
     public DefaultMove (
             String name, 
-            MoveType moveType,
             ElementType elementType, 
             int accuracy, 
             int priority, 
             int ammunition
         ) {
-            super(name, moveType, elementType, 100, 0, 999);
+            super(name, elementType, 100, 0, 999);
         }
     
     // Methods
-    // Overloading
+    @Override
     /**
      * Ammunition TIDAK dikurangi setelah eksekusi
      * ATK dan DEF target diabaikan. Power = 50

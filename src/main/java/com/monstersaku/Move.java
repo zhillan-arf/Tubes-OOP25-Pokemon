@@ -3,7 +3,6 @@ package com.monstersaku;
 public class Move {
     // Attributes
     private String name;
-    private MoveType moveType;
     private ElementType elementType;
     private int accuracy;
     private int priority;
@@ -13,14 +12,12 @@ public class Move {
     // Konstruktor
     public Move(
             String name, 
-            MoveType moveType, 
             ElementType elementType, 
             int accuracy, 
             int priority, 
             int ammunition
         ) {
             this.name = name;
-            this.moveType = moveType;
             this.elementType = elementType;
             this.accuracy = accuracy;
             this.priority = priority;
@@ -30,10 +27,6 @@ public class Move {
     // Method Getter
     public String getName() {
         return this.name;
-    }
-
-    public MoveType getMoveType() {
-        return this.moveType;
     }
 
     public ElementType getElementType() {
@@ -53,7 +46,7 @@ public class Move {
     }
 
     // Method eksekusi move
-    public void executeMove(Monster targetMonster) {
+    public void executeMove(Monster sourceMonster, Monster targetMonster) {
         // Left empty. Overriden/overloaded by subclasses
     }
 }

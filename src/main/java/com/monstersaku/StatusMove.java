@@ -6,18 +6,18 @@ public class StatusMove extends Move {
 
     // Constructor
     public StatusMove (
-            String name, 
-            MoveType moveType, 
+            String name,  
             ElementType elementType, 
             int accuracy, 
             int priority, 
             int ammunition
         ) {
-            super(name, moveType, elementType, accuracy, priority, ammunition);
+            super(name, elementType, accuracy, priority, ammunition);
             this.maxAmmunition = ammunition;
-        }
+    }
+    
     // Methods
-    // Overloading
+    @Override
     /**
      */
     public void executeMove(Monster sourceMonster, Monster targetMonster) {

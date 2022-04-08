@@ -7,14 +7,20 @@ public class NormalMove extends Move {
     // Constructor
     public NormalMove (
             String name, 
-            MoveType moveType, 
             ElementType elementType, 
             int accuracy, 
             int priority, 
             int ammunition
         ) {
-            super(name, moveType, elementType, accuracy, priority, ammunition);
+            super(name, elementType, accuracy, priority, ammunition);
             this.maxAmmunition = ammunition;
-        }
+    }
+
     // Methods
+    @Override
+    /**
+     */
+    public void executeMove(Monster sourceMonster, Monster targetMonster) {
+        //
+    }
 }

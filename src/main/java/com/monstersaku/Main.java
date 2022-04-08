@@ -539,29 +539,11 @@ public class Main {
                 else {
                     // Execute move upon the other player
                     Move move = (Move) listActs.get(i);
-                    MoveType moveType = move.getMoveType();
-                    switch (moveType) {
-                        case NORMAL :
-                            move.executeMove(arrayPlayers[targetIdx].getCurrentMonster());
-                            break;
-                        case SPECIAL :
-                            move.executeMove(arrayPlayers[targetIdx].getCurrentMonster());
-                            break;
-                        case DEFAULT :
-                            DefaultMove moveD = (DefaultMove) move;
-                            moveD.executeMove(
-                                arrayPlayers[i].getCurrentMonster(),
-                                arrayPlayers[targetIdx].getCurrentMonster());
-                            break;
-                        case STATUS :
-                            StatusMove moveS = (StatusMove) move;
-                            moveS.executeMove(
-                                arrayPlayers[i].getCurrentMonster(),
-                                arrayPlayers[targetIdx].getCurrentMonster());
-                            break;
+                    move.executeMove(
+                        arrayPlayers[i].getCurrentMonster(),
+                        arrayPlayers[targetIdx].getCurrentMonster());
                     }
                     // Move has been executed
-                }
                     
                 // Phase 2b: calculate after damages
                 Monster targetMonster = arrayPlayers[targetIdx].getCurrentMonster();
