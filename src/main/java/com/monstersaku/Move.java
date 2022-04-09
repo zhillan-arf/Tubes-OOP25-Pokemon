@@ -26,30 +26,16 @@ public class Move {
             this.ammunition = ammunition;
     }
 
-    // Method Getter
-    public int getId() {
-        return this.id;
-    }
+    // Getter methods
+    public int getId() {return this.id;}
+    public String getName() {return this.name;}
+    public ElementType getElementType() {return this.elementType;}
+    public int getAccuracy() {return this.accuracy;}
+    public int getAmmunition() {return this.ammunition;}
+    public int getPriority() {return this.priority;}
 
-    public String getName() {
-        return this.name;
-    }
-
-    public ElementType getElementType() {
-        return this.elementType;
-    }
-
-    public int getAccuracy() {
-        return this.accuracy;
-    }
-
-    public int getAmmunition() {
-        return this.ammunition;
-    }
-
-    public int getPriority() {
-        return this.priority;
-    }
+    // Setter methods
+    public void setAmmunition(int ammo) {this.ammunition = ammo;}
 
     // Method eksekusi move
     public void executeMove(Monster sourceMonster, Monster targetMonster) {
