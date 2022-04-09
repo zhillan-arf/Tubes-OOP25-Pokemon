@@ -3,6 +3,7 @@ import com.monstersaku.Monster;
 import com.monstersaku.Stats;
 import com.monstersaku.Move;
 import com.monstersaku.Main;
+import com.monstersaku.DefaultMove;
 import com.monstersaku.ElementType;
 
 import java.util.*;
@@ -56,22 +57,25 @@ public class MonsterPoolConfig {
                     moves.add(movePool.get(intMoveIDs[i]));
                 }
                 /** IN CASE OF EMERGENCY (ID IN MOVE FILE NOT 1,2,3,4..) BREAK GLASS
-                    if (movePool.size() > 0) {
-                        for (int i = 0; i < 6; i++) {
-                            Iterator<Move> it = movePool.iterator();
-                            boolean isNotFound = true;
-                            Move move = movePool.get(0);
-                            while (it.hasNext() && isNotFound) {
-                                move = it.next();
-                                isNotFound = (move.getId() == intMoveIDs[i]);
-                            }
-                            if (!isNotFound) {
-                                // Move with the correct id is found
-                                moves.add(move);
-                            }
+                if (movePool.size() > 0) {
+                    for (int i = 0; i < 6; i++) {
+                        Iterator<Move> it = movePool.iterator();
+                        boolean isNotFound = true;
+                        Move move = movePool.get(0);
+                        while (it.hasNext() && isNotFound) {
+                            move = it.next();
+                            isNotFound = (move.getId() == intMoveIDs[i]);
+                        }
+                        if (!isNotFound) {
+                            // Move with the correct id is found
+                            moves.add(move);
                         }
                     }
+                }
                 */
+                // Instantiate default move
+                DefaultMove defMove = new DefaultMove(id, "Default", ElementType.NORMAL, 100, 0, 999);
+                moves.add(defMove);
                 // moves are filled
                 
                 // Instatiate the monster using the datas

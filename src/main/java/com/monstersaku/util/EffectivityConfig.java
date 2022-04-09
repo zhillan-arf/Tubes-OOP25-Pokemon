@@ -1,7 +1,6 @@
 package com.monstersaku.util;
 import com.monstersaku.Main;
 import com.monstersaku.ElementType;
-import com.monstersaku.util.CSVReader;
 import java.io.File;
 import java.util.*;
 

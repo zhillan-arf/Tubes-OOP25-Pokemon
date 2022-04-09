@@ -29,6 +29,7 @@ public class Monster {
     }
 
     // Getter methods
+    public int getId() {return this.id;}
     public String getNama() {return this.nama;}
     public Stats getBaseStats() {return this.baseStats;}
     public void addElement(ElementType elements) {this.elementTypes.add(elements);}
