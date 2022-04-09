@@ -63,7 +63,7 @@ public class NormalMove extends Move {
 
                 //HP reduction 
                 Stats newStats = targetMonster.getBaseStats();
-                double newHP = newStats.setHealthPoint(getHealthPoint() - damage);
+                double newHP = newStats.setHealthPoint(newStats.getHealthPoint() - damage);
                 targetMonster.setStats(newStats);
                 this.setAmmunition(getAmmunition() - 1);
             }    
