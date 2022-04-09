@@ -1,70 +1,65 @@
 package com.monstersaku;
 
 public class StatsBuff {
-    // Attributes
-    int attack;
-    int defense;
-    int specialAttack;
-    int specialDefense;
-    int speed;
+    /**
+     * Attribute: an array
+     * 0. ATK
+     * 1. DEF
+     * 2. SP ATK
+     * 3. SP DEF
+     * 4. SPEED
+     */
+    int[] arrSB;
 
     // Constructor
     public StatsBuff() {
-        this.attack = 0;
-        this.defense = 0;
-        this.specialAttack = 0;
-        this.specialDefense = 0;
-        this.speed = 0;
+        this.arrSB = new int[5];
+        arrSB[0] = 0;
+        arrSB[1] = 0;
+        arrSB[2] = 0;
+        arrSB[3] = 0;
+        arrSB[4] = 0;
     }
 
     // Getter methods
-    public int getAttack() {
-        return this.attack;
+    public int[] getArrSB() {
+        return this.arrSB;
     }
 
-    public int getDefese() {
-        return this.defense;
-    }
+    // Setter
+    public void setSB(int atk, int def, int spAtk, int spDef, int speed) {
+        // ATK
+        if (atk < -4) this.arrSB[0] = -4;
+        else if (atk > 4) this.arrSB[0] = 4;
+        else this.arrSB[0] = atk;
 
-    public int getSpecialAttack() {
-        return this.specialAttack;
-    }
+        // DEF
+        if (def < -4) this.arrSB[1] = -4;
+        else if (def > 4) this.arrSB[1] = 4;
+        else this.arrSB[1] = def;
 
-    public int getSpecialDefense() {
-        return this.specialDefense;
-    }
+        // SP ATK
+        if (spAtk < -4) this.arrSB[2] = -4;
+        else if (spAtk > 4) this.arrSB[2] = 4;
+        else this.arrSB[2] = spAtk;
 
-    public int getSpeed() {
-        return this.speed;
-    }
+        // SP DEF
+        if (spDef < -4) this.arrSB[3] = -4;
+        else if (spDef > 4) this.arrSB[3] = 4;
+        else this.arrSB[3] = spDef;
 
-    // Setter methods
-    public void setAttack(int attack) {
-        if (attack >= -4 && attack <= 4) this.attack = attack;
-    }
-
-    public void setDefense(int defense) {
-        if (defense >= -4 && defense <= 4) this.defense = defense;
-    }
-
-    public void setSpecialAttack(int specialAttack) {
-        if (specialAttack >= -4 && specialAttack <= 4) this.specialAttack = specialAttack;
-    }
-
-    public void setSpecialDefense (int specialDefense) {
-        if (specialDefense >= -4 && specialDefense <= 4) this.specialDefense = specialDefense;
-    }
-
-    public void setSpeed(int speed) {
-        if (speed >= -4 && speed <= 4) this.speed = speed;
+        // SPEED
+        if (speed < -4) this.arrSB[4] = -4;
+        else if (speed > 4) this.arrSB[4] = 4;
+        else this.arrSB[4] = speed;
     }
 
     public void resetStatsBuff() {
-        this.attack = 0;
-        this.defense = 0;
-        this.specialAttack = 0;
-        this.specialDefense = 0;
-        this.speed = 0;
+        arrSB[0] = 0;
+        arrSB[1] = 0;
+        arrSB[2] = 0;
+        arrSB[3] = 0;
+        arrSB[4] = 0;
     }
     
     // Calculation methods

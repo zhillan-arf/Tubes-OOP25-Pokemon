@@ -20,7 +20,7 @@ public class Main {
             "configs/element-type-effectivity-chart.csv"));
     
     // New statics
-    //[mzh] Melakukan print pilihan command di main menu
+    // Melakukan print pilihan command di main menu
     private static final void printMainMenuCommands() {
         System.out.println(
         		"Select Command!\n" +
@@ -30,6 +30,16 @@ public class Main {
         		);
     }
     
+    private static void delay(int milis) {
+        try {
+            Thread.sleep(milis);
+        }
+        catch (InterruptedException e) {
+            System.out.println("FATAL INTERRUPTION ERROR. Something went TERRIBLY wrong...\n");
+            System.exit(1);
+        }
+    }
+
     private static final void printActions() {
         // Used in turns
         System.out.println(
@@ -98,13 +108,6 @@ public class Main {
             + "Help   : you are using that command right now."
             );
     }
-    
-    private static void fatalError() {
-        // Primarily used if there is an interruption in, say, sleep()
-        // Interruptions aren't supposed to happen
-        System.out.println("FATAL ERROR. Something went TERRIBLY wrong...\n");
-        System.exit(1);
-    }
 
     private static void printPlayers(Player[] arrayPlayers) {
         // Print players
@@ -123,6 +126,20 @@ public class Main {
         arrayPlayers[i].getCurrentMonster().printMonsterAttr();
         System.out.println("Available Monsters:");
         arrayPlayers[i].printMonsters();
+    }
+
+    private static void WarnInputMismatch() {
+        System.out.println("......");
+        delay(1000);
+        System.out.println("ERROR. Enter a number! (e.g. '1')");
+        delay(1000);
+    }
+
+    private static void WarnIndexOutOfBounds() {
+        System.out.println("......");
+        delay(1000);
+        System.out.println("ERROR. Enter a *valid* number! (e.g. '1')\n");
+        delay(1000);
     }
 
     // ALGORIITMA PROGRAM UTAMA
@@ -146,19 +163,12 @@ public class Main {
                 System.out.println();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                fatalError();
             }
         }
         // [zh]: End of file reading section. Now, begin tubes.
        
         // Print ASCII Art
-        try {
-        	printArt();
-			Thread.sleep(1000);
-		} 
-        catch (InterruptedException e) {
-            fatalError();
-		}
+        delay(1000);
         
         // Main Menu
         Scanner scanner0 = new Scanner(System.in);
@@ -235,15 +245,9 @@ public class Main {
                                     // If not, proceeds
                                     if (num == 0) {
                                         // 0 = cancel
-                                        try {
-                                            System.out.println("Returning to your turn...");
-                                            Thread.sleep(1000);
-                                            isInputValid = true;
-                                        }
-                                        catch (InterruptedException sleepE) {
-                                            fatalError();
-                                        }
-                                        
+                                        System.out.println("Returning to your turn...");
+                                        delay(1000);
+                                        isInputValid = true;
                                     }
                                     else {
                                         // Adds selected move to action list
@@ -256,28 +260,12 @@ public class Main {
                                     }
                                 }
                                 catch (InputMismatchException e) {
-                                    try {
-                                        System.out.println("......");
-                                        Thread.sleep(1000);
-                                        System.out.println("ERROR. Enter a number! (e.g. '1')");
-                                        Thread.sleep(1000);
-                                        // Return to input num
-                                    }
-                                    catch (InterruptedException sleepE) {
-                                        fatalError();
-                                    }
+                                    WarnInputMismatch();
+                                    // Return to input num
                                 }
                                 catch (IndexOutOfBoundsException e) {
-                                    try {
-                                        System.out.println("......");
-                                        Thread.sleep(1000);
-                                        System.out.println("ERROR. Enter a *valid* number! (e.g. '1')\n");
-                                        Thread.sleep(1000);
-                                        // Return to input num
-                                    }
-                                    catch (InterruptedException sleepE) {
-                                        fatalError();
-                                    }
+                                    WarnIndexOutOfBounds();
+                                    // Return to input num
                                 }
                             }
                             // End of loop, caancelled or move inputted
@@ -293,15 +281,9 @@ public class Main {
                                     // If not, proceeds
                                     if (num == 0) {
                                         // 0 = cancel
-                                        try {
-                                            System.out.println("Returning to your turn...");
-                                            Thread.sleep(1000);
-                                            isInputValid = true;
-                                        }
-                                        catch (InterruptedException sleepE) {
-                                            scanner2.close();
-                                            fatalError();
-                                        }
+                                        System.out.println("Returning to your turn...");
+                                        delay(1000);
+                                        isInputValid = true;
                                     }
                                     else {
                                         /**
@@ -324,33 +306,15 @@ public class Main {
                                     }
                                 }
                                 catch (InputMismatchException e) {
-                                    try {
-                                        System.out.println("......");
-                                        Thread.sleep(1000);
-                                        System.out.println("ERROR. Enter a number! (e.g. '1')\n");
-                                        Thread.sleep(1000);
-                                        // Return to input num
-                                    }
-                                    catch (InterruptedException sleepE) {
-                                        scanner2.close();
-                                        fatalError();
-                                    }
+                                    WarnInputMismatch();
+                                    // Return to input num
                                 }
                                 catch (IndexOutOfBoundsException e) {
-                                    try {
-                                        System.out.println("......");
-                                        Thread.sleep(1000);
-                                        System.out.println("ERROR. Enter a *valid* number! (e.g. '1')\n");
-                                        Thread.sleep(1000);
-                                        // Return to input num
-                                    }
-                                    catch (InterruptedException sleepE) {
-                                        scanner2.close();
-                                        fatalError();
-                                    }
+                                    WarnIndexOutOfBounds();
+                                    // Return to input num
                                 }
                             }
-                            // End of loop, caancelled or move inputted
+                            // End of loop, cancelled or move inputted
                             break;
 
                         case "3" :
@@ -363,12 +327,12 @@ public class Main {
                                     if (idx == 0) {
                                         // 0 = back
                                         System.out.println("Returning to your turn...");
-                                        Thread.sleep(1000);
+                                        delay(1000);
                                         isInputValid = true;
                                     }
                                     else {
                                         System.out.print("Retrieving data...");
-                                        Thread.sleep(500);
+                                        delay(500);
                                         boolean hasSelectedMonster = false;
                                         int numM;
                                         while (!hasSelectedMonster) {
@@ -379,7 +343,7 @@ public class Main {
                                             if (numM == 0) {
                                                 // 0 == back
                                                 System.out.println("Returning to players...");
-                                                Thread.sleep(1000);
+                                                delay(1000);
                                                 hasSelectedMonster = true;
                                             }
                                             else {
@@ -397,14 +361,14 @@ public class Main {
                                                             isViewInputValid = true;
                                                             hasSelectedMonster = true;
                                                             System.out.println("Returning to monster selection...");
-                                                            Thread.sleep(1000);
+                                                            delay(1000);
                                                             break;
                                                         case 2 :
                                                             isViewInputValid = true;
                                                             hasSelectedMonster = true;
                                                             isInputValid = true;
                                                             System.out.println("Returning to your turn...");
-                                                            Thread.sleep(1000);
+                                                            delay(1000);
                                                             break;
                                                         default :
                                                             System.out.println("Error. Enter a *valid* number!\n");
@@ -414,67 +378,34 @@ public class Main {
                                         }
                                     }
                                 }
-                                catch (InterruptedException e) {
-                                    fatalError();
-                                    scanner2.close();
-                                }
                                 catch (InputMismatchException e) {
-                                    try {
-                                        System.out.println("......");
-                                        Thread.sleep(1000);
-                                        System.out.println("ERROR. Enter a number! (e.g. '1')");
-                                        Thread.sleep(1000);
-                                        // Return to input num
-                                    }
-                                    catch (InterruptedException sleepE) {
-                                        scanner2.close();
-                                        fatalError();
-                                    }
+                                    WarnInputMismatch();
+                                    // Return to input num
                                 }
                                 catch (IndexOutOfBoundsException e) {
-                                    try {
-                                        System.out.println("......");
-                                        Thread.sleep(1000);
-                                        System.out.println("ERROR. Enter a *valid* number! (e.g. '1')\n");
-                                        Thread.sleep(1000);
-                                        // Return to input num
-                                    }
-                                    catch (InterruptedException sleepE) {
-                                        scanner2.close();
-                                        fatalError();
-                                    }
+                                    WarnIndexOutOfBounds();
+                                    // Return to input num
                                 }
+                            // End of loop
                             }
                             break;
 
                         case "4" :
-                            try {
-                                printGameInfo(ctrTurn, i, arrayPlayers);
-                                Thread.sleep(1000);
-                                System.out.println("Returning to your turn...");
-                                Thread.sleep(1000);
-                            }
-                            catch (InterruptedException e) {
-                                scanner2.close();
-                                fatalError();
-                            }
+                            printGameInfo(ctrTurn, i, arrayPlayers);
+                            delay(1000);
+                            System.out.println("Returning to your turn...");
+                            delay(1000);
                             break;
 
                         case "5" :
-                            try {
-                                printHelpTurn();
-                                Thread.sleep(1000);
-                                System.out.println("Returning to your turn...");
-                                Thread.sleep(1000);
-                            }
-                            catch (InterruptedException e) {
-                                scanner2.close();
-                                fatalError();
-                            }
+                            printHelpTurn();
+                            delay(2000);
+                            System.out.println("Returning to your turn...");
+                            delay(1000);
                             break;
-
                         default :
                             System.out.print("ERROR. Unrecognized action number!\n");
+                            delay(500);
                             break;
                     }
                     scanner2.close();
@@ -548,6 +479,7 @@ public class Main {
                 // Depend on type of listAct content
                 if (listActs.get(i) instanceof Monster) {
                     // Switch monster
+                    arrayPlayers[i].getCurrentMonster().getSB().setSB(0, 0, 0, 0, 0);
                     System.out.printf("%s, good job! Get back!\n", 
                         arrayPlayers[i].getCurrentMonster().getNama());
                     Monster monster = (Monster) listActs.get(i);
@@ -573,19 +505,25 @@ public class Main {
                 Monster targetMonster = arrayPlayers[targetIdx].getCurrentMonster();
                 StatusCondition statusCondition = targetMonster.getStatusCondition();
                 if (statusCondition == StatusCondition.BURN) {
-                    System.out.printf("%s is BURNED!\n", targetMonster.getNama());
+                    System.out.printf("%s suffered BURN!\n", targetMonster.getNama());
                     targetMonster.damage(1/8);
                 }
                 else if (statusCondition == StatusCondition.POISON) {
-                    System.out.printf("%s is POISONED!\n", targetMonster.getNama());
+                    System.out.printf("%s suffered POISON!\n", targetMonster.getNama());
                     targetMonster.damage(1/16);
                 }
 
                 // Phase 2C: If targetMonster became K-O'd after attacks
                 if (!targetMonster.isMonsterAlive()) {
-                    System.out.printf("%s's %s fainted!\n", 
+                    Monster cMonster = arrayPlayers[i].getCurrentMonster();
+                    // Reset various statuses
+                    cMonster.setStatusCondition(StatusCondition.NONE);
+                    cMonster.getSB().setSB(0, 0, 0, 0, 0);
+                    // Print fainted message
+                    System.out.printf(
+                        "%s's %s fainted!\n", 
                         arrayPlayers[i].getPlayerName(), 
-                        arrayPlayers[i].getCurrentMonster().getNama());
+                        cMonster.getNama());
                 }
 
                 if (!arrayPlayers[targetIdx].hasAliveMonsters())  {
@@ -624,30 +562,10 @@ public class Main {
                             }
                         }
                         catch (InputMismatchException e) {
-                            try {
-                                System.out.println("......");
-                                Thread.sleep(1000);
-                                System.out.println("ERROR. Enter a number! (e.g. '1')\n");
-                                Thread.sleep(1000);
-                                // Return to input num
-                            }
-                            catch (InterruptedException sleepE) {
-                                scanner3.close();
-                                fatalError();
-                            }
+                            WarnInputMismatch();
                         }
                         catch (IndexOutOfBoundsException e) {
-                            try {
-                                System.out.println("......");
-                                Thread.sleep(1000);
-                                System.out.println("ERROR. Enter a *valid* number! (e.g. '1')\n");
-                                Thread.sleep(1000);
-                                // Return to input num
-                            }
-                            catch (InterruptedException sleepE) {
-                                scanner3.close();
-                                fatalError();
-                            }
+                            WarnIndexOutOfBounds();
                         }
                         finally {
                             scanner3.close();
@@ -661,12 +579,7 @@ public class Main {
             }
             // Turn ends
             System.out.println("Starting the next turn...");
-            try{
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException e) {
-                fatalError();
-            }
+            delay(100);
         }
         // Game has ended
 

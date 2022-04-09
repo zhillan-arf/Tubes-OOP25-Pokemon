@@ -41,11 +41,10 @@ public class MovePoolConfig {
                         statCondBuff = StatusCondition.valueOf(buffs[0]);
                     }
                     int hpBuff = Integer.valueOf(buffs[1]);
-                    int atkBuff = Integer.valueOf(buffs[2]);
-                    int defBuff = Integer.valueOf(buffs[3]);
-                    int spAtkBuff = Integer.valueOf(buffs[4]);
-                    int spDefBuff = Integer.valueOf(buffs[5]);
-                    int speedBuff = Integer.valueOf(buffs[6]);
+                    int[] arrSB = new int[5];
+                    for (int i = 0; i< 5; i++) {
+                        arrSB[i] = Integer.valueOf(buffs[i + 2]);
+                    }
                     // Instantiate
                     StatusMove move = new StatusMove(id,
                                                     name, 
@@ -56,11 +55,7 @@ public class MovePoolConfig {
                                                     target,
                                                     statCondBuff, 
                                                     hpBuff, 
-                                                    atkBuff, 
-                                                    defBuff, 
-                                                    spAtkBuff, 
-                                                    spDefBuff, 
-                                                    speedBuff);
+                                                    arrSB);
                     // Add
                     movePool.add(move);
                 }
