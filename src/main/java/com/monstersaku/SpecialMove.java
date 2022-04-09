@@ -7,6 +7,7 @@ public class SpecialMove extends Move {
 
     // Constructor
     public SpecialMove (
+            int id,
             String name, 
             ElementType elementType, 
             int accuracy, 
@@ -14,7 +15,7 @@ public class SpecialMove extends Move {
             int ammunition,
             int basePower
         ) {
-            super(name, elementType, accuracy, priority, ammunition);
+            super(id, name, elementType, accuracy, priority, ammunition);
             this.basePower = basePower;
             this.maxAmmunition = ammunition;
        }
