@@ -4,16 +4,14 @@ import com.monstersaku.Stats;
 import com.monstersaku.Move;
 import com.monstersaku.Main;
 import com.monstersaku.ElementType;
-import com.monstersaku.util.CSVReader;
 
 import java.util.*;
-import javax.lang.model.element.Element;
 import java.io.File;
 
 public class MonsterPoolConfig {
     private static String fileName = "configs.monsterpool.csv";
 
-    public static List<Monster> create(){
+    public static List<Monster> create(List<Move> movePool){
         List<Monster> monsterPool = new ArrayList<Monster>();
 
         try {
@@ -38,14 +36,43 @@ public class MonsterPoolConfig {
                 // BaseStats
                 String[] bs = (line[3]).split(",");
                 int[] baseStats={0,0,0,0,0,0};
-                for (int i=0;i<6;i++){
+                for (int i = 0; i < 6; i++) {
                     baseStats[i] = Integer.valueOf(bs[i]);
                 }
                 Stats attrBaseStats = new Stats(baseStats[0], baseStats[0], baseStats[1], baseStats[2], baseStats[3], baseStats[4], baseStats[5]);
 
-                // Add move -> pake movepool config
+                // Add move
+                // Create an array of IDs
+                String[] strMoveIDs = line[4].split(",");
+                int[] intMoveIDs = new int[strMoveIDs.length];
+                for (int i = 0; i < intMoveIDs.length; i++) {
+                    intMoveIDs[i] = Integer.valueOf(strMoveIDs[i]);
+                }
+
+                // Fill moves with the correct IDs
                 List<Move> moves = new ArrayList<Move>();
-                //...
+                // Assume that IDs in move config file is 1,2,3,4...
+                for (int i = 0; i < 6; i++) {
+                    moves.add(movePool.get(intMoveIDs[i]));
+                }
+                /** IN CASE OF EMERGENCY (ID IN MOVE FILE NOT 1,2,3,4..) BREAK GLASS
+                    if (movePool.size() > 0) {
+                        for (int i = 0; i < 6; i++) {
+                            Iterator<Move> it = movePool.iterator();
+                            boolean isNotFound = true;
+                            Move move = movePool.get(0);
+                            while (it.hasNext() && isNotFound) {
+                                move = it.next();
+                                isNotFound = (move.getId() == intMoveIDs[i]);
+                            }
+                            if (!isNotFound) {
+                                // Move with the correct id is found
+                                moves.add(move);
+                            }
+                        }
+                    }
+                */
+                // moves are filled
                 
                 // Instatiate the monster using the datas
                 Monster monster = new Monster(id, nama, eltype, attrBaseStats, moves);

@@ -160,7 +160,7 @@ public class Main {
             fatalError();
 		}
         
-        //Main Menu
+        // Main Menu
         Scanner scanner0 = new Scanner(System.in);
         boolean isStartGame = false;
         while (!isStartGame) {
@@ -186,7 +186,8 @@ public class Main {
 
         // Parse and store all file datas
         System.out.println("Loading files...");
-        List<Monster> monsterPool = com.monstersaku.util.MonsterPoolConfig.create();
+        List<Move> movePool = com.monstersaku.util.MovePoolConfig.create();
+        List<Monster> monsterPool = com.monstersaku.util.MonsterPoolConfig.create(movePool);
         
         // Instantiate two players and their content
         Player arrayPlayers[] = new Player[2];
