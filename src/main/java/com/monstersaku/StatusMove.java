@@ -2,7 +2,6 @@ package com.monstersaku;
 
 public class StatusMove extends Move {
     // Extended attributes
-    private final int maxAmmunition;
     private Target target;
     private StatusCondition statCondBuff;
     private int hpBuff;
@@ -30,7 +29,6 @@ public class StatusMove extends Move {
             int[] arrSB
         ) {
             super(id, name, elementType, accuracy, priority, ammunition);
-            this.maxAmmunition = ammunition;
             this.target = target;
             this.statCondBuff = statCondBuff;
             this.hpBuff = hpBuff;
@@ -41,7 +39,7 @@ public class StatusMove extends Move {
     @Override
     public void executeMove(Monster sourceMonster, Monster targetMonster) {
         if (this.getAmmunition() == 0) {
-            System.out.printf("Not enough ammo! %s stumbled. Move failed...", sourceMonster.getNama());
+            System.out.printf("Not enough ammo! %s stumbled. Move failed...\n", sourceMonster.getNama());
         }
         else {
             // Determine target

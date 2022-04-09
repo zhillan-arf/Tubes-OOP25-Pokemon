@@ -1,14 +1,9 @@
 package com.monstersaku.util;
-
 import com.monstersaku.Main;
 import com.monstersaku.ElementType;
-
 import com.monstersaku.util.CSVReader;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 public class EffectivityConfig {
     private static String fileName;
@@ -35,7 +30,7 @@ public class EffectivityConfig {
         }
         catch (Exception e){
             System.out.println(e.getMessage());
-            System.out.println("FATAL ERROR in getEffectivity config...");
+            System.out.println("FATAL ERROR while parsing Effectivity...");
             System.exit(1);
         }
         return value;

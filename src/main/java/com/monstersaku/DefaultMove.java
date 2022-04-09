@@ -1,8 +1,9 @@
 package com.monstersaku;
+import java.text.DecimalFormat;
 
 public class DefaultMove extends Move {
     // Extended attributes
-    private static final DecimalFormat df = new DecimalFormat("0.00")
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     // Constructor
     public DefaultMove (
@@ -27,48 +28,45 @@ public class DefaultMove extends Move {
         if (randAccuracy > this.getAccuracy()){
             System.out.println(sourceMonster.getNama() + "'s move missed!");
         }
-        else{
-            if (sourceMonster != isMonsterAlive()){
-                System.out.println("Your Monster has died! Move can't be done");
+        else if (sourceMonster.isMonsterAlive()){
+            if (this.getAmmunition() == 0) {
+                System.out.printf("Not enough ammo! %s stumbled. Move failed...", sourceMonster.getNama());
             }
             else{
-                if (this.getAmmunition() == 0) {
-                    System.out.printf("Not enough ammo! %s stumbled. Move failed...", sourceMonster.getNama());
-                }
-                else{
-                    ////get soucerMonster attack and targetMonster defense
-                    double sourceAttack = sourceMonster.getBaseStats().getAttack();
-                    double targetDefense = targetMonster.getBaseStats().getDefense();
-        
-                    //get random between 0.85 - 1
-                    double rand = Math.random() / 100 * 15 + 0.85;
-                    rand = Double.valueOf(df.format(rand));
-        
-                    //get effectivity
-                    double effectivity = 1;
-                    for (ElementType enemyType : targetMonster.getElementType()){
-                        effectivity = EffectivityConfig.getEffectivity(elementType, enemyType);
-                    }
-        
-                    //get burn
-                    double burn = 1;
-                    if (sourceMonster.getStatusCondition() == StatusCondition.BURN){
-                        burn = 0.5;
-                    }
-        
-                    //get damage calculation
-                    double damage = Math.floor(((50) * (sourceAttack/targetDefense) + 2) * rand * effectivity * burn);
+                // Get soucerMonster attack and targetMonster defense
+                double sourceAttack = sourceMonster.getBaseStats().getAttack();
+                double targetDefense = targetMonster.getBaseStats().getDefense();
     
-                    //HP target reduction 
-                    Stats newStats = targetMonster.getBaseStats();
-                    double newHP = newStats.setHealthPoint(newStats.getHealthPoint() - damage);
-                    targetMonster.setStats(newStats);
-                    
-                    //HP souce reduction 
-                    Stats newSourceStats = soucerMonster.getBaseStats();
-                    double newSourceHP = newSourceStats.setHealthPoint(newSourceStats.getHealthPoint() * 3/4);
-                    soucerMonster.setStats(newSourceStats);
-                }    
+                //get random between 0.85 - 1
+                double rand = Math.random() / 100 * 15 + 0.85;
+                rand = Double.valueOf(df.format(rand));
+    
+                //get effectivity
+                double effectivity = 1;
+                for (ElementType enemyType : targetMonster.getElement()){
+                    effectivity = com.monstersaku.util.EffectivityConfig.getEffectivity(this.getElementType(), enemyType);
+                }
+    
+                //get burn
+                double burn = 1;
+                if (sourceMonster.getStatusCondition() == StatusCondition.BURN){
+                    burn = 0.5;
+                }
+    
+                //get damage calculation
+                double damage = Math.floor(((50) * (sourceAttack/targetDefense) + 2) * rand * effectivity * burn);
+
+                //HP target reduction 
+                Stats newStats = targetMonster.getBaseStats();
+                double newHP = newStats.getHealthPoint() - damage;
+                newStats.setHealthPoint(newHP);
+                targetMonster.setStats(newStats);
+                
+                //HP source reduction 
+                Stats newSourceStats = sourceMonster.getBaseStats();
+                double newSourceHP = newSourceStats.getHealthPoint() - (newSourceStats.getMaxHealthPoint() * 1/4);
+                newSourceStats.setHealthPoint(newSourceHP);
+                sourceMonster.setStats(newSourceStats);  
             }    
         }
     }

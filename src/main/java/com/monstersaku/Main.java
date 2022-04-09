@@ -6,142 +6,15 @@ import java.io.File;
 import java.util.*;
 
 /**
- * LOREM IPSUM DOLOR SIT AMET
- * 182...
+ * TUBES OOP K2 KELOMPOK 25 "JANDA BERKANTONG"
  * 2022 April
+ * 18219062 Rahmat Pujiatno
+ * 18220008 Zhillan Attarizal Rezyarifin
+ * 18220034 Muhammad Zhaffran Haris
+ * 182200102 Danendra Gilang Raharjo
  */
 
 public class Main {
-    // "KAMUS"
-    // Base statics
-    private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
-            "configs/monsterpool.csv",
-            "configs/movepool.csv",
-            "configs/element-type-effectivity-chart.csv"));
-    
-    // New statics
-    // Melakukan print pilihan command di main menu
-    private static final void printMainMenuCommands() {
-        System.out.println(
-        		"Select Command!\n" +
-        		"> Start Game\n" +
-        		"> Help\n" +
-        		"> Exit"
-        		);
-    }
-    
-    private static void delay(int milis) {
-        try {
-            Thread.sleep(milis);
-        }
-        catch (InterruptedException e) {
-            System.out.println("FATAL INTERRUPTION ERROR. Something went TERRIBLY wrong...\n");
-            System.exit(1);
-        }
-    }
-
-    private static final void printActions() {
-        // Used in turns
-        System.out.println(
-            "Select action number!\n" +
-            "1. Move\n" +
-            "2. Switch\n" +
-            "3. View Monsters Info\n" +
-            "4. View Game Info\n" +
-            "5. Help"
-        );
-        System.out.print("\n> ");
-    }
-    
-    // [mzh]: Melakukan print logo utama
-    public static final void printArt() {
-    	System.out.println("=============================================================================");
-    	System.out.println("");
-    	System.out.println(" ____    ____  ______  ____  _____   _______ _________ _________ ________    ");
-    	System.out.println("|_   \\  /   _|/      \\ |_   \\|_   _|/  ___  |  _   _  |_   ___  |_   __  \\   ");
-    	System.out.println("  |   \\/   | /  /--\\  \\ |   \\ | |  |  (___\\_|_/ | | \\_| | |_  \\_| | |__)  |  ");
-    	System.out.println("  | |\\  /| | | |    | | | |\\ \\| |   \\____  \\    | |     |  _|  _  |  __  /   ");
-    	System.out.println(" _| |_\\/_| |_\\  \\--/  /_| |_\\   |_|| \\___)  |  _| |_   _| |___/ |_| |  \\ \\_ ");
-    	System.out.println("|_____||_____|\\______/|_____|\\____||_______/  |_____| |_________|____| |___|");
-    	System.out.println("                  _______      __      ___  ____  _____  _____ ");
-    	System.out.println("                 /  ___  |    /  \\    |_  ||_  _||_   _||_   _|");
-    	System.out.println("                |  (__ \\_|   / /\\ \\     | |_/ /    | |    | |  ");
-    	System.out.println("                 \\____  \\   / ____ \\    |  __ \\    | |    | |  ");
-    	System.out.println("                |\\____) | _/ /    \\ \\_ _| |  \\ \\_   \\ \\__/ /   ");
-    	System.out.println("                |_______/|____|  |____|____||____|   \\____/    ");
-    	System.out.println("");
-    	System.out.println("=============================================================================\n");
-    }
-    
-    // [mzh]: Melakukan print pesan Help
-    public static void printHelp() {
-    	System.out.println(
-    			"\n[Game Description]\n"
-    			+ "Monster Saku is a pokemon battle adaptation on a CLI style\n"
-    			+ "It covers the duel battle system with 6 random starting monsters\n"
-    			+ "on each player at the start.\n"
-    			+ "\n"
-    			+ "[How to Start?]\n"
-    			+ "At the main menu, enter\n"
-    			+ "\"Start Game\"\n"
-    			+ "as input to start playing.\n"
-    			+ "\n"
-    			+ "[How to Play?]\n"
-    			+ "Each player are given 6 random monsters at the start of the game.\n"
-    			+ "Players will be given turns to either use a move or switch monster.\n"
-    			+ "Your goal is to bring your opponent's monster HP to 0.\n"
-    			+ "Exploit their weakness to deal higher damage.\n"
-    			+ "Switch your monster to avoid getting hit.\n"
-    			+ "Use the best strategy to win the game.\n"
-    			);
-    }
-
-    public static void printHelpTurn() {
-        // Describes available options during the turn
-        System.out.println(
-              "Move   : an action for your Pokemon to attack opposing Pokemon, heal,\n"
-            + "        etc. Your Pokemon cannot move if it has the buff 'SLEEP'!"
-            + "Switch : replace your current pokemon with another one. You cannot switch\n"
-            + "        a knocked-out pokemon!"
-            + "View Monster Info : select a monster and view its stats and moves"
-            + "View Game Info : print out current game status, as the name suggests"
-            + "Help   : you are using that command right now."
-            );
-    }
-
-    private static void printPlayers(Player[] arrayPlayers) {
-        // Print players
-        System.out.println("Select player number: ");
-        for (int i = 0; i <= 1; i++) {
-            System.out.printf("%d. %s\n", i, arrayPlayers[i].getPlayerName());
-            System.out.println("0. Cancel");
-        }
-    } 
-
-    private static void printGameInfo(int turn, int i, Player arrayPlayers[]) {
-        // Print info about the turn
-        System.out.printf("******** TURN %d ********\n", turn);
-        System.out.printf("NOW PLAYING: %s\n", arrayPlayers[i].getPlayerName());
-        System.out.println("Selected Monster:");
-        arrayPlayers[i].getCurrentMonster().printMonsterAttr();
-        System.out.println("Available Monsters:");
-        arrayPlayers[i].printMonsters();
-    }
-
-    private static void WarnInputMismatch() {
-        System.out.println("......");
-        delay(1000);
-        System.out.println("ERROR. Enter a number! (e.g. '1')");
-        delay(1000);
-    }
-
-    private static void WarnIndexOutOfBounds() {
-        System.out.println("......");
-        delay(1000);
-        System.out.println("ERROR. Enter a *valid* number! (e.g. '1')\n");
-        delay(1000);
-    }
-
     // ALGORIITMA PROGRAM UTAMA
     public static void main(String[] args) {
         // [zh]: This section reach each file in CSV_FILE_PATHS and print them to the terminal. 
@@ -184,12 +57,8 @@ public class Main {
                 System.out.println("Alright, bye-onara!");
         		System.exit(-1);
         	}
-        	else if (commandMainMenu.equals("Start Game")) {
-        		isStartGame = true;
-        	}
-        	else {
-        		System.out.println("ERROR. Unrecognized command!\n");
-        	}
+        	else if (commandMainMenu.equals("Start Game")) { isStartGame = true;}
+        	else {System.out.println("ERROR. Unrecognized command!\n");}
         	
         }
         scanner0.close();
@@ -259,14 +128,8 @@ public class Main {
                                         isTurnForPlayer = false;
                                     }
                                 }
-                                catch (InputMismatchException e) {
-                                    WarnInputMismatch();
-                                    // Return to input num
-                                }
-                                catch (IndexOutOfBoundsException e) {
-                                    WarnIndexOutOfBounds();
-                                    // Return to input num
-                                }
+                                catch (InputMismatchException e) { WarnInputMismatch();} // Return to input num
+                                catch (IndexOutOfBoundsException e) {WarnIndexOutOfBounds();} // Return to input num
                             }
                             // End of loop, caancelled or move inputted
                             break;
@@ -305,14 +168,8 @@ public class Main {
                                         }
                                     }
                                 }
-                                catch (InputMismatchException e) {
-                                    WarnInputMismatch();
-                                    // Return to input num
-                                }
-                                catch (IndexOutOfBoundsException e) {
-                                    WarnIndexOutOfBounds();
-                                    // Return to input num
-                                }
+                                catch (InputMismatchException e) { WarnInputMismatch();} // Return to input num
+                                catch (IndexOutOfBoundsException e) {WarnIndexOutOfBounds();} // Return to input num
                             }
                             // End of loop, cancelled or move inputted
                             break;
@@ -378,14 +235,8 @@ public class Main {
                                         }
                                     }
                                 }
-                                catch (InputMismatchException e) {
-                                    WarnInputMismatch();
-                                    // Return to input num
-                                }
-                                catch (IndexOutOfBoundsException e) {
-                                    WarnIndexOutOfBounds();
-                                    // Return to input num
-                                }
+                                catch (InputMismatchException e) { WarnInputMismatch();} // Return to input num
+                                catch (IndexOutOfBoundsException e) {WarnIndexOutOfBounds();} // Return to input num
                             // End of loop
                             }
                             break;
@@ -412,7 +263,8 @@ public class Main {
                 }
                 
             }
-            // End of loop
+            // End of action givings loop
+
             // listActs is now filled with two items. Start calculate effects.
             int[] P0First = {0, 1};
             int[] P1First = {1, 0};
@@ -429,40 +281,19 @@ public class Main {
                 // Both players chose move; executes based on priority
                 Move move0 = (Move) listActs.get(0);
                 Move move1 = (Move) listActs.get(1);
-                if (move0.getPriority() > move1.getPriority()) {
-                    // P0 goes first
-                    // Current order: P0, P1
-                }
-                else if (move0.getPriority() < move1.getPriority()) {
-                    // P1 goes first
-                    arrOrder = P1First;
-                    // Current order: P1, P0
-                }
+                if (move0.getPriority() > move1.getPriority()) {} // Current order: P0, P1
+                else if (move0.getPriority() < move1.getPriority()) {arrOrder = P1First;} // Current order: P1, P0
                 else {
                     // Same priority. Excutes based on speed
                     double speed0 = arrayPlayers[0].getCurrentMonster().getBaseStats().getSpeed();
                     double speed1 = arrayPlayers[1].getCurrentMonster().getBaseStats().getSpeed();
-                    if (speed0 > speed1) {
-                        // P0 goes first
-                        // Current order: P0, P1
-                    }
-                    else if(speed0 < speed1) {
-                        // P1 goes first
-                        arrOrder = P1First;
-                        // Current order: P1, P0
-                    }
+                    if (speed0 > speed1) {} // Current order: P0, P1
+                    else if(speed0 < speed1) {arrOrder = P1First;} // Current order: P1, P0
                     else {
                         // Same speed. Executes randomly
                         Random random1 = new Random();
-                        if (random1.nextInt(10) <= random1.nextInt(10)) {
-                            // P0 goes first
-                            // Current order: P0, P1
-                        }
-                        else {
-                            // P1 goes first
-                            arrOrder = P1First;
-                            // Current order: P1, P0
-                        }
+                        if (random1.nextInt(10) <= random1.nextInt(10)) {} // Current order: P0, P1
+                        else {arrOrder = P1First;} // Current order: P1, P0
                     }
                 }
             }
@@ -475,13 +306,15 @@ public class Main {
                 int targetIdx;
                 if (i == 0) targetIdx = 0;
                 else targetIdx = 1;
+                Monster currentPMonster = arrayPlayers[i].getCurrentMonster();
+                Monster currentTMonster = arrayPlayers[targetIdx].getCurrentMonster();
 
                 // Depend on type of listAct content
                 if (listActs.get(i) instanceof Monster) {
                     // Switch monster
-                    arrayPlayers[i].getCurrentMonster().getSB().setSB(0, 0, 0, 0, 0);
+                    currentPMonster.getSB().setSB(0, 0, 0, 0, 0);
                     System.out.printf("%s, good job! Get back!\n", 
-                        arrayPlayers[i].getCurrentMonster().getNama());
+                        currentPMonster.getNama());
                     Monster monster = (Monster) listActs.get(i);
                     arrayPlayers[i].setCurrentMonster(monster);
                     System.out.printf("PKMN Trainer %s sent out %S!\n", 
@@ -493,49 +326,63 @@ public class Main {
                     Move move = (Move) listActs.get(i);
                     System.out.printf("%s's %s used %s!\n", 
                         arrayPlayers[i].getPlayerName(), 
-                        arrayPlayers[i].getCurrentMonster().getNama(),
+                        currentPMonster.getNama(),
                         move.getName());
-                    move.executeMove(
-                        arrayPlayers[i].getCurrentMonster(),
-                        arrayPlayers[targetIdx].getCurrentMonster());
-                }
-                // Move has been executed
-                    
-                // Phase 2B: calculate after damages
-                Monster targetMonster = arrayPlayers[targetIdx].getCurrentMonster();
-                StatusCondition statusCondition = targetMonster.getStatusCondition();
-                if (statusCondition == StatusCondition.BURN) {
-                    System.out.printf("%s suffered BURN!\n", targetMonster.getNama());
-                    targetMonster.damage(1/8);
-                }
-                else if (statusCondition == StatusCondition.POISON) {
-                    System.out.printf("%s suffered POISON!\n", targetMonster.getNama());
-                    targetMonster.damage(1/16);
-                }
-
-                // Phase 2C: If targetMonster became K-O'd after attacks
-                if (!targetMonster.isMonsterAlive()) {
-                    Monster cMonster = arrayPlayers[i].getCurrentMonster();
-                    // Reset various statuses
-                    cMonster.setStatusCondition(StatusCondition.NONE);
-                    cMonster.getSB().setSB(0, 0, 0, 0, 0);
-                    // Print fainted message
-                    System.out.printf(
-                        "%s's %s fainted!\n", 
+                    move.executeMove(currentPMonster, currentTMonster);
+                    delay(1000);
+                    if (!currentPMonster.isMonsterAlive()) {
+                        System.out.printf("%s fainted!\n", currentPMonster.getNama());
+                    }
+                    // Did we win?
+                    if (!arrayPlayers[targetIdx].hasAliveMonsters()) {
+                        isGameEnd = true;
+                        playerWin = arrayPlayers[i];
+                        playerLost = arrayPlayers[targetIdx];
+                        break;  // break the loop, even if the other player haven't acted
+                    }
+                    // Print fainted message if currentPMonster KO
+                    System.out.printf("%s's %s fainted!\n", 
                         arrayPlayers[i].getPlayerName(), 
-                        cMonster.getNama());
+                        currentPMonster.getNama());
                 }
-
-                if (!arrayPlayers[targetIdx].hasAliveMonsters())  {
-                    // targetPlayer has lost
+                // Moves has been executed
+                    
+                // PHASE 2B: calculate after damages
+                // Damages are inflicted on ALL of opposing player's monsters
+                for (Monster monster : arrayPlayers[targetIdx].getListMonster()) {
+                    if (monster.isMonsterAlive()) {
+                        StatusCondition statCon = monster.getStatusCondition();
+                        if (statCon == StatusCondition.BURN) {
+                            System.out.printf("%s suffered BURN!\n", monster.getNama());
+                            monster.damage(1/8);
+                        }
+                        else if (statCon == StatusCondition.POISON) {
+                            System.out.printf("%s suffered POISON!\n", monster.getNama());
+                            monster.damage(1/16);
+                        }
+                        // Display if KO
+                        if (!monster.isMonsterAlive()) {
+                            delay(1000);
+                            System.out.printf("%s fainted!\n", monster.getNama());
+                            delay(1000);
+                        }
+                    }       
+                }
+                // Did we win?
+                if (!arrayPlayers[targetIdx].hasAliveMonsters()) {
+                    isGameEnd = true;
                     playerWin = arrayPlayers[i];
                     playerLost = arrayPlayers[targetIdx];
-                    // break loop, force end turn, force end game
-                    isGameEnd = true;
-                    break;
+                    break;  // break the loop, even if the other player haven't acted
                 }
-                else if (!targetMonster.isMonsterAlive()) {
-                    // targetMonster is KO. targetPlayer chooses new monster
+
+                // Phase 2C: If targetMonster became K-O'd after attacks, 
+                // but still hasn't lost
+                if (!currentTMonster.isMonsterAlive()) {
+                    // Reset various statuses
+                    currentTMonster.setStatusCondition(StatusCondition.NONE);
+                    currentTMonster.getSB().setSB(0, 0, 0, 0, 0);
+                    // Input a new current monster
                     Scanner scanner3 = new Scanner(System.in);
                     boolean isKOReplaced = false;
                     while (!isKOReplaced) {
@@ -561,21 +408,15 @@ public class Main {
                                 isKOReplaced = true;
                             }
                         }
-                        catch (InputMismatchException e) {
-                            WarnInputMismatch();
-                        }
-                        catch (IndexOutOfBoundsException e) {
-                            WarnIndexOutOfBounds();
-                        }
-                        finally {
-                            scanner3.close();
-                        }
-                        // Loop ends
+                        catch (InputMismatchException e) {WarnInputMismatch();}
+                        catch (IndexOutOfBoundsException e) {WarnIndexOutOfBounds();}
+                        finally {scanner3.close();}
                     }
-                    // Break loop and force go to next turn
-                    break;
+                    // Inputting loop ends
+                    break; // if the currentMonster KO, all its actions are cancelled
                 }
-                // else: turn continues process
+                // else no change to currentMonster
+                // Go to next player, if possible
             }
             // Turn ends
             System.out.println("Starting the next turn...");
@@ -586,5 +427,136 @@ public class Main {
         System.out.printf("%s has defeated %s!\n", playerWin.getPlayerName(), playerLost.getPlayerName());
         System.out.println("Thank you for playing!");
 
+    }
+    // End of main
+
+
+
+    // STATICS
+    private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
+            "configs/monsterpool.csv",
+            "configs/movepool.csv",
+            "configs/element-type-effectivity-chart.csv"));
+    
+    // Melakukan print pilihan command di main menu
+    private static final void printMainMenuCommands() {
+        System.out.println(
+        		"Select Command!\n" +
+        		"> Start Game\n" +
+        		"> Help\n" +
+        		"> Exit"
+        		);
+    }
+    
+    private static void delay(int milis) {
+        try {
+            Thread.sleep(milis);
+        }
+        catch (InterruptedException e) {
+            System.out.println("FATAL INTERRUPTION ERROR. Something went TERRIBLY wrong...\n");
+            System.exit(1);
+        }
+    }
+
+    private static final void printActions() {
+        // Used in turns
+        System.out.println(
+            "Select action number!\n" +
+            "1. Move\n" +
+            "2. Switch\n" +
+            "3. View Monsters Info\n" +
+            "4. View Game Info\n" +
+            "5. Help"
+        );
+        System.out.print("\n> ");
+    }
+    
+    // Print logo utama
+    public static final void printArt() {
+    	System.out.println("=============================================================================");
+    	System.out.println("");
+    	System.out.println(" ____    ____  ______  ____  _____   _______ _________ _________ ________    ");
+    	System.out.println("|_   \\  /   _|/      \\ |_   \\|_   _|/  ___  |  _   _  |_   ___  |_   __  \\   ");
+    	System.out.println("  |   \\/   | /  /--\\  \\ |   \\ | |  |  (___\\_|_/ | | \\_| | |_  \\_| | |__)  |  ");
+    	System.out.println("  | |\\  /| | | |    | | | |\\ \\| |   \\____  \\    | |     |  _|  _  |  __  /   ");
+    	System.out.println(" _| |_\\/_| |_\\  \\--/  /_| |_\\   |_|| \\___)  |  _| |_   _| |___/ |_| |  \\ \\_ ");
+    	System.out.println("|_____||_____|\\______/|_____|\\____||_______/  |_____| |_________|____| |___|");
+    	System.out.println("                  _______      __      ___  ____  _____  _____ ");
+    	System.out.println("                 /  ___  |    /  \\    |_  ||_  _||_   _||_   _|");
+    	System.out.println("                |  (__ \\_|   / /\\ \\     | |_/ /    | |    | |  ");
+    	System.out.println("                 \\____  \\   / ____ \\    |  __ \\    | |    | |  ");
+    	System.out.println("                |\\____) | _/ /    \\ \\_ _| |  \\ \\_   \\ \\__/ /   ");
+    	System.out.println("                |_______/|____|  |____|____||____|   \\____/    ");
+    	System.out.println("");
+    	System.out.println("=============================================================================\n");
+    }
+    
+    // Print pesan Help
+    public static void printHelp() {
+    	System.out.println(
+    			"\n[Game Description]\n"
+    			+ "Monster Saku is a pokemon battle adaptation on a CLI style\n"
+    			+ "It covers the duel battle system with 6 random starting monsters\n"
+    			+ "on each player at the start.\n"
+    			+ "\n"
+    			+ "[How to Start?]\n"
+    			+ "At the main menu, enter\n"
+    			+ "\"Start Game\"\n"
+    			+ "as input to start playing.\n"
+    			+ "\n"
+    			+ "[How to Play?]\n"
+    			+ "Each player are given 6 random monsters at the start of the game.\n"
+    			+ "Players will be given turns to either use a move or switch monster.\n"
+    			+ "Your goal is to bring your opponent's monster HP to 0.\n"
+    			+ "Exploit their weakness to deal higher damage.\n"
+    			+ "Switch your monster to avoid getting hit.\n"
+    			+ "Use the best strategy to win the game.\n"
+    			);
+    }
+
+    public static void printHelpTurn() {
+        // Describes available options during the turn
+        System.out.println(
+              "Move   : an action for your Pokemon to attack opposing Pokemon, heal,\n"
+            + "        etc. Your Pokemon cannot move if it has the buff 'SLEEP'!"
+            + "Switch : replace your current pokemon with another one. You cannot switch\n"
+            + "        a knocked-out pokemon!"
+            + "View Monster Info : select a monster and view its stats and moves"
+            + "View Game Info : print out current game status, as the name suggests"
+            + "Help   : you are using that command right now."
+            );
+    }
+
+    private static void printPlayers(Player[] arrayPlayers) {
+        // Print players
+        System.out.println("Select player number: ");
+        for (int i = 0; i <= 1; i++) {
+            System.out.printf("%d. %s\n", i, arrayPlayers[i].getPlayerName());
+            System.out.println("0. Cancel");
+        }
+    } 
+
+    private static void printGameInfo(int turn, int i, Player arrayPlayers[]) {
+        // Print info about the turn
+        System.out.printf("******** TURN %d ********\n", turn);
+        System.out.printf("NOW PLAYING: %s\n", arrayPlayers[i].getPlayerName());
+        System.out.println("Selected Monster:");
+        arrayPlayers[i].getCurrentMonster().printMonsterAttr();
+        System.out.println("Available Monsters:");
+        arrayPlayers[i].printMonsters();
+    }
+
+    private static void WarnInputMismatch() {
+        System.out.println("......");
+        delay(1000);
+        System.out.println("ERROR. Enter a number! (e.g. '1')");
+        delay(1000);
+    }
+
+    private static void WarnIndexOutOfBounds() {
+        System.out.println("......");
+        delay(1000);
+        System.out.println("ERROR. Enter a *valid* number! (e.g. '1')\n");
+        delay(1000);
     }
 }
