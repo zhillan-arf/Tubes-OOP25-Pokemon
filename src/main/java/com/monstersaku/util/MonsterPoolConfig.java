@@ -56,7 +56,8 @@ public class MonsterPoolConfig {
         }
         catch (Exception e){
             System.out.println(e.getMessage());
-            System.out.println("Monster configuration failed");
+            System.out.println("FATAL ERROR. Monster configuration failed...");
+            System.exit(1);
         }
         return monsterPool;
     }

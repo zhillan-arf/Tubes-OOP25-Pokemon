@@ -2,6 +2,7 @@ package com.monstersaku;
 
 public class Move {
     // Attributes
+    private int id;
     private String name;
     private ElementType elementType;
     private int accuracy;
@@ -11,6 +12,7 @@ public class Move {
 
     // Konstruktor
     public Move(
+            int id,
             String name, 
             ElementType elementType, 
             int accuracy, 

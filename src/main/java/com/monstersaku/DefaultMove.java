@@ -5,13 +5,14 @@ public class DefaultMove extends Move {
 
     // Constructor
     public DefaultMove (
+            int id,
             String name, 
             ElementType elementType, 
             int accuracy, 
             int priority, 
             int ammunition
         ) {
-            super(name, elementType, 100, 0, 999);
+            super(id, name, elementType, 100, 0, 999);
         }
     
     // Methods

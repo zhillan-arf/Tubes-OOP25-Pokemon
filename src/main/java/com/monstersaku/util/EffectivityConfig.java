@@ -35,7 +35,8 @@ public class EffectivityConfig {
         }
         catch (Exception e){
             System.out.println(e.getMessage());
-            System.out.println("Error getEffectivity config");
+            System.out.println("FATAL ERROR in getEffectivity config...");
+            System.exit(1);
         }
         return value;
     }
