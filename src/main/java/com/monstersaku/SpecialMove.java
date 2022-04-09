@@ -23,9 +23,7 @@ public class SpecialMove extends Move {
     
     // Methods
     @Override
-    /**
-     * Menggunakan SP ATK dan SP DEF
-     */
+    // Menggunakan SP ATK dan SP DEF
     public void executeMove(Monster sourceMonster, Monster targetMonster) {
         int randAccuracy = (int)Math.floor(Math.random()*(100-1+1)+1);
         if (randAccuracy > this.getAccuracy()){

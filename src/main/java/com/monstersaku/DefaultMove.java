@@ -47,22 +47,22 @@ public class DefaultMove extends Move {
                     effectivity = com.monstersaku.util.EffectivityConfig.getEffectivity(this.getElementType(), enemyType);
                 }
     
-                //get burn
+                // Get burn
                 double burn = 1;
                 if (sourceMonster.getStatusCondition() == StatusCondition.BURN){
                     burn = 0.5;
                 }
     
-                //get damage calculation
+                // Get damage calculation
                 double damage = Math.floor(((50) * (sourceAttack/targetDefense) + 2) * rand * effectivity * burn);
 
-                //HP target reduction 
+                // HP target reduction 
                 Stats newStats = targetMonster.getBaseStats();
                 double newHP = newStats.getHealthPoint() - damage;
                 newStats.setHealthPoint(newHP);
                 targetMonster.setStats(newStats);
                 
-                //HP source reduction 
+                // HP source reduction 
                 Stats newSourceStats = sourceMonster.getBaseStats();
                 double newSourceHP = newSourceStats.getHealthPoint() - (newSourceStats.getMaxHealthPoint() * 1/4);
                 newSourceStats.setHealthPoint(newSourceHP);
