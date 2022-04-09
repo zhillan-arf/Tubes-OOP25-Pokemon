@@ -61,12 +61,14 @@ public class DefaultMove extends Move {
     
                     //HP target reduction 
                     Stats newStats = targetMonster.getBaseStats();
-                    double newHP = newStats.setHealthPoint(newStats.getHealthPoint() - damage);
+                    double newHP = newStats.getHealthPoint() - damage;
+                    newStats.setHealthPoint(newHP);
                     targetMonster.setStats(newStats);
                     
                     //HP souce reduction 
                     Stats newSourceStats = soucerMonster.getBaseStats();
-                    double newSourceHP = newSourceStats.setHealthPoint(newSourceStats.getHealthPoint() * 3/4);
+                    double newSourceHP = newSourceStats.getHealthPoint() * 3/4;
+                    newStats.setHealthPoint(newSourceHP);
                     soucerMonster.setStats(newSourceStats);
                 }    
             }    
