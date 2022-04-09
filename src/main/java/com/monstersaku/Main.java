@@ -654,10 +654,19 @@ public class Main {
                 }
                 // else: turn continues process
             }
+            // Turn ends
+            System.out.println("Starting the next turn...");
+            try{
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException e) {
+                fatalError();
+            }
         }
         // Game has ended
 
-        // Post-game events
+        // System.out.printf("%s has defeated %s!\n", playerWin.getPlayerName(), playerLost.getPlayerName());
+        System.out.println("Thank you for playing!");
 
     }
 }

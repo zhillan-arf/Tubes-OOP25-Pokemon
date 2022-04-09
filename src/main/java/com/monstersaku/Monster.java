@@ -11,6 +11,7 @@ public class Monster {
     private List<Move> moves;
     private StatusCondition status = StatusCondition.NONE;
     private int sleepDuration = 0;
+    private StatsBuff statsBuff;
 
     // Konstruktor
     public Monster(int id, String nama, List<ElementType> elementTypes, Stats baseStats){
