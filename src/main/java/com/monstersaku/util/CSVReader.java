@@ -13,9 +13,8 @@ import java.util.List;
  * We assume that the csv doesn't have separator in the cells.
  * This implementation only split each line using separator
  * into array of values.
- *
- * @author Laboratorium Programming
  */
+
 public class CSVReader {
     private File csvFile;
     private String separator;

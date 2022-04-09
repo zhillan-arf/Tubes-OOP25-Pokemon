@@ -5,6 +5,12 @@ import com.monstersaku.util.CSVReader;
 import java.io.File;
 import java.util.*;
 
+/**
+ * LOREM IPSUM DOLOR SIT AMET
+ * 182...
+ * 2022 April
+ */
+
 public class Main {
     // "KAMUS"
     // Base statics
@@ -115,14 +121,15 @@ public class Main {
         System.out.printf("NOW PLAYING: %s\n", arrayPlayers[i].getPlayerName());
         System.out.println("Selected Monster:");
         arrayPlayers[i].getCurrentMonster().printMonsterAttr();
-        System.out.println("Availabke Monsters:");
+        System.out.println("Available Monsters:");
         arrayPlayers[i].printMonsters();
     }
 
     // ALGORIITMA PROGRAM UTAMA
     public static void main(String[] args) {
+        // [zh]: This section reach each file in CSV_FILE_PATHS and print them to the terminal. 
+        // After things are done, delete this part.
         for (String fileName : CSV_FILE_PATHS) {
-            // [zh]: This section reach each file in CSV_FILE_PATHS and print them to the terminal. 
             try {
                 System.out.printf("Filename: %s\n", fileName);
                 CSVReader reader = new CSVReader(new File(Main.class.getResource(fileName).toURI()), ";");
@@ -138,10 +145,11 @@ public class Main {
                 System.out.println("=========== CONTENT END ===========");
                 System.out.println();
             } catch (Exception e) {
+                System.out.println(e.getMessage());
                 fatalError();
             }
         }
-        // [zh]: end of file reading section. Now, begin tubes.
+        // [zh]: End of file reading section. Now, begin tubes.
        
         // Print ASCII Art
         try {
@@ -153,11 +161,11 @@ public class Main {
 		}
         
         //Main Menu
-        Scanner scanner1 = new Scanner(System.in);
+        Scanner scanner0 = new Scanner(System.in);
         boolean isStartGame = false;
         while (!isStartGame) {
             printMainMenuCommands();
-        	String commandMainMenu =  scanner1.nextLine();
+        	String commandMainMenu =  scanner0.nextLine();
         	if (commandMainMenu.equals("Help")) {
         		printHelp();
         		printMainMenuCommands();
@@ -174,34 +182,30 @@ public class Main {
         	}
         	
         }
-        scanner1.close();
-        
-        // Game Initialization
-        /** [zh] How to initiate game (this is not an ordered thing, more like a to-do-list)
-         * 1. Instantiate two player objects (check out the attributes). Give them name, using:
-         *      a. User input (watch out for space char! If we enter "Shuuya Kano" using Scanner object,
-         *         it will only receive "Shuuya" and pass "Kano" to the next functions, causing 
-         *         disaster). Or
-         *      b. If it's too hard, then just use PLAYER0 and PLAYER1
-         * 2. re-Read the CSV files. Create a code (how? idk for now) to pick 6 random monsters, 
-         *    instantiate them, and assign them to each player. There's an example on CSV management
-         *    on the tubes template.
-         * 3. Put the two players in an array called arrayPlayers. (Note that index starts from 0)
-         * 4. Display an asethetic GUI and provide a scanner to receive player's choices (Help, Exit)
-         * 5. If this part uses a scanner, don't forget to close it
-         */
-        //...?
-        Player arrayPlayers[] = new Player[2];
-        //...?
+        scanner0.close();
 
-        // For each player, assign one RANDOM currentMonster
-        //...
+        // Parse and store all file datas
+        System.out.println("Loading files...");
+        List<Monster> monsterPool = com.monstersaku.util.MonsterPoolConfig.create();
+        
+        // Instantiate two players and their content
+        Player arrayPlayers[] = new Player[2];
+        for (int i = 0; i <= 1; i++) {
+            // Get name
+            System.out.printf("Enter Player %d's name: \n>> ", i + 1);
+            Scanner scanner1 = new Scanner(System.in).useDelimiter("\n");
+            String playerName = scanner1.next();
+            scanner1.close();
+
+            // Instantiate player-i
+            arrayPlayers[i] = new Player(playerName, monsterPool);
+        }
         
         // Game Begins! Loops
         boolean isGameEnd = false;
         int ctrTurn = 0;
-        Player playerWin;
-        Player playerLost;
+        Player playerWin = arrayPlayers[0];
+        Player playerLost = arrayPlayers[0];
         while (!isGameEnd) {
             // A turn starts
             ctrTurn++;
@@ -517,8 +521,8 @@ public class Main {
                     }
                     else {
                         // Same speed. Executes randomly
-                        Random random = new Random();
-                        if (random.nextInt(10) <= random.nextInt(10)) {
+                        Random random1 = new Random();
+                        if (random1.nextInt(10) <= random1.nextInt(10)) {
                             // P0 goes first
                             // Current order: P0, P1
                         }
@@ -665,7 +669,7 @@ public class Main {
         }
         // Game has ended
 
-        // System.out.printf("%s has defeated %s!\n", playerWin.getPlayerName(), playerLost.getPlayerName());
+        System.out.printf("%s has defeated %s!\n", playerWin.getPlayerName(), playerLost.getPlayerName());
         System.out.println("Thank you for playing!");
 
     }

@@ -14,12 +14,19 @@ public class Monster {
     private StatsBuff statsBuff;
 
     // Konstruktor
-    public Monster(int id, String nama, List<ElementType> elementTypes, Stats baseStats){
-        this.id = id;
-        this.nama = nama;
-        this.elementTypes = elementTypes;
-        this.baseStats = baseStats;
-        this.moves = new ArrayList<Move>();
+    public Monster(
+            int id, 
+            String nama, 
+            List<ElementType> elementTypes, 
+            Stats baseStats,
+            List<Move> moves
+        ) {
+            this.id = id;
+            this.nama = nama;
+            this.elementTypes = elementTypes;
+            this.baseStats = baseStats;
+            this.moves = moves;
+            this.statsBuff = new StatsBuff();
     }
 
     // Methods getter 

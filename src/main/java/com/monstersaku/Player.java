@@ -1,35 +1,25 @@
 package com.monstersaku;
-import java.util.List;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.Random;
-
+import java.util.*;
 
 public class Player {
     // Attributes
     private String playerName;
     private List<Monster> monsters;
     private Monster currentMonster;
-    private int countMonster;
 
-    // Konstruktor
-    public Player (String playerName, List<Monster> monsters){
+    // Constructors
+    public Player (String playerName, List<Monster> monsterPool){
         this.playerName = playerName;
-        this.monsters = monsters;
-    }
-    //add 6 random monster
-    public void getMonster(Player player, List<Monster> monsterPool){
-        List<Monster> playermonster = new ArrayList<Monster>();
-        List<Monster> allmonster = monsterPool;
-
+        List<Monster> monsters = new ArrayList<Monster>();
+        List<Monster> shakeablePool = monsterPool;
         for (int i = 0; i < 6; i++){
-            Collections.shuffle(allmonster);
-            playermonster.add(allmonster.get(0));
+            Collections.shuffle(shakeablePool);
+            monsters.add(shakeablePool.get(0));
         }
-        player.setMonster(playermonster);
+        this.monsters = monsters;
+        Random random1 = new Random();
+        this.currentMonster = monsters.get(random1.nextInt(6));
     }
-
 
     // Methods
     public void setName(String playerName){
@@ -44,18 +34,12 @@ public class Player {
         this.monsters.add(monster);
     }
 
-    public int countMonster(){
-        for (Monster monster : monsters){
-            if (monster.isMonsterAlive()){
-                countMonster += 1;
-            }
-            
-        }
-        return countMonster;
-    }
-
     public boolean hasAliveMonsters() {
-        return this.countMonster() != 0;
+        int ctr = 0;
+        for (Monster monster : monsters){
+            if (monster.isMonsterAlive()) ctr += 1;
+        }
+        return ctr != 0;
     }
 
     public void setMonster(List<Monster> monsters){
