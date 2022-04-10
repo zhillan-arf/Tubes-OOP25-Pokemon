@@ -48,7 +48,7 @@ public class Main {
         boolean isStartGame = false;
         while (!isStartGame) {
             printMainMenuCommands();
-        	String commandMainMenu =  scanner.next();
+        	String commandMainMenu =  scanner.nextLine();
         	if (commandMainMenu.equals("Help")) {
         		printHelp();
         		printMainMenuCommands();
