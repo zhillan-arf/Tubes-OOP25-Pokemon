@@ -58,7 +58,7 @@ public class Monster {
             this.setSleepDuration(rand);
             System.out.printf("%s is now SLEEPING for %d turns!\n");
         }
-        if (this.status != status) {
+        if (this.status != status && this.status != StatusCondition.NONE) {
             StatusCondition.printGotStatus(this, this.getStatusCondition());
         }
         this.status = status;
@@ -69,11 +69,12 @@ public class Monster {
 
     // Other methods
     public void reduceSleepDuration() {
-        if (sleepDuration == 0) {
+        int oldSlDur = this.sleepDuration;
+        if (this.sleepDuration > 0) this.sleepDuration -= 1;
+        if ((sleepDuration == 0) && (oldSlDur != 0)) {
             this.status = StatusCondition.NONE;
             System.out.printf("%s has woken up!", this.nama);
         }
-        if (this.sleepDuration > 0) this.sleepDuration -= 1;
     }
     public boolean isMonsterAlive() {return baseStats.getHealthPoint() > 0;}
     public void printMonsterMoves() {

@@ -59,7 +59,6 @@ public class Player {
                 + " (" + this.monsters.get(i).getBaseStats().getHealthPoint() 
                 + "/" + this.monsters.get(i).getBaseStats().getMaxHealthPoint() + ")\n");
             }
-            System.out.println("");
             // else: Monster is K.O. and skipped
         }
     }

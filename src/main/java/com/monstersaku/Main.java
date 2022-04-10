@@ -167,7 +167,7 @@ public class Main {
                                     // If not, proceeds
                                     if (num == 0) {
                                         // 0 = cancel
-                                        System.out.println("Returning to your turn...");
+                                        System.out.println("\nReturning to your turn...");
                                         delay(1000);
                                         isInputValid = true;
                                     }
@@ -186,7 +186,7 @@ public class Main {
                                         else {
                                             // Moster is alive. Switch.
                                             listActs.add(selectedMonster);
-                                            System.out.println("Returning to your turn...");
+                                            System.out.println("\nReturning to your turn...");
                                             isInputValid = true;
                                             isTurnForPlayer = false;
                                             delay(1000);
@@ -203,12 +203,14 @@ public class Main {
                             int numP;
                             while (!isInputValid) {
                                 try {
+                                    System.out.println("Which player do you want to inspect?");
                                     printPlayers(arrayPlayers);
+                                    System.out.println("0. Cancel");
                                     System.out.print(">> ");
                                     numP = Integer.valueOf(scanner.nextLine());
                                     if (numP == 0) {
                                         // 0 = back
-                                        System.out.println("Returning to your turn...");
+                                        System.out.println("\nReturning to your turn...");
                                         delay(1000);
                                         isInputValid = true;
                                     }
@@ -226,7 +228,7 @@ public class Main {
                                             numM = Integer.valueOf(scanner.nextLine());
                                             if (numM == 0) {
                                                 // 0 == back
-                                                System.out.println("Returning to players...");
+                                                System.out.println("\nReturning to players...");
                                                 delay(1000);
                                                 hasSelectedMonster = true;
                                             }
@@ -251,7 +253,7 @@ public class Main {
                                                             isViewInputValid = true;
                                                             hasSelectedMonster = true;
                                                             isInputValid = true;
-                                                            System.out.println("Returning to your turn...");
+                                                            System.out.println("\nReturning to your turn...");
                                                             delay(1000);
                                                             break;
                                                         default :
@@ -501,11 +503,11 @@ public class Main {
         // Used in turns
         System.out.println(
             "\nSelect action number!\n" +
-            "1. Move\n" +
-            "2. Switch\n" +
-            "3. View Monsters Info\n" +
-            "4. View Game Info\n" +
-            "5. Help"
+            "    1. Move\n" +
+            "    2. Switch\n" +
+            "    3. View Monsters Info\n" +
+            "    4. View Game Info\n" +
+            "    5. Help"
         );
     }
     
@@ -576,7 +578,7 @@ public class Main {
 
     private static void printPlayers(Player[] arrayPlayers) {
         // Print players
-        System.out.println("\nSelect player number: ");
+        System.out.println("Select player number: ");
         for (int i = 0; i <= 1; i++) {
             System.out.printf("%d. %s\n", i+1, arrayPlayers[i].getPlayerName());
         }
