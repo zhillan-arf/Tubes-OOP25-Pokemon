@@ -40,14 +40,15 @@ public class Main {
         // [zh]: End of file reading section. Now, begin tubes.
        
         // Print ASCII Art
+        printArt();
         delay(1000);
         
         // Main Menu
-        Scanner scanner0 = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         boolean isStartGame = false;
         while (!isStartGame) {
             printMainMenuCommands();
-        	String commandMainMenu =  scanner0.nextLine();
+        	String commandMainMenu =  scanner.next();
         	if (commandMainMenu.equals("Help")) {
         		printHelp();
         		printMainMenuCommands();
@@ -60,7 +61,7 @@ public class Main {
         	else {System.out.println("ERROR. Unrecognized command!\n");}
         	
         }
-        scanner0.close();
+        //scanner.close();
 
         // Parse and store all file datas
         System.out.println("Loading files...");
@@ -72,9 +73,9 @@ public class Main {
         for (int i = 0; i <= 1; i++) {
             // Get name
             System.out.printf("Enter Player %d's name: \n>> ", i + 1);
-            Scanner scanner1 = new Scanner(System.in).useDelimiter("\n");
-            String playerName = scanner1.next();
-            scanner1.close();
+            //Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+            String playerName = scanner.next();
+            //scanner.close();
 
             // Instantiate player-i
             arrayPlayers[i] = new Player(playerName, monsterPool);
@@ -93,7 +94,7 @@ public class Main {
                 // arrayPlayer[i]'s turn. Loop scanner
                 boolean isTurnForPlayer = true;
                 while (isTurnForPlayer) {
-                    Scanner scanner2 = new Scanner(System.in);
+                    //Scanner scanner = new Scanner(System.in);
                     // Show menu
                     printActions();
 
@@ -101,14 +102,14 @@ public class Main {
                     Monster currentMonster = arrayPlayers[i].getCurrentMonster();
                     boolean isInputValid = false;
                     int num;
-                    switch ((scanner2.next()).toLowerCase()) {
+                    switch ((scanner.next()).toLowerCase()) {
                         case "1" :
                             while (!isInputValid) {
                                 try {
                                     currentMonster.printMonsterMoves();
                                     System.out.println("0. Cancel");
                                     System.out.print("\n> ");
-                                    num = scanner2.nextInt() - 1;
+                                    num = scanner.nextInt() - 1;
                                     // If input isnt a number, throw InputMismatchException
                                     // If not, proceeds
                                     if (num == 0) {
@@ -138,7 +139,7 @@ public class Main {
                                 try {
                                     arrayPlayers[i].printAliveMonsters();
                                     System.out.println("0. Cancel");
-                                    num = scanner2.nextInt();
+                                    num = scanner.nextInt();
                                     // If input isnt a number, throw InputMismatchException
                                     // If not, proceeds
                                     if (num == 0) {
@@ -179,7 +180,7 @@ public class Main {
                                 try {
                                     printPlayers(arrayPlayers);
                                     System.out.print("> ");
-                                    idx = scanner2.nextInt() - 1;
+                                    idx = scanner.nextInt() - 1;
                                     if (idx == 0) {
                                         // 0 = back
                                         System.out.println("Returning to your turn...");
@@ -195,7 +196,7 @@ public class Main {
                                             System.out.printf("What will %s do?\n", arrayPlayers[i].getCurrentMonster().getNama());
                                             System.out.println("Select monster number: ");
                                             arrayPlayers[idx].printMonsters();
-                                            numM = scanner2.nextInt();
+                                            numM = scanner.nextInt();
                                             if (numM == 0) {
                                                 // 0 == back
                                                 System.out.println("Returning to players...");
@@ -211,7 +212,7 @@ public class Main {
                                                     + "  1. Go back to monster selection\n"
                                                     + "  2. Go back to turn\n"
                                                     );
-                                                    int numV = scanner2.nextInt();
+                                                    int numV = scanner.nextInt();
                                                     switch (numV) {
                                                         case 1 :
                                                             isViewInputValid = true;
@@ -258,7 +259,7 @@ public class Main {
                             delay(500);
                             break;
                     }
-                    scanner2.close();
+                    //scanner.close();
                 }
                 
             }
@@ -386,7 +387,7 @@ public class Main {
                     currentTMonster.setStatusCondition(StatusCondition.NONE);
                     currentTMonster.getSB().setSB(0, 0, 0, 0, 0);
                     // Input a new current monster
-                    Scanner scanner3 = new Scanner(System.in);
+                    //Scanner scanner = new Scanner(System.in);
                     boolean isKOReplaced = false;
                     while (!isKOReplaced) {
                         try {
@@ -400,7 +401,7 @@ public class Main {
                              * If it tries to access a num larger than the List,
                              * it will also throw IndexOutOfBoundsException
                              */
-                            int num = scanner3.nextInt();
+                            int num = scanner.nextInt();
                             Monster selectedMonster = arrayPlayers[targetIdx].getNumthMonster(num);
                             if (!selectedMonster.isMonsterAlive()) {
                                 // Selected monster is KO (and doesnt appear on terminal)
@@ -413,7 +414,7 @@ public class Main {
                         }
                         catch (InputMismatchException e) {WarnInputMismatch();}
                         catch (IndexOutOfBoundsException e) {WarnIndexOutOfBounds();}
-                        finally {scanner3.close();}
+                        finally {scanner.close();}
                     }
                     // Inputting loop ends
                     // if the targetMonster is KO, all its actions are cancelled. break
