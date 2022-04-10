@@ -4,13 +4,13 @@ import java.util.*;
 import java.io.File;
 
 public class MonsterPoolConfig {
-    private static String fileName = "configs.monsterpool.csv";
+    private static String fileName = "../configs/monsterpool.csv";
 
     public static List<Monster> create(List<Move> movePool){
         List<Monster> monsterPool = new ArrayList<Monster>();
 
         try {
-            CSVReader reader = new CSVReader(new File(Main.class.getResource(fileName).toURI()), ";");
+            CSVReader reader = new CSVReader(new File(MonsterPoolConfig.class.getResource(fileName).toURI()), ";");
             reader.setSkipHeader(true);
             List<String[]> lines = reader.read();
             for(String[] line : lines){
@@ -80,10 +80,14 @@ public class MonsterPoolConfig {
             }    
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
-            System.out.println("FATAL ERROR. Monster configuration failed...");
+            e.printStackTrace();
+            System.out.println("FATAL ERROR while parsing Effectivity...");
             System.exit(1);
         }
+
+        try {Thread.sleep(1000);} 
+        catch (InterruptedException e) {e.printStackTrace();}
+        System.out.println("monsterpool.csv loaded...");
         return monsterPool;
     }
 }

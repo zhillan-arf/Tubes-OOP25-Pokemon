@@ -5,14 +5,14 @@ import java.io.File;
 
 
 public class MovePoolConfig {
-    private static String fileName = "configs.movepool.csv";
+    private static String fileName = "../configs/movepool.csv";
 
     public static List<Move> create() {
         // Parse movepool.csv and create a list of Moves
         List<Move> movePool = new ArrayList<Move>();
 
         try {
-            CSVReader reader = new CSVReader(new File(Main.class.getResource(fileName).toURI()), ";");
+            CSVReader reader = new CSVReader(new File(MovePoolConfig.class.getResource(fileName).toURI()), ";");
             reader.setSkipHeader(true);
             List<String[]> lines = reader.read();
             for(String[] line : lines){
@@ -82,11 +82,14 @@ public class MovePoolConfig {
             }
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
-            System.out.println("FATAL ERROR. Monster configuration failed...");
+            e.printStackTrace();
+            System.out.println("FATAL ERROR while parsing Effectivity...");
             System.exit(1);
         }
         
+        try {Thread.sleep(1000);} 
+        catch (InterruptedException e) {e.printStackTrace();}
+        System.out.println("movepool.csv loaded...");
         return movePool;
     }
     

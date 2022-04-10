@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.*;
 
 public class EffectivityConfig {
-    private static String fileName = "element-type-effectivity-chat.csv";
+    private static String fileName = "../configs/element-type-effectivity-chat.csv";
 
     public static void setFileName(String fn){
         fileName = fn;
@@ -14,7 +14,7 @@ public class EffectivityConfig {
         double value = 1; //default
 
         try{
-            CSVReader reader = new CSVReader(new File(Main.class.getResource(fileName).toURI()), ";");
+            CSVReader reader = new CSVReader(new File(EffectivityConfig.class.getResource(fileName).toURI()), ";");
             reader.setSkipHeader(true);
             List<String[]> lines = reader.read();
             for (String[] line : lines){
@@ -27,7 +27,7 @@ public class EffectivityConfig {
             }
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             System.out.println("FATAL ERROR while parsing Effectivity...");
             System.exit(1);
         }

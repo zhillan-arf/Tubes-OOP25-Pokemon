@@ -67,16 +67,18 @@ public class Main {
         // Parse and store all file datas
         System.out.println("Loading files...");
         List<Move> movePool = com.monstersaku.util.MovePoolConfig.create();
+        delay(1000);
+        System.out.println("movepool.csv loaded...");
         List<Monster> monsterPool = com.monstersaku.util.MonsterPoolConfig.create(movePool);
+        delay(1000);
+        System.out.println("monsterpool.csv loaded...");
         
         // Instantiate two players and their content
         Player arrayPlayers[] = new Player[2];
         for (int i = 0; i <= 1; i++) {
             // Get name
             System.out.printf("Enter Player %d's name: \n>> ", i + 1);
-            //Scanner scanner = new Scanner(System.in).useDelimiter("\n");
             String playerName = scanner.nextLine();
-            //scanner.close();
 
             // Instantiate player-i
             arrayPlayers[i] = new Player(playerName, monsterPool);
