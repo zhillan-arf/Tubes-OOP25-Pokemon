@@ -86,17 +86,17 @@ public class Monster {
             (Cont...)
          */
         for (int i = 0; i < this.getMoves().size(); i++){
-            System.out.println (
-                "    " + (i+1) + ". " + this.moves.get(i).getName() 
+            System.out.print(
+                "       " + (i+1) + ". " + this.moves.get(i).getName() 
                 + " (Elmt. " + this.moves.get(i).getElementType() 
-                + ", Amm. " + this.moves.get(i).getAmmunition() + ")");
+                + ", Amm. " + this.moves.get(i).getAmmunition() + ")\n");
         }
     }
     public void printMonsterAttr() {
         /**
          * Print all of the monster's attributes
          * Looks like this:
-         *  >>> CHARIZARD <<<
+         *  NAME    : CHARIZARD
             ELEMENT : GRASS, FIRE
             HP      : 106/122
             ATK     : 11
@@ -111,19 +111,19 @@ public class Monster {
          * Of course, MOVES uses printMoves()
          * [zh] If this isn't aesthetic pelase replace with another design
          */
-        System.out.printf(">> %s <<\n", this.nama);
-        System.out.printf("Element: ");
+        System.out.printf("   Name    : %s <<\n", this.nama);
+        System.out.printf("   Element : ");
         for (ListIterator<ElementType> it = this.elementTypes.listIterator(); it.hasNext(); ) {
-            System.out.print(it);
+            System.out.print(it.next());
             if (it.hasNext()) {System.out.print(", ");}
         }
-        System.out.println("HP      : " + this.baseStats.getHealthPoint());
-        System.out.println("ATK     : " + this.baseStats.getAttack());
-        System.out.println("DEF     : " + this.baseStats.getDefense());
-        System.out.println("SP. ATK : " + this.baseStats.getSpecialAttack());
-        System.out.println("SP. DEF : " + this.baseStats.getSpecialDefense());
-        System.out.println("SPEED   : " + this.baseStats.getSpeed());
-        System.out.println("MOVES   :");
+        System.out.println("\n   HP      : " + this.baseStats.getHealthPoint());
+        System.out.println("   ATK     : " + this.baseStats.getAttack());
+        System.out.println("   DEF     : " + this.baseStats.getDefense());
+        System.out.println("   SP. ATK : " + this.baseStats.getSpecialAttack());
+        System.out.println("   SP. DEF : " + this.baseStats.getSpecialDefense());
+        System.out.println("   SPEED   : " + this.baseStats.getSpeed());
+        System.out.println("   MOVES   :");
         printMonsterMoves();
     }
 

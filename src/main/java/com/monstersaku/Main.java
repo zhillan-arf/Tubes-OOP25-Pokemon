@@ -52,24 +52,26 @@ public class Main {
         	String commandMainMenu = scanner.nextLine();
         	if (commandMainMenu.equals("Help")) {
         		printHelp();
-        		printMainMenuCommands();
+                delay(2000);
         	}
         	else if (commandMainMenu.equals("Exit")) {
                 System.out.println("Alright, bye-onara!");
         		System.exit(0);
         	}
-        	else if (commandMainMenu.equals("Start Game")) { isStartGame = true;}
-        	else {System.out.println("ERROR. Unrecognized command!\n");}
+        	else if (commandMainMenu.equals("Start")) { isStartGame = true;}
+        	else {
+                System.out.println("ERROR. Unrecognized command!\n");
+                delay(500);
+            }
         	
         }
-        //scanner.close();
 
         // Parse and store all file datas
-        System.out.println("Loading files...");
+        System.out.println("\nLoading files...");
         List<Move> movePool = com.monstersaku.util.MovePoolConfig.create();
         List<Monster> monsterPool = com.monstersaku.util.MonsterPoolConfig.create(movePool);
+        System.out.println("element-type-effectivity-chart.csv loaded...\n");
         delay(1000);
-        System.out.println("monsterpool.csv loaded...");
         
         // Instantiate two players and their content
         Player arrayPlayers[] = new Player[2];
@@ -82,36 +84,56 @@ public class Main {
             arrayPlayers[i] = new Player(playerName, monsterPool);
         }
         
-        // Game Begins! Loops
+        // Game begins!
         boolean isGameEnd = false;
         int ctrTurn = 0;
         Player playerWin = arrayPlayers[0];
         Player playerLost = arrayPlayers[0];
+        System.out.print("Initializing game");
+        for (int i = 0; i < 3; i++) {
+            delay(600);
+            System.out.print(".");
+        }
+        
+        delay(500);
+        System.out.printf("\n\n>>> %s\n", arrayPlayers[0].getPlayerName().toUpperCase());
+        delay(1000);
+        System.out.printf("    V.S.\n");
+        delay(1000);
+        System.out.printf("    %s <<<\n", arrayPlayers[1].getPlayerName().toUpperCase());
+        delay(1000);
+        System.out.println("\n>>>>> GAME BEGINS!!! <<<<<\n");
+        delay(1000);
+
         while (!isGameEnd) {
             // A turn starts
             ctrTurn++;
+            System.out.printf(">> ROUND %d...", ctrTurn);
+            delay(500);
             ArrayList<Object> listActs = new ArrayList<Object>();
             for (int i = 0; i <= 1; i++) {
                 // arrayPlayer[i]'s turn. Loop scanner
+                System.out.printf("\n>> Your turn, %s!\n", arrayPlayers[i].getPlayerName());
+                delay(500);
                 boolean isTurnForPlayer = true;
                 while (isTurnForPlayer) {
-                    //Scanner scanner = new Scanner(System.in);
                     // Show menu
                     printActions();
-
                     // Get arrayPlayer[i]'s input
                     Monster currentMonster = arrayPlayers[i].getCurrentMonster();
                     boolean isInputValid = false;
                     int num;
-                    switch ((scanner.next()).toLowerCase()) {
+                    System.out.print(">> ");
+                    switch (scanner.nextLine()) {
                         case "1" :
                             while (!isInputValid) {
                                 try {
+                                    System.out.printf("\nSelect a move for %s :\n", arrayPlayers[i].getCurrentMonster().getNama());
                                     currentMonster.printMonsterMoves();
-                                    System.out.println("0. Cancel");
-                                    System.out.print("\n> ");
-                                    num = scanner.nextInt() - 1;
-                                    // If input isnt a number, throw InputMismatchException
+                                    System.out.println("       0. Cancel");
+                                    System.out.print(">> ");
+                                    num = Integer.valueOf(scanner.nextLine());
+                                    // If input isnt a number, throw NumberFormatException
                                     // If not, proceeds
                                     if (num == 0) {
                                         // 0 = cancel
@@ -124,12 +146,11 @@ public class Main {
                                         listActs.add(currentMonster.getNumthMove(num));
                                         // If num out of bounds, throw IndexOutOfBoundsException
                                         // if not, proceeds
-                                        isInputValid = false;
-                                        isTurnForPlayer = false;
+                                        isInputValid = true;
                                         isTurnForPlayer = false;
                                     }
                                 }
-                                catch (InputMismatchException e) { WarnInputMismatch();} // Return to input num
+                                catch (NumberFormatException e) { WarnInputMismatch();} // Return to input num
                                 catch (IndexOutOfBoundsException e) {WarnIndexOutOfBounds();} // Return to input num
                             }
                             // End of loop, caancelled or move inputted
@@ -138,7 +159,8 @@ public class Main {
                         case "2" :
                             while (!isInputValid) {
                                 try {
-                                    arrayPlayers[i].printAliveMonsters();
+                                    System.out.println("\nWhich monster do you want to switch with?");
+                                    arrayPlayers[i].printMonsters(true);
                                     System.out.println("0. Cancel");
                                     num = scanner.nextInt();
                                     // If input isnt a number, throw InputMismatchException
@@ -164,8 +186,10 @@ public class Main {
                                         else {
                                             // Moster is alive. Switch.
                                             listActs.add(selectedMonster);
-                                            isInputValid = false;
+                                            System.out.println("Returning to your turn...");
+                                            isInputValid = true;
                                             isTurnForPlayer = false;
+                                            delay(1000);
                                         }
                                     }
                                 }
@@ -176,13 +200,13 @@ public class Main {
                             break;
 
                         case "3" :
-                            int idx;
+                            int numP;
                             while (!isInputValid) {
                                 try {
                                     printPlayers(arrayPlayers);
-                                    System.out.print("> ");
-                                    idx = scanner.nextInt() - 1;
-                                    if (idx == 0) {
+                                    System.out.print(">> ");
+                                    numP = Integer.valueOf(scanner.nextLine());
+                                    if (numP == 0) {
                                         // 0 = back
                                         System.out.println("Returning to your turn...");
                                         delay(1000);
@@ -190,14 +214,16 @@ public class Main {
                                     }
                                     else {
                                         System.out.print("Retrieving data...");
-                                        delay(500);
+                                        delay(1000);
                                         boolean hasSelectedMonster = false;
                                         int numM;
                                         while (!hasSelectedMonster) {
-                                            System.out.printf("What will %s do?\n", arrayPlayers[i].getCurrentMonster().getNama());
+                                            System.out.println("\nWhich monster do you wish to inspect?");
                                             System.out.println("Select monster number: ");
-                                            arrayPlayers[idx].printMonsters();
-                                            numM = scanner.nextInt();
+                                            arrayPlayers[numP - 1].printMonsters(false);
+                                            System.out.print(">> ");
+                                            delay(1000);
+                                            numM = Integer.valueOf(scanner.nextLine());
                                             if (numM == 0) {
                                                 // 0 == back
                                                 System.out.println("Returning to players...");
@@ -205,23 +231,23 @@ public class Main {
                                                 hasSelectedMonster = true;
                                             }
                                             else {
-                                                arrayPlayers[idx].getNumthMonster(numM).printMonsterAttr();
+                                                arrayPlayers[numP - 1].getNumthMonster(numM).printMonsterAttr();
                                                 boolean isViewInputValid = false;
                                                 while (!isViewInputValid) {
-                                                    System.out.println(
-                                                        "Enter an option number..."
+                                                    System.out.print(
+                                                        "Enter an option number...\n"
                                                     + "  1. Go back to monster selection\n"
                                                     + "  2. Go back to turn\n"
+                                                    + ">> "
                                                     );
-                                                    int numV = scanner.nextInt();
+                                                    String numV = scanner.nextLine();
                                                     switch (numV) {
-                                                        case 1 :
+                                                        case "1" :
                                                             isViewInputValid = true;
-                                                            hasSelectedMonster = true;
                                                             System.out.println("Returning to monster selection...");
                                                             delay(1000);
                                                             break;
-                                                        case 2 :
+                                                        case "2" :
                                                             isViewInputValid = true;
                                                             hasSelectedMonster = true;
                                                             isInputValid = true;
@@ -236,14 +262,14 @@ public class Main {
                                         }
                                     }
                                 }
-                                catch (InputMismatchException e) { WarnInputMismatch();} // Return to input num
+                                catch (NumberFormatException e) {WarnInputMismatch();} // Return to input num
                                 catch (IndexOutOfBoundsException e) {WarnIndexOutOfBounds();} // Return to input num
                             // End of loop
                             }
                             break;
 
                         case "4" :
-                            printGameInfo(ctrTurn, i, arrayPlayers);
+                            printGameInfo(ctrTurn, arrayPlayers[i]);
                             delay(1000);
                             System.out.println("Returning to your turn...");
                             delay(1000);
@@ -302,11 +328,18 @@ public class Main {
             // listAct is now ordered
 
             // Phase 2a: Executes actions
+            System.out.print("Processing actions");
+            for (int i = 0; i < 6; i++) {
+                delay(250);
+                System.out.print(".");
+            }
+            System.out.println("\n");
             for (int i : arrOrder) {
                 // Get the i of the other player. Why is this so complex
                 int targetIdx;
                 if (i == 0) targetIdx = 0;
                 else targetIdx = 1;
+
                 Monster currentPMonster = arrayPlayers[i].getCurrentMonster();
                 Monster currentTMonster = arrayPlayers[targetIdx].getCurrentMonster();
 
@@ -314,12 +347,12 @@ public class Main {
                 if (listActs.get(i) instanceof Monster) {
                     // Switch monster
                     currentPMonster.getSB().setSB(0, 0, 0, 0, 0);
-                    System.out.printf("%s, good job! Get back!\n", 
-                        currentPMonster.getNama());
+                    System.out.printf("%s, good job! Get back!\n", currentPMonster.getNama());
                     Monster monster = (Monster) listActs.get(i);
                     arrayPlayers[i].setCurrentMonster(monster);
-                    System.out.printf("PKMN Trainer %s sent out %S!\n",  arrayPlayers[i].getPlayerName(), 
-                        monster.getNama());}
+                    System.out.printf("PKMN Trainer %s sent out %S!\n",  arrayPlayers[i].getPlayerName(), monster.getNama());
+                    delay(1000);
+                }
                 else {
                     // Execute move upon the other player
                     Random random1 = new Random();
@@ -393,7 +426,7 @@ public class Main {
                     while (!isKOReplaced) {
                         try {
                             System.out.println("Select a monster: ");
-                            arrayPlayers[targetIdx].printAliveMonsters();
+                            arrayPlayers[targetIdx].printMonsters(true);
                             System.out.print(">> ");
                             /**
                              * Try replace currentMonster with a new one
@@ -448,7 +481,7 @@ public class Main {
     private static final void printMainMenuCommands() {
         System.out.println(
         		"Select Command!\n" +
-        		"> Start Game\n" +
+        		"> Start\n" +
         		"> Help\n" +
         		"> Exit"
         		);
@@ -467,14 +500,13 @@ public class Main {
     private static final void printActions() {
         // Used in turns
         System.out.println(
-            "Select action number!\n" +
+            "\nSelect action number!\n" +
             "1. Move\n" +
             "2. Switch\n" +
             "3. View Monsters Info\n" +
             "4. View Game Info\n" +
             "5. Help"
         );
-        System.out.print("\n> ");
     }
     
     // Print logo utama
@@ -507,7 +539,7 @@ public class Main {
     			+ "\n"
     			+ "[How to Start?]\n"
     			+ "At the main menu, enter\n"
-    			+ "\"Start Game\"\n"
+    			+ "\"Start\"\n"
     			+ "as input to start playing.\n"
     			+ "\n"
     			+ "[How to Play?]\n"
@@ -522,34 +554,46 @@ public class Main {
 
     public static void printHelpTurn() {
         // Describes available options during the turn
-        System.out.println(
-              "Move   : an action for your Pokemon to attack opposing Pokemon, heal,\n"
-            + "        etc. Your Pokemon cannot move if it has the buff 'SLEEP'!"
-            + "Switch : replace your current pokemon with another one. You cannot switch\n"
-            + "        a knocked-out pokemon!"
-            + "View Monster Info : select a monster and view its stats and moves"
-            + "View Game Info : print out current game status, as the name suggests"
-            + "Help   : you are using that command right now."
-            );
+        System.out.println("\n>>> HELP <<<");
+        System.out.println(">> 1. Move");
+        System.out.println("   \"An action for your Pokemon to attack opposing Pokemon, heal,");
+        System.out.println("   etc. Your Pokemon cannot move if it has the buff 'SLEEP'!\"");
+        delay(200);
+        System.out.println(">> 2. Switch");
+        System.out.println("   \"Replace your current pokemon with another one. You cannot switch");
+        System.out.println("   a knocked-out pokemon!\"");
+        delay(200);
+        System.out.println(">> 3. View Monster Info");
+        System.out.println(">> \"Select a monster and view its stats and moves.\"");
+        delay(200);
+        System.out.println(">> 4. View Game Info");
+        System.out.println(">> \"Print out current game status, as the name suggests.\"");
+        delay(200);
+        System.out.println(">> 5. Help");
+        System.out.println(">> \"You are using that command right now.\"");
+        delay(1000);
     }
 
     private static void printPlayers(Player[] arrayPlayers) {
         // Print players
-        System.out.println("Select player number: ");
+        System.out.println("\nSelect player number: ");
         for (int i = 0; i <= 1; i++) {
-            System.out.printf("%d. %s\n", i, arrayPlayers[i].getPlayerName());
-            System.out.println("0. Cancel");
+            System.out.printf("%d. %s\n", i+1, arrayPlayers[i].getPlayerName());
         }
+        System.out.println("0. Cancel");
     } 
 
-    private static void printGameInfo(int turn, int i, Player arrayPlayers[]) {
+    private static void printGameInfo(int turn, Player currentPlayer) {
         // Print info about the turn
-        System.out.printf("******** TURN %d ********\n", turn);
-        System.out.printf("NOW PLAYING: %s\n", arrayPlayers[i].getPlayerName());
-        System.out.println("Selected Monster:");
-        arrayPlayers[i].getCurrentMonster().printMonsterAttr();
-        System.out.println("Available Monsters:");
-        arrayPlayers[i].printMonsters();
+        System.out.printf("\n>>>> TURN %d <<<<\n", turn);
+        delay(200);
+        System.out.printf(">> Player : %s\n", currentPlayer.getPlayerName());
+        delay(700);
+        System.out.printf(">> Current Monster:\n");
+        currentPlayer.getCurrentMonster().printMonsterAttr();
+        delay(200);
+        System.out.printf("%s's Monsters:\n", currentPlayer.getPlayerName());
+        currentPlayer.printMonsters(false);
     }
 
     private static void WarnInputMismatch() {
