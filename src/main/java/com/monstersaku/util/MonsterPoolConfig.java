@@ -48,8 +48,8 @@ public class MonsterPoolConfig {
                 List<Move> moves = new ArrayList<Move>();
                 // Assume that IDs in move config file is 1,2,3,4...
                 // and NOT 0,1,2,3... or other forms
-                for (int i = 0; i < 6; i++) {
-                    moves.add(movePool.get(intMoveIDs[i]));
+                for (int idx : intMoveIDs) {
+                    moves.add(movePool.get(idx));
                 }
                 /** IN CASE OF EMERGENCY (ID IN MOVE FILE NOT 1,2,3,4..) BREAK GLASS
                 if (movePool.size() > 0) {
