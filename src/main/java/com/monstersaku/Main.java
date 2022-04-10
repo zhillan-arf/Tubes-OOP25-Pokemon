@@ -48,14 +48,15 @@ public class Main {
         boolean isStartGame = false;
         while (!isStartGame) {
             printMainMenuCommands();
-        	String commandMainMenu =  scanner.next();
+            System.out.print(">> ");
+        	String commandMainMenu = scanner.nextLine();
         	if (commandMainMenu.equals("Help")) {
         		printHelp();
         		printMainMenuCommands();
         	}
         	else if (commandMainMenu.equals("Exit")) {
                 System.out.println("Alright, bye-onara!");
-        		System.exit(-1);
+        		System.exit(0);
         	}
         	else if (commandMainMenu.equals("Start Game")) { isStartGame = true;}
         	else {System.out.println("ERROR. Unrecognized command!\n");}
@@ -74,7 +75,7 @@ public class Main {
             // Get name
             System.out.printf("Enter Player %d's name: \n>> ", i + 1);
             //Scanner scanner = new Scanner(System.in).useDelimiter("\n");
-            String playerName = scanner.next();
+            String playerName = scanner.nextLine();
             //scanner.close();
 
             // Instantiate player-i
@@ -459,7 +460,7 @@ public class Main {
         }
         catch (InterruptedException e) {
             System.out.println("FATAL INTERRUPTION ERROR. Something went TERRIBLY wrong...\n");
-            System.exit(1);
+            System.exit(2);
         }
     }
 
