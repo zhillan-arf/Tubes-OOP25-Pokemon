@@ -1,6 +1,6 @@
 package com.monstersaku;
 
-public class Move {
+public abstract class Move {
     // Attributes
     private int id;
     private String name;
@@ -38,7 +38,5 @@ public class Move {
     public void setAmmunition(int ammo) {this.ammunition = ammo;}
 
     // Method eksekusi move
-    public void executeMove(Monster sourceMonster, Monster targetMonster) {
-        // Left empty. Overriden/overloaded by subclasses
-    }
+    public abstract void executeMove(Monster sourceMonster, Monster targetMonster);
 }

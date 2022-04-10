@@ -22,9 +22,7 @@ public class StatsBuff {
     }
 
     // Getter methods
-    public int[] getArrSB() {
-        return this.arrSB;
-    }
+    public int[] getArrSB() {return this.arrSB;}
 
     // Setter
     public void setSB(int atk, int def, int spAtk, int spDef, int speed) {
