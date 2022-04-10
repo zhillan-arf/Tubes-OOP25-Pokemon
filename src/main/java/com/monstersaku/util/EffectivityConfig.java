@@ -28,7 +28,6 @@ public class EffectivityConfig {
         }
         catch (Exception e){
             e.printStackTrace();
-            System.out.println("FATAL ERROR while parsing Effectivity...");
             System.exit(1);
         }
         return value;

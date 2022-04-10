@@ -81,7 +81,6 @@ public class MonsterPoolConfig {
         }
         catch (Exception e){
             e.printStackTrace();
-            System.out.println("FATAL ERROR while parsing Effectivity...");
             System.exit(1);
         }
 

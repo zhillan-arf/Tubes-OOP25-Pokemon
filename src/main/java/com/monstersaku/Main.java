@@ -67,8 +67,6 @@ public class Main {
         // Parse and store all file datas
         System.out.println("Loading files...");
         List<Move> movePool = com.monstersaku.util.MovePoolConfig.create();
-        delay(1000);
-        System.out.println("movepool.csv loaded...");
         List<Monster> monsterPool = com.monstersaku.util.MonsterPoolConfig.create(movePool);
         delay(1000);
         System.out.println("monsterpool.csv loaded...");

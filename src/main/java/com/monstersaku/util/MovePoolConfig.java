@@ -25,17 +25,15 @@ public class MovePoolConfig {
                 int priority = Integer.valueOf(line[5]);
                 int ammunition = Integer.valueOf(line[6]);
                 Target target = Target.valueOf(line[7]);
-                // Get elmts for StatusMove, one by one
-                if (moveType.equals("STATUS")) {
-                    String[] buffs = (line[8]).split(",");
+                
+                if (moveType.equals("STATUS")) {  // Get elmts for StatusMove, one by one
                     StatusCondition statCondBuff = StatusCondition.NONE;
-                    if (buffs[0] != "-") {
-                        statCondBuff = StatusCondition.valueOf(buffs[0]);
-                    }
-                    int hpBuff = Integer.valueOf(buffs[1]);
+                    if (!line[8].equals("-")) {statCondBuff = StatusCondition.valueOf(line[8]);}
+                    String[] buffs = (line[9]).split(",");
+                    int hpBuff = Integer.valueOf(buffs[0]);
                     int[] arrSB = new int[5];
-                    for (int i = 0; i< 5; i++) {
-                        arrSB[i] = Integer.valueOf(buffs[i + 2]);
+                    for (int i = 0; i < 5; i++) {
+                        arrSB[i] = Integer.valueOf(buffs[i + 1]);
                     }
                     // Instantiate
                     StatusMove move = new StatusMove(id,
@@ -51,8 +49,7 @@ public class MovePoolConfig {
                     // Add
                     movePool.add(move);
                 }
-                // Get the 2 elmts for Normal and Special move
-                else {
+                else {  // Get the 2 elmts for Normal and Special move
                     int basePower = Integer.valueOf(line[8]);
                     if (moveType.equals("NORMAL")) {
                         // Instantiate
@@ -83,7 +80,6 @@ public class MovePoolConfig {
         }
         catch (Exception e){
             e.printStackTrace();
-            System.out.println("FATAL ERROR while parsing Effectivity...");
             System.exit(1);
         }
         
