@@ -1,13 +1,5 @@
 package com.monstersaku.util;
-import com.monstersaku.StatusCondition;
-import com.monstersaku.StatusMove;
-import com.monstersaku.Target;
-import com.monstersaku.Move;
-import com.monstersaku.NormalMove;
-import com.monstersaku.SpecialMove;
-import com.monstersaku.Main;
-import com.monstersaku.ElementType;
-
+import com.monstersaku.*;
 import java.util.*;
 import java.io.File;
 

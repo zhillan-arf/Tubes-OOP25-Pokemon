@@ -1,11 +1,5 @@
 package com.monstersaku.util;
-import com.monstersaku.Monster;
-import com.monstersaku.Stats;
-import com.monstersaku.Move;
-import com.monstersaku.Main;
-import com.monstersaku.DefaultMove;
-import com.monstersaku.ElementType;
-
+import com.monstersaku.*;
 import java.util.*;
 import java.io.File;
 
@@ -36,7 +30,7 @@ public class MonsterPoolConfig {
 
                 // BaseStats
                 String[] bs = (line[3]).split(",");
-                int[] baseStats={0,0,0,0,0,0};
+                int[] baseStats = {0,0,0,0,0,0};
                 for (int i = 0; i < 6; i++) {
                     baseStats[i] = Integer.valueOf(bs[i]);
                 }
@@ -53,6 +47,7 @@ public class MonsterPoolConfig {
                 // Fill moves with the correct IDs
                 List<Move> moves = new ArrayList<Move>();
                 // Assume that IDs in move config file is 1,2,3,4...
+                // and NOT 0,1,2,3... or other forms
                 for (int i = 0; i < 6; i++) {
                     moves.add(movePool.get(intMoveIDs[i]));
                 }
@@ -73,8 +68,7 @@ public class MonsterPoolConfig {
                     }
                 }
                 */
-                // Instantiate default move
-                DefaultMove defMove = new DefaultMove(id, "Default", ElementType.NORMAL, 100, 0, 999);
+                DefaultMove defMove = new DefaultMove();
                 moves.add(defMove);
                 // moves are filled
                 

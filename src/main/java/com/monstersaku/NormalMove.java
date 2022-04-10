@@ -33,12 +33,18 @@ public class NormalMove extends Move {
         }
         else if (sourceMonster.isMonsterAlive()) {
             if (this.getAmmunition() == 0) {
-                System.out.printf("Not enough ammo! %s stumbled. Move failed...\n", sourceMonster.getNama());
+                System.out.printf("Not enough ammo! %s's move failed...\n", sourceMonster.getNama());
             }
             else {
-                // Get soucerMonster attack and targetMonster defense
-                double sourceAttack = sourceMonster.getBaseStats().getAttack();
-                double targetDefense = targetMonster.getBaseStats().getDefense();
+                // Get soucerMonster sourceAttack
+                double baseAtk = sourceMonster.getBaseStats().getAttack();
+                int atkBuff = sourceMonster.getSB().getArrSB()[0];
+                double sourceAttack = StatsBuff.getStat(baseAtk, atkBuff);
+
+                // Get targetMonster targetDefense
+                double baseDef = targetMonster.getBaseStats().getDefense();
+                int defBuff = targetMonster.getSB().getArrSB()[1];
+                double targetDefense = StatsBuff.getStat(baseDef, defBuff);
     
                 // Get random between 0.85 - 1
                 double rand = Math.random() / 100 * 15 + 0.85;
@@ -52,16 +58,16 @@ public class NormalMove extends Move {
     
                 // Get burn
                 double burn = 1;
-                if (sourceMonster.getStatusCondition() == StatusCondition.BURN) {
-                    burn = 0.5;
-                }
+                if (sourceMonster.getStatusCondition() == StatusCondition.BURN) {burn = 0.5;}
+
                 // Get damage calculation
                 double damage = Math.floor(((this.basePower) * (sourceAttack/targetDefense) + 2) * rand * effectivity * burn);
 
                 // HP reduction 
                 Stats newStats = targetMonster.getBaseStats();
                 double newHP = newStats.getHealthPoint() - damage;
-                newStats.setHealthPoint(newHP);
+                double maxHP = newStats.getMaxHealthPoint();
+                newStats.setHealthPoint(newHP, maxHP);
                 targetMonster.setStats(newStats);
                 this.setAmmunition(getAmmunition() - 1);
             }    

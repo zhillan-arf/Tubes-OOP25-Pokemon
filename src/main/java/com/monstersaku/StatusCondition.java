@@ -11,6 +11,8 @@ public enum StatusCondition {
         String nama = monster.getNama();
         double maxhp = monster.getBaseStats().getMaxHealthPoint();
         switch (statCond) {
+            case NONE:
+                System.out.printf("%s is cleared of all Status Conditions! \n", nama);
             case BURN:
                 System.out.printf("%s is now BURNING! \n", nama);
                 System.out.printf("BURN reduces %s's HP by %d per turn!\n", nama, maxhp * 1/8);
@@ -25,7 +27,7 @@ public enum StatusCondition {
                 System.out.printf("POISON reduces %s's HP by %d per turn!\n", nama, maxhp * 1/16);
                 break;
             case SLEEP:
-                System.out.printf("%s is now SLEEPING! \n", nama);
+                System.out.printf("%s is fast asleep! \n", nama);
                 System.out.printf("Any moves chosen by %s will not be executed while SLEEPING!");
                 break;
             default:

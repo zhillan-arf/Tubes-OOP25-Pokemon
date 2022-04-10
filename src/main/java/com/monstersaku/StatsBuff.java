@@ -61,7 +61,7 @@ public class StatsBuff {
     }
     
     // Calculation methods
-    public double getFactor(int statBuff) {
+    public static double getFactor(int statBuff) {
         double ret = 1;
         switch (statBuff) {
             case -4 :
@@ -95,7 +95,7 @@ public class StatsBuff {
         return ret;
     }
 
-    public double getStat(int baseStat, int statBuff) {
+    public static double getStat(double baseStat, int statBuff) {
         return baseStat * getFactor(statBuff);
     }
 }

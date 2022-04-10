@@ -7,7 +7,6 @@ import java.util.*;
 
 /**
  * TUBES OOP K2 KELOMPOK 25 "JANDA BERKANTONG"
- * 2022 April
  * 18219062 Rahmat Pujiatno
  * 18220008 Zhillan Attarizal Rezyarifin
  * 18220034 Muhammad Zhaffran Haris
@@ -285,8 +284,8 @@ public class Main {
                 else if (move0.getPriority() < move1.getPriority()) {arrOrder = P1First;} // Current order: P1, P0
                 else {
                     // Same priority. Excutes based on speed
-                    double speed0 = arrayPlayers[0].getCurrentMonster().getBaseStats().getSpeed();
-                    double speed1 = arrayPlayers[1].getCurrentMonster().getBaseStats().getSpeed();
+                    double speed0 = arrayPlayers[0].getCurrentMonster().getModifiedSPeed();
+                    double speed1 = arrayPlayers[1].getCurrentMonster().getModifiedSPeed();
                     if (speed0 > speed1) {} // Current order: P0, P1
                     else if(speed0 < speed1) {arrOrder = P1First;} // Current order: P1, P0
                     else {
@@ -317,33 +316,36 @@ public class Main {
                         currentPMonster.getNama());
                     Monster monster = (Monster) listActs.get(i);
                     arrayPlayers[i].setCurrentMonster(monster);
-                    System.out.printf("PKMN Trainer %s sent out %S!\n", 
-                        arrayPlayers[i].getPlayerName(), 
-                        monster.getNama());
-                }
+                    System.out.printf("PKMN Trainer %s sent out %S!\n",  arrayPlayers[i].getPlayerName(), 
+                        monster.getNama());}
                 else {
                     // Execute move upon the other player
-                    Move move = (Move) listActs.get(i);
-                    System.out.printf("%s's %s used %s!\n", 
-                        arrayPlayers[i].getPlayerName(), 
-                        currentPMonster.getNama(),
-                        move.getName());
-                    move.executeMove(currentPMonster, currentTMonster);
-                    delay(1000);
-                    if (!currentPMonster.isMonsterAlive()) {
-                        System.out.printf("%s fainted!\n", currentPMonster.getNama());
+                    Random random1 = new Random();
+                    int paralyzeVal = random1.nextInt(5);
+                    if ((currentPMonster.getStatusCondition() == StatusCondition.PARALYZE) && (paralyzeVal == 0)) {
+                        System.out.printf("%s is PARALYZED! Failed to move...\n", currentPMonster.getNama());
                     }
-                    // Did we win?
-                    if (!arrayPlayers[targetIdx].hasAliveMonsters()) {
-                        isGameEnd = true;
-                        playerWin = arrayPlayers[i];
-                        playerLost = arrayPlayers[targetIdx];
-                        break;  // break the loop, even if the other player haven't acted
+                    else {
+                        Move move = (Move) listActs.get(i);
+                        System.out.printf("%s's %s used %s!\n", arrayPlayers[i].getPlayerName(), 
+                            currentPMonster.getNama(), move.getName());
+                        move.executeMove(currentPMonster, currentTMonster);
+                        delay(1000);
+                        if (!currentPMonster.isMonsterAlive()) {
+                            System.out.printf("%s fainted!\n", currentPMonster.getNama());
+                        }
+                        // Did we win?
+                        if (!arrayPlayers[targetIdx].hasAliveMonsters()) {
+                            isGameEnd = true;
+                            playerWin = arrayPlayers[i];
+                            playerLost = arrayPlayers[targetIdx];
+                            break;  // break the loop, even if the other player haven't acted
+                        }
+                        // Print fainted message if currentPMonster KO
+                        System.out.printf("%s's %s fainted!\n", 
+                            arrayPlayers[i].getPlayerName(), 
+                            currentPMonster.getNama());
                     }
-                    // Print fainted message if currentPMonster KO
-                    System.out.printf("%s's %s fainted!\n", 
-                        arrayPlayers[i].getPlayerName(), 
-                        currentPMonster.getNama());
                 }
                 // Moves has been executed
                     
@@ -360,6 +362,7 @@ public class Main {
                             System.out.printf("%s suffered POISON!\n", monster.getNama());
                             monster.damage(1/16);
                         }
+                        else if (statCon == StatusCondition.SLEEP) {monster.reduceSleepDuration();}
                         // Display if KO
                         if (!monster.isMonsterAlive()) {
                             delay(1000);
@@ -395,7 +398,7 @@ public class Main {
                              * If monster of selected num is KO, throw an
                              * IndexOutOfBoundsException
                              * If it tries to access a num larger than the List,
-                             * it will also throw the similar
+                             * it will also throw IndexOutOfBoundsException
                              */
                             int num = scanner3.nextInt();
                             Monster selectedMonster = arrayPlayers[targetIdx].getNumthMonster(num);
@@ -413,9 +416,10 @@ public class Main {
                         finally {scanner3.close();}
                     }
                     // Inputting loop ends
-                    break; // if the currentMonster KO, all its actions are cancelled
+                    // if the targetMonster is KO, all its actions are cancelled. break
+                    break; 
                 }
-                // else no change to currentMonster
+                // else targetMonster is alive
                 // Go to next player, if possible
             }
             // Turn ends

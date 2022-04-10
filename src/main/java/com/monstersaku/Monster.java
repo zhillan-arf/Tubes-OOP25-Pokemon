@@ -41,16 +41,27 @@ public class Monster {
     public int getMovesSize() {return moves.size();}
     public int getSleepDuration() {return this.sleepDuration;}
     public StatsBuff getSB() {return this.statsBuff;}
+    public double getModifiedSPeed() {
+        double speed = this.getBaseStats().getSpeed();
+        if (this.getStatusCondition() == StatusCondition.PARALYZE) {
+            speed *= 0.5;
+        }
+        return speed;
+    }
 
     // Setter methods
-    public void setStatusCondition (StatusCondition status){
-        this.status = status;
+    public void setStatusCondition (StatusCondition status) {
         if (status == StatusCondition.SLEEP) {
             int min = 1;
             int max = 7;
             int rand = (int)Math.floor(Math.random()*(max-min+1)+min);
-            setSleepDuration(rand);
+            this.setSleepDuration(rand);
+            System.out.printf("%s is now SLEEPING for %d turns!\n");
         }
+        if (this.status != status) {
+            StatusCondition.printGotStatus(this, this.getStatusCondition());
+        }
+        this.status = status;
     }
     public void setSleepDuration(int rand) {this.sleepDuration = rand;}
     public void setStats(Stats baseStats) {this.baseStats = baseStats;}
@@ -62,8 +73,7 @@ public class Monster {
             this.status = StatusCondition.NONE;
             System.out.printf("%s has woken up!", this.nama);
         }
-        this.sleepDuration -= 1;
-        // Can go negative, which is fine
+        if (this.sleepDuration > 0) this.sleepDuration -= 1;
     }
     public boolean isMonsterAlive() {return baseStats.getHealthPoint() > 0;}
     public void printMonsterMoves() {
@@ -118,9 +128,11 @@ public class Monster {
     }
 
     public void damage(double statusMultiplier) {
-        double dmg = this.baseStats.getMaxHealthPoint() * statusMultiplier;
-        if (dmg > this.baseStats.getHealthPoint()) dmg = this.baseStats.getHealthPoint();
-        this.baseStats.setHealthPoint(this.baseStats.getHealthPoint() - dmg);
+        double maxHP = this.baseStats.getMaxHealthPoint();
+        double cHP = this.baseStats.getHealthPoint();
+        double dmg = maxHP * statusMultiplier;
+        if (dmg > cHP) dmg = cHP;
+        this.baseStats.setHealthPoint(cHP - dmg, maxHP);
         System.out.printf("%s receives %d damages!\n", this.nama, dmg);
     }
 }

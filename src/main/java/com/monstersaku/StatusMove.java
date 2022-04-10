@@ -6,7 +6,8 @@ public class StatusMove extends Move {
     private StatusCondition statCondBuff;
     private int hpBuff;
     /**
-     * Contents of arrSB
+     * This arrSB contains the buff changes
+     * posessed by each StatusMove Objects
      * 0. ATK
      * 1. DEF
      * 2. SP ATK
@@ -53,7 +54,7 @@ public class StatusMove extends Move {
             double hp = monster.getBaseStats().getHealthPoint();
             double maxHP = monster.getBaseStats().getMaxHealthPoint();
             double deltaHP = (this.hpBuff * 0.01 * maxHP);
-            monster.getBaseStats().setHealthPoint(hp + deltaHP);
+            monster.getBaseStats().setHealthPoint(hp + deltaHP, maxHP);
             
             // Add stat buffs
             int[] oldArr = monster.getSB().getArrSB();

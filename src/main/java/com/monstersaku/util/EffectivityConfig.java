@@ -1,11 +1,10 @@
 package com.monstersaku.util;
-import com.monstersaku.Main;
-import com.monstersaku.ElementType;
+import com.monstersaku.*;
 import java.io.File;
 import java.util.*;
 
 public class EffectivityConfig {
-    private static String fileName;
+    private static String fileName = "element-type-effectivity-chat.csv";
 
     public static void setFileName(String fn){
         fileName = fn;

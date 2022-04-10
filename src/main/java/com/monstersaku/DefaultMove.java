@@ -4,17 +4,12 @@ import java.text.DecimalFormat;
 public class DefaultMove extends Move {
     // Extended attributes
     private static final DecimalFormat df = new DecimalFormat("0.00");
+    private int basePower;
 
     // Constructor
-    public DefaultMove (
-            int id,
-            String name, 
-            ElementType elementType, 
-            int accuracy, 
-            int priority, 
-            int ammunition
-        ) {
-            super(id, name, elementType, 100, 0, 999);
+    public DefaultMove () {
+            super(999, "Default Move", ElementType.NORMAL, 100, 0, 999);
+            this.basePower = 50;
         }
     
     // Methods
@@ -33,9 +28,16 @@ public class DefaultMove extends Move {
                 System.out.printf("Not enough ammo! %s stumbled. Move failed...", sourceMonster.getNama());
             }
             else{
-                // Get soucerMonster attack and targetMonster defense
-                double sourceAttack = sourceMonster.getBaseStats().getAttack();
-                double targetDefense = targetMonster.getBaseStats().getDefense();
+                System.out.println("It's a desperate move!");
+                // Get soucerMonster sourceAttack
+                double baseAtk = sourceMonster.getBaseStats().getAttack();
+                int atkBuff = sourceMonster.getSB().getArrSB()[0];
+                double sourceAttack = StatsBuff.getStat(baseAtk, atkBuff);
+
+                // Get targetMonster targetDefense
+                double baseDef = targetMonster.getBaseStats().getDefense();
+                int defBuff = targetMonster.getSB().getArrSB()[1];
+                double targetDefense = StatsBuff.getStat(baseDef, defBuff);
     
                 //get random between 0.85 - 1
                 double rand = Math.random() / 100 * 15 + 0.85;
@@ -49,23 +51,24 @@ public class DefaultMove extends Move {
     
                 // Get burn
                 double burn = 1;
-                if (sourceMonster.getStatusCondition() == StatusCondition.BURN){
-                    burn = 0.5;
-                }
+                if (sourceMonster.getStatusCondition() == StatusCondition.BURN) {burn = 0.5;}
     
                 // Get damage calculation
-                double damage = Math.floor(((50) * (sourceAttack/targetDefense) + 2) * rand * effectivity * burn);
+                double damage = Math.floor(((this.basePower) * (sourceAttack/targetDefense) + 2) * rand * effectivity * burn);
 
-                // HP target reduction 
+                // HP targetMonster reduction 
                 Stats newStats = targetMonster.getBaseStats();
+                double maxHP = newStats.getMaxHealthPoint();
                 double newHP = newStats.getHealthPoint() - damage;
-                newStats.setHealthPoint(newHP);
+                newStats.setHealthPoint(newHP, maxHP);
                 targetMonster.setStats(newStats);
                 
-                // HP source reduction 
+                // HP sourceMonster reduction 
                 Stats newSourceStats = sourceMonster.getBaseStats();
-                double newSourceHP = newSourceStats.getHealthPoint() - (newSourceStats.getMaxHealthPoint() * 1/4);
-                newSourceStats.setHealthPoint(newSourceHP);
+                double sourceHP = newSourceStats.getHealthPoint();
+                double maxSourceHP = newStats.getMaxHealthPoint();
+                double newSourceHP = sourceHP - (maxSourceHP * 1/4);
+                newSourceStats.setHealthPoint(newSourceHP, maxSourceHP);
                 sourceMonster.setStats(newSourceStats);  
             }    
         }

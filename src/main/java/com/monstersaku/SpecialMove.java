@@ -34,9 +34,15 @@ public class SpecialMove extends Move {
                 System.out.printf("Not enough ammo! %s stumbled. Move failed...", sourceMonster.getNama());
             }
             else {
-                // Get soucerMonster specialAttack and targetMonster specialDefense
-                double sourceAttack = sourceMonster.getBaseStats().getSpecialAttack();
-                double targetDefense = targetMonster.getBaseStats().getSpecialDefense();
+                // Get sourceMonster sourceAttack
+                double spBaseAtk = sourceMonster.getBaseStats().getSpecialAttack();
+                int spAtkBuff = sourceMonster.getSB().getArrSB()[2];
+                double sourceAttack = StatsBuff.getStat(spBaseAtk, spAtkBuff);
+
+                // Get targetMonster targetDefense
+                double spBaseDef = targetMonster.getBaseStats().getDefense();
+                int spDefBuff = targetMonster.getSB().getArrSB()[3];
+                double targetDefense = StatsBuff.getStat(spBaseDef, spDefBuff);
     
                 // Get random between 0.85 - 1
                 double rand = Math.random() / 100 * 15 + 0.85;
@@ -60,7 +66,8 @@ public class SpecialMove extends Move {
                 // HP reduction 
                 Stats newStats = targetMonster.getBaseStats();
                 double newHP = newStats.getHealthPoint() - damage;
-                newStats.setHealthPoint(newHP);
+                double maxHP = newStats.getMaxHealthPoint();
+                newStats.setHealthPoint(newHP, maxHP);
                 targetMonster.setStats(newStats);
                 this.setAmmunition(getAmmunition() - 1);
             }    

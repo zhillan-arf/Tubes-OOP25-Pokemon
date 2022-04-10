@@ -23,37 +23,19 @@ public class Stats {
     }
 
     // Getter methods
-    public double getHealthPoint(){
-        return this.healthPoint;
-    }
-
-    public double getMaxHealthPoint(){
-        return this.maxHealthPoint;
-    }
-
-    public double getAttack(){
-        return this.attack;
-    }
-
-    public double getDefense(){
-        return this.defense;
-    }
-
-    public double getSpecialAttack(){
-        return this.specialAttack;
-    }
-
-    public double getSpecialDefense(){
-        return this.specialDefense;
-    }
-
-    public double getSpeed(){
-        return this.speed;
-    }
+    public double getHealthPoint() {return this.healthPoint;}
+    public double getMaxHealthPoint() {return this.maxHealthPoint;}
+    public double getAttack() {return this.attack;}
+    public double getDefense() {return this.defense;}
+    public double getSpecialAttack() {return this.specialAttack;}
+    public double getSpecialDefense() {return this.specialDefense;}
+    public double getSpeed() {return this.speed;}
 
     // Setter methods
-    public void setHealthPoint(double healthPoint) {
-        this.healthPoint = healthPoint;
+    public void setHealthPoint(double healthPoint, double maxHealthPoint) {
+        if (healthPoint < 0) this.healthPoint = 0;
+        else if (healthPoint > maxHealthPoint) this.healthPoint = maxHealthPoint;
+        else this.healthPoint = healthPoint;
     }
 
     public void printStats(){
