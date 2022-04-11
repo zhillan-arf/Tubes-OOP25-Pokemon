@@ -1,8 +1,5 @@
 package com.monstersaku;
-
-import com.monstersaku.util.CSVReader;
-
-import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -15,33 +12,11 @@ import java.util.*;
 
 public class Main {
     // ALGORIITMA PROGRAM UTAMA
-    public static void main(String[] args) {
-        // [zh]: This section reach each file in CSV_FILE_PATHS and print them to the terminal. 
-        // After things are done, delete this part.
-        for (String fileName : CSV_FILE_PATHS) {
-            try {
-                System.out.printf("Filename: %s\n", fileName);
-                CSVReader reader = new CSVReader(new File(Main.class.getResource(fileName).toURI()), ";");
-                reader.setSkipHeader(true);
-                List<String[]> lines = reader.read();
-                System.out.println("=========== CONTENT START ===========");
-                for (String[] line : lines) {
-                    for (String word : line) {
-                        System.out.printf("%s ", word);
-                    }
-                    System.out.println();
-                }
-                System.out.println("=========== CONTENT END ===========");
-                System.out.println();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        // [zh]: End of file reading section. Now, begin tubes.
-       
+    public static void main(String[] args) {       
         // Print ASCII Art
         printArt();
-        delay(1000);
+        delay(3000);
+        clearTerminal();
         
         // Main Menu
         Scanner scanner = new Scanner(System.in);
@@ -63,17 +38,17 @@ public class Main {
                 System.out.println("ERROR. Unrecognized command!\n");
                 delay(500);
             }
-        	
         }
-
+        clearTerminal();
         // Parse and store all file datas
-        System.out.println("\nLoading files...");
+        System.out.println("Loading files...");
         List<Move> movePool = com.monstersaku.util.MovePoolConfig.create();
-        List<Monster> monsterPool = com.monstersaku.util.MonsterPoolConfig.create(movePool);
+        List<Monster> monsterTemplatePool = com.monstersaku.util.MonsterPoolConfig.create(movePool);
         System.out.println("element-type-effectivity-chart.csv loaded...\n");
         delay(1000);
-        
-        // Instantiate two players and their content
+        clearTerminal();
+
+        // Instantiate two players and instantiate six monsters for each
         Player arrayPlayers[] = new Player[2];
         for (int i = 0; i <= 1; i++) {
             // Get name
@@ -81,8 +56,9 @@ public class Main {
             String playerName = scanner.nextLine();
 
             // Instantiate player-i
-            arrayPlayers[i] = new Player(playerName, monsterPool);
+            arrayPlayers[i] = new Player(playerName, monsterTemplatePool);
         }
+        clearTerminal();
         
         // Game begins!
         boolean isGameEnd = false;
@@ -94,9 +70,11 @@ public class Main {
             delay(600);
             System.out.print(".");
         }
+        delay(500);
+        clearTerminal();
         
         delay(500);
-        System.out.printf("\n\n>>> %s\n", arrayPlayers[0].getPlayerName().toUpperCase());
+        System.out.printf(">>> %s\n", arrayPlayers[0].getPlayerName().toUpperCase());
         delay(1000);
         System.out.printf("    V.S.\n");
         delay(1000);
@@ -104,6 +82,12 @@ public class Main {
         delay(1000);
         System.out.println("\n>>>>> GAME BEGINS!!! <<<<<\n");
         delay(1000);
+
+        System.out.printf("PKMN Trainer %s sent out %S!\n",  
+            arrayPlayers[0].getPlayerName(), arrayPlayers[0].getCurrentMonster().getNama());
+        delay(1000);
+        System.out.printf("PKMN Trainer %s sent out %S!\n\n",  
+            arrayPlayers[1].getPlayerName(), arrayPlayers[1].getCurrentMonster().getNama());
 
         while (!isGameEnd) {
             // A turn starts
@@ -113,11 +97,11 @@ public class Main {
             ArrayList<Object> listActs = new ArrayList<Object>();
             for (int i = 0; i <= 1; i++) {
                 // arrayPlayer[i]'s turn. Loop scanner
-                System.out.printf("\n>> Your turn, %s!\n", arrayPlayers[i].getPlayerName());
-                delay(500);
                 boolean isTurnForPlayer = true;
                 while (isTurnForPlayer) {
                     // Show menu
+                    System.out.printf("\n>> Your turn, %s!\n", arrayPlayers[i].getPlayerName());
+                    delay(500);
                     printActions();
                     // Get arrayPlayer[i]'s input
                     Monster currentMonster = arrayPlayers[i].getCurrentMonster();
@@ -128,7 +112,7 @@ public class Main {
                         case "1" :
                             while (!isInputValid) {
                                 try {
-                                    System.out.printf("\nSelect a move for %s :\n", arrayPlayers[i].getCurrentMonster().getNama());
+                                    System.out.printf("Select a move for %s :\n", arrayPlayers[i].getCurrentMonster().getNama());
                                     currentMonster.printMonsterMoves();
                                     System.out.println("       0. Cancel");
                                     System.out.print(">> ");
@@ -159,10 +143,10 @@ public class Main {
                         case "2" :
                             while (!isInputValid) {
                                 try {
-                                    System.out.println("\nWhich monster do you want to switch with?");
+                                    System.out.print("Which monster do you want to switch with?\n>> ");
                                     arrayPlayers[i].printMonsters(true);
-                                    System.out.println("0. Cancel");
-                                    num = scanner.nextInt();
+                                    System.out.println("   0. Cancel");
+                                    num = Integer.valueOf(scanner.nextLine());
                                     // If input isnt a number, throw InputMismatchException
                                     // If not, proceeds
                                     if (num == 0) {
@@ -181,7 +165,7 @@ public class Main {
                                         Monster selectedMonster = arrayPlayers[i].getNumthMonster(num);
                                         if (!selectedMonster.isMonsterAlive()) {
                                             // Monster is K.O.
-                                            throw new IndexOutOfBoundsException("Monster is K.O.");
+                                            throw new NumberFormatException("Monster is K.O.");
                                         }
                                         else {
                                             // Moster is alive. Switch.
@@ -193,7 +177,7 @@ public class Main {
                                         }
                                     }
                                 }
-                                catch (InputMismatchException e) { WarnInputMismatch();} // Return to input num
+                                catch (NumberFormatException e) { WarnInputMismatch();} // Return to input num
                                 catch (IndexOutOfBoundsException e) {WarnIndexOutOfBounds();} // Return to input num
                             }
                             // End of loop, cancelled or move inputted
@@ -203,6 +187,7 @@ public class Main {
                             int numP;
                             while (!isInputValid) {
                                 try {
+                                    clearTerminal();
                                     System.out.println("Which player do you want to inspect?");
                                     printPlayers(arrayPlayers);
                                     System.out.println("0. Cancel");
@@ -271,26 +256,33 @@ public class Main {
                             break;
 
                         case "4" :
+                            clearTerminal();
                             printGameInfo(ctrTurn, arrayPlayers[i]);
-                            delay(1000);
+                            System.out.println("Press ENTER to finish reading");
+                            String idleStr = scanner.nextLine();
                             System.out.println("Returning to your turn...");
-                            delay(1000);
+                            clearTerminal();
+                            delay(1500);
                             break;
 
                         case "5" :
+                        clearTerminal();
                             printHelpTurn();
-                            delay(2000);
+                            System.out.println("Press ENTER to finish reading");
+                            String idleStr2 = scanner.nextLine();
                             System.out.println("Returning to your turn...");
-                            delay(1000);
+                            delay(1500);
+                            clearTerminal();
                             break;
                         default :
+                            System.out.println(".....");
+                            delay(1000);
                             System.out.print("ERROR. Unrecognized action number!\n");
                             delay(500);
+                            clearTerminal();
                             break;
                     }
-                    //scanner.close();
                 }
-                
             }
             // End of action givings loop
 
@@ -330,6 +322,7 @@ public class Main {
             // listAct is now ordered
 
             // Phase 2a: Executes actions
+            clearTerminal();
             System.out.print("Processing actions");
             for (int i = 0; i < 6; i++) {
                 delay(250);
@@ -339,8 +332,8 @@ public class Main {
             for (int i : arrOrder) {
                 // Get the i of the other player. Why is this so complex
                 int targetIdx;
-                if (i == 0) targetIdx = 0;
-                else targetIdx = 1;
+                if (i == 0) targetIdx = 1;
+                else targetIdx = 0;
 
                 Monster currentPMonster = arrayPlayers[i].getCurrentMonster();
                 Monster currentTMonster = arrayPlayers[targetIdx].getCurrentMonster();
@@ -352,7 +345,7 @@ public class Main {
                     System.out.printf("%s, good job! Get back!\n", currentPMonster.getNama());
                     Monster monster = (Monster) listActs.get(i);
                     arrayPlayers[i].setCurrentMonster(monster);
-                    System.out.printf("PKMN Trainer %s sent out %S!\n",  arrayPlayers[i].getPlayerName(), monster.getNama());
+                    System.out.printf("PKMN Trainer %s sent out %S!\n", arrayPlayers[i].getPlayerName(), monster.getNama());
                     delay(1000);
                 }
                 else {
@@ -364,24 +357,20 @@ public class Main {
                     }
                     else {
                         Move move = (Move) listActs.get(i);
-                        System.out.printf("%s's %s used %s!\n", arrayPlayers[i].getPlayerName(), 
+                        System.out.printf("PKMN Trainer %s's %s used %s!\n", arrayPlayers[i].getPlayerName(), 
                             currentPMonster.getNama(), move.getName());
                         move.executeMove(currentPMonster, currentTMonster);
                         delay(1000);
-                        if (!currentPMonster.isMonsterAlive()) {
-                            System.out.printf("%s fainted!\n", currentPMonster.getNama());
+                        if (!currentTMonster.isMonsterAlive()) {
+                            System.out.printf("PKMN Trainer %s's %s fainted!\n", arrayPlayers[targetIdx].getPlayerName(), currentPMonster.getNama());
                         }
                         // Did we win?
-                        if (!arrayPlayers[targetIdx].hasAliveMonsters()) {
+                        if (!arrayPlayers[targetIdx].hasAliveMonsters()) {  // DEBUG
                             isGameEnd = true;
                             playerWin = arrayPlayers[i];
                             playerLost = arrayPlayers[targetIdx];
                             break;  // break the loop, even if the other player haven't acted
                         }
-                        // Print fainted message if currentPMonster KO
-                        System.out.printf("%s's %s fainted!\n", 
-                            arrayPlayers[i].getPlayerName(), 
-                            currentPMonster.getNama());
                     }
                 }
                 // Moves has been executed
@@ -427,7 +416,7 @@ public class Main {
                     boolean isKOReplaced = false;
                     while (!isKOReplaced) {
                         try {
-                            System.out.println("Select a monster: ");
+                            System.out.printf("PKMN Trainer %s! Select a new monster: \n", arrayPlayers[targetIdx].getPlayerName());
                             arrayPlayers[targetIdx].printMonsters(true);
                             System.out.print(">> ");
                             /**
@@ -450,7 +439,6 @@ public class Main {
                         }
                         catch (InputMismatchException e) {WarnInputMismatch();}
                         catch (IndexOutOfBoundsException e) {WarnIndexOutOfBounds();}
-                        finally {scanner.close();}
                     }
                     // Inputting loop ends
                     // if the targetMonster is KO, all its actions are cancelled. break
@@ -461,12 +449,14 @@ public class Main {
             }
             // Turn ends
             System.out.println("Starting the next turn...");
-            delay(100);
+            delay(1000);
+            clearTerminal();
         }
         // Game has ended
 
         System.out.printf("%s has defeated %s!\n", playerWin.getPlayerName(), playerLost.getPlayerName());
         System.out.println("Thank you for playing!");
+        scanner.close();
 
     }
     // End of main
@@ -474,11 +464,6 @@ public class Main {
 
 
     // STATICS
-    private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
-            "configs/monsterpool.csv",
-            "configs/movepool.csv",
-            "configs/element-type-effectivity-chart.csv"));
-    
     // Melakukan print pilihan command di main menu
     private static final void printMainMenuCommands() {
         System.out.println(
@@ -610,5 +595,10 @@ public class Main {
         delay(1000);
         System.out.println("ERROR. Enter a *valid* number! (e.g. '1')\n");
         delay(1000);
+    }
+
+    private static void clearTerminal() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

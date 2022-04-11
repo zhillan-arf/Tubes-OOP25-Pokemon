@@ -4,11 +4,7 @@ import java.io.File;
 import java.util.*;
 
 public class EffectivityConfig {
-    private static String fileName = "../configs/element-type-effectivity-chat.csv";
-
-    public static void setFileName(String fn){
-        fileName = fn;
-    }
+    private static String fileName = "../configs/element-type-effectivity-chart.csv";
 
     public static double getEffectivity(ElementType source, ElementType target){
         double value = 1; //default
@@ -20,7 +16,7 @@ public class EffectivityConfig {
             for (String[] line : lines){
                 ElementType sourceType = ElementType.valueOf(line[0]);
                 ElementType targetType = ElementType.valueOf(line[1]);
-                if (source == sourceType && target == targetType){
+                if (source == sourceType && target == targetType) {
                     value = Double.valueOf(line[2]);
                     break;
                 }

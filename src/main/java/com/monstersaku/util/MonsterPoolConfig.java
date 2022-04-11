@@ -7,7 +7,7 @@ public class MonsterPoolConfig {
     private static String fileName = "../configs/monsterpool.csv";
 
     public static List<Monster> create(List<Move> movePool){
-        List<Monster> monsterPool = new ArrayList<Monster>();
+        List<Monster> monsterTemplatePool = new ArrayList<Monster>();
 
         try {
             CSVReader reader = new CSVReader(new File(MonsterPoolConfig.class.getResource(fileName).toURI()), ";");
@@ -75,8 +75,8 @@ public class MonsterPoolConfig {
                 // Instatiate the monster using the datas
                 Monster monster = new Monster(id, nama, eltype, attrBaseStats, moves);
 
-                // Add monster to monsterPool
-                monsterPool.add(monster);
+                // Add monster to monsterTemplatePool
+                monsterTemplatePool.add(monster);
             }    
         }
         catch (Exception e){
@@ -84,9 +84,8 @@ public class MonsterPoolConfig {
             System.exit(1);
         }
 
-        try {Thread.sleep(1000);} 
-        catch (InterruptedException e) {e.printStackTrace();}
+        try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
         System.out.println("monsterpool.csv loaded...");
-        return monsterPool;
+        return monsterTemplatePool;
     }
 }

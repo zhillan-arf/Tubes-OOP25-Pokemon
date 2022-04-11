@@ -28,6 +28,17 @@ public class Monster {
         this.statsBuff = new StatsBuff();
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    // Copy constructor
+    public Monster(Monster oldMonster) {
+        this.id = oldMonster.getId();
+        this.nama = new String(oldMonster.getNama());
+        this.elementTypes = new ArrayList(oldMonster.getElement());
+        this.baseStats = new Stats(oldMonster.getBaseStats());
+        this.moves = new ArrayList(oldMonster.getMoves());
+        this.statsBuff = new StatsBuff();
+    }
+
     // Getter methods
     public int getId() {return this.id;}
     public String getNama() {return this.nama;}

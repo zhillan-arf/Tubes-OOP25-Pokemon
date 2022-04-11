@@ -21,6 +21,17 @@ public class Stats {
         this.specialDefense = specialDefense;
         this.speed = speed;
     }
+    
+    // Copy constructor
+    public Stats(Stats oldStats) {
+        this.healthPoint = oldStats.getHealthPoint();
+        this.maxHealthPoint = oldStats.getMaxHealthPoint();
+        this.attack = oldStats.getAttack();
+        this.defense = oldStats.getDefense();
+        this.specialAttack = oldStats.getSpecialAttack();
+        this.specialDefense = oldStats.getSpecialDefense();
+        this.speed = oldStats.getSpeed();
+    }
 
     // Getter methods
     public double getHealthPoint() {return this.healthPoint;}
