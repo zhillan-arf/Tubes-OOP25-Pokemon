@@ -145,6 +145,8 @@ public class Monster {
         double dmg = maxHP * statusMultiplier;
         if (dmg > cHP) dmg = cHP;
         this.baseStats.setHealthPoint(cHP - dmg, maxHP);
-        System.out.printf("%s receives %d damages!\n", this.nama, dmg);
+        //For debugging purpose:
+        //System.out.println("DMG: " + String.valueOf(dmg) + " SM: " + String.valueOf(statusMultiplier) + " MxHP: " + String.valueOf(maxHP) + " cHP: " + String.valueOf(cHP));
+        System.out.printf("%s receives %d damages!\n", this.nama, (int) dmg);
     }
 }

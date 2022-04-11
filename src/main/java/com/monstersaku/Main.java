@@ -74,7 +74,7 @@ public class Main {
         clearTerminal();
         
         delay(500);
-        System.out.printf(">>> %s\n", arrayPlayers[0].getPlayerName().toUpperCase());
+        System.out.printf("\n\n>>> %s\n", arrayPlayers[0].getPlayerName().toUpperCase());
         delay(1000);
         System.out.printf("    V.S.\n");
         delay(1000);
@@ -382,11 +382,11 @@ public class Main {
                         StatusCondition statCon = monster.getStatusCondition();
                         if (statCon == StatusCondition.BURN) {
                             System.out.printf("%s suffered BURN!\n", monster.getNama());
-                            monster.damage(1/8);
+                            monster.damage((double)1/8);
                         }
                         else if (statCon == StatusCondition.POISON) {
                             System.out.printf("%s suffered POISON!\n", monster.getNama());
-                            monster.damage(1/16);
+                            monster.damage((double)1/16);
                         }
                         else if (statCon == StatusCondition.SLEEP) {monster.reduceSleepDuration();}
                         // Display if KO
