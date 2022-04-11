@@ -283,6 +283,8 @@ public class Main {
                             break;
                     }
                 }
+                // Next player's turn
+                clearTerminal();
             }
             // End of action givings loop
 
@@ -426,7 +428,7 @@ public class Main {
                              * If it tries to access a num larger than the List,
                              * it will also throw IndexOutOfBoundsException
                              */
-                            int num = scanner.nextInt();
+                            int num = Integer.valueOf(scanner.nextLine());
                             Monster selectedMonster = arrayPlayers[targetIdx].getNumthMonster(num);
                             if (!selectedMonster.isMonsterAlive()) {
                                 // Selected monster is KO (and doesnt appear on terminal)
