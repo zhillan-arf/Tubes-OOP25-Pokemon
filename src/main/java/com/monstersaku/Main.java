@@ -88,6 +88,7 @@ public class Main {
         delay(1000);
         System.out.printf("PKMN Trainer %s sent out %S!\n\n",  
             arrayPlayers[1].getPlayerName(), arrayPlayers[1].getCurrentMonster().getNama());
+        delay(1000);
 
         while (!isGameEnd) {
             // A turn starts
@@ -124,6 +125,7 @@ public class Main {
                                         System.out.println("Returning to your turn...");
                                         delay(1000);
                                         isInputValid = true;
+                                        clearTerminal();
                                     }
                                     else {
                                         // Adds selected move to action list
@@ -143,9 +145,10 @@ public class Main {
                         case "2" :
                             while (!isInputValid) {
                                 try {
-                                    System.out.print("Which monster do you want to switch with?\n>> ");
+                                    System.out.println("Which monster do you want to switch with?");
                                     arrayPlayers[i].printMonsters(true);
                                     System.out.println("   0. Cancel");
+                                    System.out.print(">> ");
                                     num = Integer.valueOf(scanner.nextLine());
                                     // If input isnt a number, throw InputMismatchException
                                     // If not, proceeds
@@ -154,6 +157,7 @@ public class Main {
                                         System.out.println("\nReturning to your turn...");
                                         delay(1000);
                                         isInputValid = true;
+                                        clearTerminal();
                                     }
                                     else {
                                         /**
@@ -174,6 +178,7 @@ public class Main {
                                             isInputValid = true;
                                             isTurnForPlayer = false;
                                             delay(1000);
+                                            clearTerminal();
                                         }
                                     }
                                 }
@@ -198,6 +203,7 @@ public class Main {
                                         System.out.println("\nReturning to your turn...");
                                         delay(1000);
                                         isInputValid = true;
+                                        clearTerminal();
                                     }
                                     else {
                                         System.out.print("Retrieving data...");
@@ -240,6 +246,7 @@ public class Main {
                                                             isInputValid = true;
                                                             System.out.println("\nReturning to your turn...");
                                                             delay(1000);
+                                                            clearTerminal();
                                                             break;
                                                         default :
                                                             System.out.println("Error. Enter a *valid* number!\n");
@@ -258,7 +265,7 @@ public class Main {
                         case "4" :
                             clearTerminal();
                             printGameInfo(ctrTurn, arrayPlayers[i]);
-                            System.out.println("Press ENTER to finish reading");
+                            System.out.printf("\nPress ENTER to finish reading... ");
                             String idleStr = scanner.nextLine();
                             System.out.println("Returning to your turn...");
                             clearTerminal();
@@ -268,7 +275,7 @@ public class Main {
                         case "5" :
                         clearTerminal();
                             printHelpTurn();
-                            System.out.println("Press ENTER to finish reading");
+                            System.out.printf("\nPress ENTER to finish reading... ");
                             String idleStr2 = scanner.nextLine();
                             System.out.println("Returning to your turn...");
                             delay(1500);
@@ -315,8 +322,7 @@ public class Main {
                     else {
                         // Same speed. Executes randomly
                         Random random1 = new Random();
-                        if (random1.nextInt(10) <= random1.nextInt(10)) {} // Current order: P0, P1
-                        else {arrOrder = P1First;} // Current order: P1, P0
+                        if (random1.nextInt(10) <= random1.nextInt(10)) {arrOrder = P1First;} // Current order: P1, P0
                     }
                 }
             }
@@ -332,11 +338,7 @@ public class Main {
             }
             System.out.println("\n");
             for (int i : arrOrder) {
-                // Get the i of the other player. Why is this so complex
-                int targetIdx;
-                if (i == 0) targetIdx = 1;
-                else targetIdx = 0;
-
+                int targetIdx = iToTargetIdx(i);
                 Monster currentPMonster = arrayPlayers[i].getCurrentMonster();
                 Monster currentTMonster = arrayPlayers[targetIdx].getCurrentMonster();
 
@@ -364,10 +366,12 @@ public class Main {
                         move.executeMove(currentPMonster, currentTMonster);
                         delay(1000);
                         if (!currentTMonster.isMonsterAlive()) {
-                            System.out.printf("PKMN Trainer %s's %s fainted!\n", arrayPlayers[targetIdx].getPlayerName(), currentPMonster.getNama());
+                            System.out.printf("PKMN Trainer %s's %s fainted!\n", 
+                            arrayPlayers[targetIdx].getPlayerName(), currentTMonster.getNama());
+                            break;  // If the fainted monster hasn't acted it is skipped
                         }
                         // Did we win?
-                        if (!arrayPlayers[targetIdx].hasAliveMonsters()) {  // DEBUG
+                        if (!arrayPlayers[targetIdx].hasAliveMonsters()) {
                             isGameEnd = true;
                             playerWin = arrayPlayers[i];
                             playerLost = arrayPlayers[targetIdx];
@@ -375,51 +379,63 @@ public class Main {
                         }
                     }
                 }
-                // Moves has been executed
-                    
-                // PHASE 2B: calculate after damages
-                // Damages are inflicted on ALL of opposing player's monsters
-                for (Monster monster : arrayPlayers[targetIdx].getListMonster()) {
-                    if (monster.isMonsterAlive()) {
-                        StatusCondition statCon = monster.getStatusCondition();
-                        if (statCon == StatusCondition.BURN) {
-                            System.out.printf("%s suffered BURN!\n", monster.getNama());
-                            monster.damage((double)1/8);
-                        }
-                        else if (statCon == StatusCondition.POISON) {
-                            System.out.printf("%s suffered POISON!\n", monster.getNama());
-                            monster.damage((double)1/16);
-                        }
-                        else if (statCon == StatusCondition.SLEEP) {monster.reduceSleepDuration();}
-                        // Display if KO
-                        if (!monster.isMonsterAlive()) {
-                            delay(1000);
-                            System.out.printf("%s fainted!\n", monster.getNama());
-                            delay(1000);
-                        }
-                    }       
+            }
+            if (isGameEnd) {break;}
+            // Moves and switches has been executed
+
+            // PHASE 2B: calculate after damages
+            Random random1 = new Random();
+            arrOrder = P0First;
+            if (random1.nextInt(10) <= random1.nextInt()) {arrOrder = P1First;}
+            for (int i : arrOrder) {
+                Monster currentPMonster = arrayPlayers[i].getCurrentMonster();
+                
+                // Inflict status damages on the current monsters
+                if (currentPMonster.getStatusCondition() == StatusCondition.BURN) {
+                    System.out.printf("%s's %s suffered BURN!\n", 
+                        arrayPlayers[i].getPlayerName(), currentPMonster.getNama());
+                    currentPMonster.damage((double)1/8);
+                    delay(500);
                 }
+                else if (currentPMonster.getStatusCondition() == StatusCondition.POISON) {
+                    System.out.printf("%s's %s suffered POISON!\n", 
+                        arrayPlayers[i].getPlayerName(), currentPMonster.getNama());
+                    currentPMonster.damage((double)1/16);
+                    delay(500);
+                }
+
+                if (!currentPMonster.isMonsterAlive()) {
+                    System.out.printf("PKMN Trainer %s's %s fainted!\n", 
+                    arrayPlayers[i].getPlayerName(), currentPMonster.getNama());
+                }
+
+                // Reduce the SLEEP counter on ALL monsters
+                for (Monster monster : arrayPlayers[i].getListMonster()) {
+                    if (monster.isMonsterAlive() && monster.getStatusCondition() == StatusCondition.SLEEP) {
+                        monster.reduceSleepDuration();
+                    }
+                }
+
                 // Did we win?
-                if (!arrayPlayers[targetIdx].hasAliveMonsters()) {
+                if (!arrayPlayers[i].hasAliveMonsters()) {
                     isGameEnd = true;
-                    playerWin = arrayPlayers[i];
-                    playerLost = arrayPlayers[targetIdx];
+                    playerWin = arrayPlayers[iToTargetIdx(i)];
+                    playerLost = arrayPlayers[i];
                     break;  // break the loop, even if the other player haven't acted
                 }
 
-                // Phase 2C: If targetMonster became K-O'd after attacks, 
+                // Phase 2C: If currentMonster became K-O'd after attacks, 
                 // but still hasn't lost
-                if (!currentTMonster.isMonsterAlive()) {
+                if (!currentPMonster.isMonsterAlive()) {
                     // Reset various statuses
-                    currentTMonster.setStatusCondition(StatusCondition.NONE);
-                    currentTMonster.getSB().setSB(0, 0, 0, 0, 0);
-                    // Input a new current monster
-                    //Scanner scanner = new Scanner(System.in);
+                    currentPMonster.setStatusCondition(StatusCondition.NONE);
+                    currentPMonster.getSB().resetStatsBuff();
                     boolean isKOReplaced = false;
                     while (!isKOReplaced) {
                         try {
-                            System.out.printf("PKMN Trainer %s! Select a new monster: \n", arrayPlayers[targetIdx].getPlayerName());
-                            arrayPlayers[targetIdx].printMonsters(true);
+                            delay(1000);
+                            System.out.printf("PKMN Trainer %s! Select a new monster: \n", arrayPlayers[i].getPlayerName());
+                            arrayPlayers[i].printMonsters(true);
                             System.out.print(">> ");
                             /**
                              * Try replace currentMonster with a new one
@@ -429,13 +445,13 @@ public class Main {
                              * it will also throw IndexOutOfBoundsException
                              */
                             int num = Integer.valueOf(scanner.nextLine());
-                            Monster selectedMonster = arrayPlayers[targetIdx].getNumthMonster(num);
+                            Monster selectedMonster = arrayPlayers[i].getNumthMonster(num);
                             if (!selectedMonster.isMonsterAlive()) {
                                 // Selected monster is KO (and doesnt appear on terminal)
                                 throw new IndexOutOfBoundsException("Selected monster is KO!");
                             }
                             else {
-                                arrayPlayers[targetIdx].setCurrentMonster(selectedMonster);
+                                arrayPlayers[i].setCurrentMonster(selectedMonster);
                                 isKOReplaced = true;
                             }
                         }
@@ -443,21 +459,22 @@ public class Main {
                         catch (IndexOutOfBoundsException e) {WarnIndexOutOfBounds();}
                     }
                     // Inputting loop ends
-                    // if the targetMonster is KO, all its actions are cancelled. break
-                    break; 
                 }
-                // else targetMonster is alive
-                // Go to next player, if possible
+                // Evaluate the next player
             }
             // Turn ends
-            System.out.println("Starting the next turn...");
+            System.out.print("Press ENTER to continue... ");
+            String idleStr = scanner.nextLine();
+            System.out.println("\nStarting the next turn...");
             delay(1000);
             clearTerminal();
         }
         // Game has ended
-
         System.out.printf("%s has defeated %s!\n", playerWin.getPlayerName(), playerLost.getPlayerName());
+        delay(2000);
         System.out.println("Thank you for playing!");
+        delay(2000);
+        com.monstersaku.util.EneConfig.printEne();
         scanner.close();
 
     }
@@ -553,13 +570,13 @@ public class Main {
         System.out.println("   a knocked-out pokemon!\"");
         delay(200);
         System.out.println(">> 3. View Monster Info");
-        System.out.println(">> \"Select a monster and view its stats and moves.\"");
+        System.out.println("   \"Select a monster and view its stats and moves.\"");
         delay(200);
         System.out.println(">> 4. View Game Info");
-        System.out.println(">> \"Print out current game status, as the name suggests.\"");
+        System.out.println("   \"Print out current game status, as the name suggests.\"");
         delay(200);
         System.out.println(">> 5. Help");
-        System.out.println(">> \"You are using that command right now.\"");
+        System.out.println("   \"You are using that command right now.\"");
         delay(1000);
     }
 
@@ -567,21 +584,20 @@ public class Main {
         // Print players
         System.out.println("Select player number: ");
         for (int i = 0; i <= 1; i++) {
-            System.out.printf("%d. %s\n", i+1, arrayPlayers[i].getPlayerName());
+            System.out.printf("    %d. %s\n", i+1, arrayPlayers[i].getPlayerName());
         }
-        System.out.println("0. Cancel");
     } 
 
     private static void printGameInfo(int turn, Player currentPlayer) {
         // Print info about the turn
         System.out.printf("\n>>>> TURN %d <<<<\n", turn);
         delay(200);
-        System.out.printf(">> Player : %s\n", currentPlayer.getPlayerName());
+        System.out.printf(">> Player  : %s\n", currentPlayer.getPlayerName());
         delay(700);
         System.out.printf(">> Current Monster:\n");
         currentPlayer.getCurrentMonster().printMonsterAttr();
         delay(200);
-        System.out.printf("%s's Monsters:\n", currentPlayer.getPlayerName());
+        System.out.printf("\nPKMN Trainer %s's Monsters:\n", currentPlayer.getPlayerName());
         currentPlayer.printMonsters(false);
     }
 
@@ -602,5 +618,11 @@ public class Main {
     private static void clearTerminal() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    public static int iToTargetIdx (int i) {
+        int targetIdx = 0;
+        if (i == 0) targetIdx = 1;
+        return targetIdx;
     }
 }

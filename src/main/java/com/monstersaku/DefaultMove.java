@@ -61,6 +61,7 @@ public class DefaultMove extends Move {
                 double maxHP = newStats.getMaxHealthPoint();
                 double newHP = newStats.getHealthPoint() - damage;
                 newStats.setHealthPoint(newHP, maxHP);
+                System.out.printf("It dealt %d damages!\n", (int) damage);
                 targetMonster.setStats(newStats);
                 
                 // HP sourceMonster reduction 
@@ -69,6 +70,7 @@ public class DefaultMove extends Move {
                 double maxSourceHP = newStats.getMaxHealthPoint();
                 double newSourceHP = sourceHP - (maxSourceHP * 1/4);
                 newSourceStats.setHealthPoint(newSourceHP, maxSourceHP);
+                System.out.printf("It costed %d damages!\n", (int) newSourceHP);
                 sourceMonster.setStats(newSourceStats);  
             }    
         }

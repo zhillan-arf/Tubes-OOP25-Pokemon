@@ -10,7 +10,7 @@
 ---
 
 This tubes uses gradle as the build tools.
-Set the terminal on the directory containing this README file, then run these commands:
+Set the terminal on the directory containing this README file, then run this command:
 
 On windows:
 ```cmd

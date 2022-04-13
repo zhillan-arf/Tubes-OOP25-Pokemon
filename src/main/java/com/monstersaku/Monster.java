@@ -123,7 +123,7 @@ public class Monster {
          * Of course, MOVES uses printMoves()
          * [zh] If this isn't aesthetic pelase replace with another design
          */
-        System.out.printf("   Name    : %s <<\n", this.nama);
+        System.out.printf("   Name    : %s\n", this.nama);
         System.out.printf("   Element : ");
         for (ListIterator<ElementType> it = this.elementTypes.listIterator(); it.hasNext(); ) {
             System.out.print(it.next());
