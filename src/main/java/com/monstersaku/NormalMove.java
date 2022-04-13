@@ -69,6 +69,7 @@ public class NormalMove extends Move {
                 double maxHP = newStats.getMaxHealthPoint();
                 newStats.setHealthPoint(newHP, maxHP);
                 targetMonster.setStats(newStats);
+                System.out.printf("It dealt %d damages!\n", (int) damage);
                 this.setAmmunition(getAmmunition() - 1);
             }    
         } 
