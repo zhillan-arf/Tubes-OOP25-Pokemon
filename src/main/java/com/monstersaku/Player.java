@@ -40,6 +40,17 @@ public class Player {
     // Return reference to current monster
     public Monster getCurrentMonster() {return currentMonster;}
 
+    // Sort monsters, put deads on the bottom
+    public void sortMonsters() {
+        Collections.sort(this.getListMonster(), new Comparator<Monster>() {
+            @Override
+            public int compare(final Monster lhs, Monster rhs) {
+                return (int) (rhs.getBaseStats().getHealthPoint() - lhs.getBaseStats().getHealthPoint());
+            }
+        });
+    }
+
+
     /**
      * Print all monsters, NUMBERED from 1...monsters.size()
      * Looks like this:
@@ -53,8 +64,8 @@ public class Player {
                 // Moster is alive, or not isAliveOnly
                 System.out.printf(
                 "   " + (i+1) + ". " + this.monsters.get(i).getNama() 
-                + " (" + this.monsters.get(i).getBaseStats().getHealthPoint() 
-                + "/" + this.monsters.get(i).getBaseStats().getMaxHealthPoint() + ")\n");
+                + " (" + (int) this.monsters.get(i).getBaseStats().getHealthPoint() 
+                + "/" + (int) this.monsters.get(i).getBaseStats().getMaxHealthPoint() + ")\n");
             }
         }
     }

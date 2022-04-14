@@ -10,8 +10,21 @@ public class DefaultMove extends Move {
     public DefaultMove () {
             super(999, "Default Move", ElementType.NORMAL, 100, 0, 999);
             this.basePower = 50;
-        }
+    }
     
+    // Copy constructor
+    public DefaultMove(DefaultMove oldMove) {
+        super(
+            oldMove.getId(), 
+            oldMove.getName(), 
+            oldMove.getElementType(), 
+            oldMove.getAccuracy(), 
+            oldMove.getPriority(), 
+            oldMove.getAmmunition()
+        );
+        this.basePower = 50;
+    }
+
     // Methods
     @Override
     /**
@@ -70,7 +83,7 @@ public class DefaultMove extends Move {
                 double maxSourceHP = newStats.getMaxHealthPoint();
                 double newSourceHP = sourceHP - (maxSourceHP * 1/4);
                 newSourceStats.setHealthPoint(newSourceHP, maxSourceHP);
-                System.out.printf("It costed %d damages!\n", (int) newSourceHP);
+                System.out.printf("It costed %d damages!\n", (int) (maxSourceHP * 1/4));
                 sourceMonster.setStats(newSourceStats);  
             }    
         }

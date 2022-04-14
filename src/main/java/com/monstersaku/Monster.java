@@ -35,7 +35,21 @@ public class Monster {
         this.nama = new String(oldMonster.getNama());
         this.elementTypes = new ArrayList(oldMonster.getElement());
         this.baseStats = new Stats(oldMonster.getBaseStats());
-        this.moves = new ArrayList(oldMonster.getMoves());
+        this.moves = new ArrayList<Move>();
+        for (Move move : oldMonster.getMoves()) {
+            if (move instanceof DefaultMove) {
+                moves.add(new DefaultMove((DefaultMove) move));
+            }
+            else if (move instanceof NormalMove) {
+                moves.add(new NormalMove((NormalMove) move));
+            }
+            else if (move instanceof SpecialMove) {
+                moves.add(new SpecialMove((SpecialMove) move));
+            }
+            else if (move instanceof StatusMove) {
+                moves.add(new StatusMove((StatusMove) move));
+            }
+        }
         this.statsBuff = new StatsBuff();
     }
 
@@ -69,16 +83,12 @@ public class Monster {
             this.setSleepDuration(rand);
             System.out.printf("%s is now SLEEPING for %d turns!\n");
         }
-        if (this.status != status && this.status != StatusCondition.NONE) {
-            StatusCondition.printGotStatus(this, this.getStatusCondition());
-        }
         this.status = status;
     }
     public void setSleepDuration(int rand) {this.sleepDuration = rand;}
     public void setStats(Stats baseStats) {this.baseStats = baseStats;}
     public void setMove(List<Move> moves) {this.moves = moves;}
 
-    // Other methods
     public void reduceSleepDuration() {
         int oldSlDur = this.sleepDuration;
         if (this.sleepDuration > 0) this.sleepDuration -= 1;

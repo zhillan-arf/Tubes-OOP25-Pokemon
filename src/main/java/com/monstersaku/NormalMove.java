@@ -21,7 +21,22 @@ public class NormalMove extends Move {
             this.basePower = basePower;
     }
 
+    // Copy constructor
+    public NormalMove(NormalMove oldMove) {
+        super(
+            oldMove.getId(), 
+            oldMove.getName(), 
+            oldMove.getElementType(), 
+            oldMove.getAccuracy(), 
+            oldMove.getPriority(), 
+            oldMove.getAmmunition()
+        );
+        this.basePower = oldMove.getBasePower();
+    }
+
     // Methods
+    public int getBasePower() {return this.basePower;}
+
     @Override
     /**
      * Menggunakan ATK dan DEF

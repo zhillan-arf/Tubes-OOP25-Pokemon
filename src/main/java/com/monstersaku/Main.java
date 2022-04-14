@@ -12,28 +12,50 @@ import java.util.*;
 
 public class Main {
     // ALGORIITMA PROGRAM UTAMA
-    public static void main(String[] args) {       
+    public static void main(String[] args) { 
+        // Config env
+        Scanner scanner = new Scanner(System.in);
+        boolean isInterfaceInputted = false;
+        while (!isInterfaceInputted) {
+            System.out.println("Select interface: ");
+            System.out.println("> IDE terminal");
+            System.out.println("> cmd");
+            System.out.print(">> ");
+            String interfaceStr = scanner.nextLine().toLowerCase();
+            if (interfaceStr.equals("ide terminal")) {
+                isInterfaceInputted = true;
+            }
+            else if (interfaceStr.equals("cmd")) {
+                isCmd = true;
+                isInterfaceInputted = true;
+            }
+            else {
+                System.out.println("\nERROR. Please enter the correct input!\n");
+                delay(1000);
+            }
+        }
+
         // Print ASCII Art
+        clearTerminal();
         printArt();
         delay(3000);
         clearTerminal();
         
         // Main Menu
-        Scanner scanner = new Scanner(System.in);
         boolean isStartGame = false;
         while (!isStartGame) {
             printMainMenuCommands();
             System.out.print(">> ");
-        	String commandMainMenu = scanner.nextLine();
-        	if (commandMainMenu.equals("Help")) {
+        	String commandMainMenu = scanner.nextLine().toLowerCase();
+        	if (commandMainMenu.equals("help")) {
         		printHelp();
                 delay(2000);
         	}
-        	else if (commandMainMenu.equals("Exit")) {
+        	else if (commandMainMenu.equals("exit")) {
                 System.out.println("Alright, bye-onara!");
         		System.exit(0);
         	}
-        	else if (commandMainMenu.equals("Start")) { isStartGame = true;}
+        	else if (commandMainMenu.equals("start")) { isStartGame = true;}
         	else {
                 System.out.println("ERROR. Unrecognized command!\n");
                 delay(500);
@@ -74,7 +96,7 @@ public class Main {
         clearTerminal();
         
         delay(500);
-        System.out.printf("\n\n>>> %s\n", arrayPlayers[0].getPlayerName().toUpperCase());
+        System.out.printf(">>> %s\n", arrayPlayers[0].getPlayerName().toUpperCase());
         delay(1000);
         System.out.printf("    V.S.\n");
         delay(1000);
@@ -365,9 +387,9 @@ public class Main {
                             currentPMonster.getNama(), move.getName());
                         move.executeMove(currentPMonster, currentTMonster);
                         delay(1000);
+                        checkPrintFainted(currentPMonster, arrayPlayers[i]);
                         if (!currentTMonster.isMonsterAlive()) {
-                            System.out.printf("PKMN Trainer %s's %s fainted!\n", 
-                            arrayPlayers[targetIdx].getPlayerName(), currentTMonster.getNama());
+                            checkPrintFainted(currentTMonster, arrayPlayers[targetIdx]);
                             break;  // If the fainted monster hasn't acted it is skipped
                         }
                         // Did we win?
@@ -384,6 +406,7 @@ public class Main {
             // Moves and switches has been executed
 
             // PHASE 2B: calculate after damages
+            System.out.println();
             Random random1 = new Random();
             arrOrder = P0First;
             if (random1.nextInt(10) <= random1.nextInt()) {arrOrder = P1First;}
@@ -391,22 +414,19 @@ public class Main {
                 Monster currentPMonster = arrayPlayers[i].getCurrentMonster();
                 
                 // Inflict status damages on the current monsters
-                if (currentPMonster.getStatusCondition() == StatusCondition.BURN) {
-                    System.out.printf("%s's %s suffered BURN!\n", 
+                if (currentPMonster.getStatusCondition() == StatusCondition.BURN && currentPMonster.isMonsterAlive()) {
+                    System.out.printf("PKMN Trainer %s's %s suffered BURN!\n", 
                         arrayPlayers[i].getPlayerName(), currentPMonster.getNama());
                     currentPMonster.damage((double)1/8);
                     delay(500);
+                    checkPrintFainted(currentPMonster, arrayPlayers[i]);
                 }
-                else if (currentPMonster.getStatusCondition() == StatusCondition.POISON) {
-                    System.out.printf("%s's %s suffered POISON!\n", 
+                else if (currentPMonster.getStatusCondition() == StatusCondition.POISON && currentPMonster.isMonsterAlive()) {
+                    System.out.printf("PKMN Trainer %s's %s suffered POISON!\n", 
                         arrayPlayers[i].getPlayerName(), currentPMonster.getNama());
                     currentPMonster.damage((double)1/16);
                     delay(500);
-                }
-
-                if (!currentPMonster.isMonsterAlive()) {
-                    System.out.printf("PKMN Trainer %s's %s fainted!\n", 
-                    arrayPlayers[i].getPlayerName(), currentPMonster.getNama());
+                    checkPrintFainted(currentPMonster, arrayPlayers[i]);
                 }
 
                 // Reduce the SLEEP counter on ALL monsters
@@ -427,6 +447,8 @@ public class Main {
                 // Phase 2C: If currentMonster became K-O'd after attacks, 
                 // but still hasn't lost
                 if (!currentPMonster.isMonsterAlive()) {
+                    // Put dead monster on the bottom of the list
+                    arrayPlayers[i].sortMonsters();
                     // Reset various statuses
                     currentPMonster.setStatusCondition(StatusCondition.NONE);
                     currentPMonster.getSB().resetStatsBuff();
@@ -494,13 +516,7 @@ public class Main {
     }
     
     private static void delay(int milis) {
-        try {
-            Thread.sleep(milis);
-        }
-        catch (InterruptedException e) {
-            System.out.println("FATAL INTERRUPTION ERROR. Something went TERRIBLY wrong...\n");
-            System.exit(2);
-        }
+        try {Thread.sleep(milis);} catch (InterruptedException e) {}
     }
 
     private static final void printActions() {
@@ -616,13 +632,31 @@ public class Main {
     }
 
     private static void clearTerminal() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        try {
+            if (System.getProperty("os.name").contains("Windows") && isCmd) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }
+            else {
+                System.out.print("\033\143");
+                System.out.flush();
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static int iToTargetIdx (int i) {
         int targetIdx = 0;
         if (i == 0) targetIdx = 1;
         return targetIdx;
+    }
+
+    public static boolean isCmd = false;
+
+    public static void checkPrintFainted(Monster monster, Player player) {
+        if (!monster.isMonsterAlive()) {
+            System.out.printf("PKMN Trainer %s's %s fainted!\n", 
+            player.getPlayerName(), monster.getNama());
+        }
     }
 }

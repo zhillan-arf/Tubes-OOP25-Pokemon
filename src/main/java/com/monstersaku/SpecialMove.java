@@ -20,8 +20,23 @@ public class SpecialMove extends Move {
             super(id, name, elementType, accuracy, priority, ammunition);
             this.basePower = basePower;
        }
-    
+
+    // Copy constructor
+    public SpecialMove(SpecialMove oldMove) {
+        super(
+            oldMove.getId(), 
+            oldMove.getName(), 
+            oldMove.getElementType(), 
+            oldMove.getAccuracy(), 
+            oldMove.getPriority(), 
+            oldMove.getAmmunition()
+        );
+        this.basePower = oldMove.getBasePower();
+    }
+
     // Methods
+    public int getBasePower() {return this.basePower;}
+
     @Override
     // Menggunakan SP ATK dan SP DEF
     public void executeMove(Monster sourceMonster, Monster targetMonster) {

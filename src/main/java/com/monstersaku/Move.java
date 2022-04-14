@@ -11,7 +11,7 @@ public abstract class Move {
     
 
     // Konstruktor
-    public Move(
+    public Move (
             int id,
             String name, 
             ElementType elementType, 
@@ -19,6 +19,7 @@ public abstract class Move {
             int priority, 
             int ammunition
         ) {
+            this.id = id;
             this.name = name;
             this.elementType = elementType;
             this.accuracy = accuracy;
