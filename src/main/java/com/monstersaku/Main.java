@@ -18,14 +18,14 @@ public class Main {
         boolean isInterfaceInputted = false;
         while (!isInterfaceInputted) {
             System.out.println("Select interface: ");
-            System.out.println("> IDE terminal");
-            System.out.println("> cmd");
+            System.out.println("> VSCode");
+            System.out.println("> Other");
             System.out.print(">> ");
             String interfaceStr = scanner.nextLine().toLowerCase();
-            if (interfaceStr.equals("ide terminal")) {
+            if (interfaceStr.equals("vscode")) {
                 isInterfaceInputted = true;
             }
-            else if (interfaceStr.equals("cmd")) {
+            else if (interfaceStr.equals("other")) {
                 isCmd = true;
                 isInterfaceInputted = true;
             }
