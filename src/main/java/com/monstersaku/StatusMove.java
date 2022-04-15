@@ -96,12 +96,12 @@ public class StatusMove extends Move {
             // Print results
             String nama = monster.getNama();
             int[] newArr = monster.getSB().getArrSB();
-            if (deltaHP != 0) System.out.printf("%s healed %d HP.", nama, (int) deltaHP);
-            if (oldArr[0] != newArr[0]) System.out.printf("%s's ATK \"buffed\" into %d.", nama, (int) newArr[0]);
-            if (oldArr[1] != newArr[1]) System.out.printf("%s's DEF \"buffed\" into %d.", nama, (int) newArr[1]);
-            if (oldArr[2] != newArr[2]) System.out.printf("%s's SP. ATK \"buffed\" into %d.", nama, (int) newArr[2]);
-            if (oldArr[3] != newArr[3]) System.out.printf("%s's SP. DEF \"buffed\" into %d.", nama, (int) newArr[3]);
-            if (oldArr[4] != newArr[4]) System.out.printf("%s's SPEED \"buffed\" into %d.", nama, (int) newArr[4]);
+            if (deltaHP != 0) System.out.printf("%s healed %d HP.\n", nama, (int) deltaHP);
+            if (oldArr[0] != newArr[0]) System.out.printf("%s's ATK \"buffed\" into %d.\n", nama, (int) newArr[0]);
+            if (oldArr[1] != newArr[1]) System.out.printf("%s's DEF \"buffed\" into %d.\n", nama, (int) newArr[1]);
+            if (oldArr[2] != newArr[2]) System.out.printf("%s's SP. ATK \"buffed\" into %d.\n", nama, (int) newArr[2]);
+            if (oldArr[3] != newArr[3]) System.out.printf("%s's SP. DEF \"buffed\" into %d.\n", nama, (int) newArr[3]);
+            if (oldArr[4] != newArr[4]) System.out.printf("%s's SPEED \"buffed\" into %d.\n", nama, (int) newArr[4]);
 
             this.setAmmunition(this.getAmmunition() - 1);
         }

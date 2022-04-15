@@ -496,8 +496,12 @@ public class Main {
         }
         // Game has ended
         System.out.printf("%s has defeated %s!\n", playerWin.getPlayerName(), playerLost.getPlayerName());
-        delay(2000);
-        System.out.println("Thank you for playing!");
+        delay(1000);
+        System.out.println("Congratulations!!!");
+        delay(1000);
+        System.out.println("//======================\\\\");
+        System.out.println("||Thank you for playing!||");
+        System.out.println("\\\\======================//\n");
         delay(2000);
         com.monstersaku.util.EneConfig.printEne();
         scanner.close();
@@ -538,11 +542,11 @@ public class Main {
     public static final void printArt() {
     	System.out.println("=============================================================================");
     	System.out.println("");
-    	System.out.println(" ____    ____  ______  ____  _____   _______ _________ _________ ________    ");
-    	System.out.println("|_   \\  /   _|/      \\ |_   \\|_   _|/  ___  |  _   _  |_   ___  |_   __  \\   ");
+    	System.out.println(" ____    ____  ______  ____  ______  _______ _________ _________ ________    ");
+    	System.out.println("|_   \\  /   _|/      \\ |_   \\|_  _| /  ___  |  _   _  |_   ___  |_   __  \\   ");
     	System.out.println("  |   \\/   | /  /--\\  \\ |   \\ | |  |  (___\\_|_/ | | \\_| | |_  \\_| | |__)  |  ");
     	System.out.println("  | |\\  /| | | |    | | | |\\ \\| |   \\____  \\    | |     |  _|  _  |  __  /   ");
-    	System.out.println(" _| |_\\/_| |_\\  \\--/  /_| |_\\   |_|| \\___)  |  _| |_   _| |___/ |_| |  \\ \\_ ");
+    	System.out.println(" _| |_\\/_| |_\\  \\--/  /_| |_\\   |_ | \\___)  |  _| |_   _| |___/ |_| |  \\ \\_ ");
     	System.out.println("|_____||_____|\\______/|_____|\\____||_______/  |_____| |_________|____| |___|");
     	System.out.println("                  _______      __      ___  ____  _____  _____ ");
     	System.out.println("                 /  ___  |    /  \\    |_  ||_  _||_   _||_   _|");
