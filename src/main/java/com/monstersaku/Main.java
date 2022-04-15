@@ -96,7 +96,7 @@ public class Main {
         clearTerminal();
         
         delay(500);
-        System.out.printf(">>> %s\n", arrayPlayers[0].getPlayerName().toUpperCase());
+        System.out.printf("\n>>> %s\n", arrayPlayers[0].getPlayerName().toUpperCase());
         delay(1000);
         System.out.printf("    V.S.\n");
         delay(1000);
@@ -634,13 +634,13 @@ public class Main {
     private static void clearTerminal() {
         try {
             if (System.getProperty("os.name").contains("Windows") && isCmd) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                // TODO
             }
             else {
                 System.out.print("\033\143");
                 System.out.flush();
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

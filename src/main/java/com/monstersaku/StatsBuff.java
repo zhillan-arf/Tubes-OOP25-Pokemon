@@ -65,31 +65,31 @@ public class StatsBuff {
         double ret = 1;
         switch (statBuff) {
             case -4 :
-                ret = 2/6;
+                ret = 0.33;
                 break;
             case -3 :
-                ret = 2/5;
+                ret = 0.4;
                 break;
             case -2 :
-                ret = 2/6;
+                ret = 0.5;
                 break;
             case -1 :
-                ret = 2/3;
+                ret = 0.67;
                 break;
-            case -0 :
+            case 0 :
                 ret = 1;
                 break;
             case 1 :
-                ret = 3/2;
+                ret = 1.5;
                 break;
             case 2 :
-                ret = 4/2;
+                ret = 2;
                 break;
             case 3 :
-                ret = 5/2;
+                ret = 2.5;
                 break;
             case 4 :
-                ret = 6/2;
+                ret = 3;
                 break;
         }
         return ret;
