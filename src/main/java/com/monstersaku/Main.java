@@ -102,6 +102,9 @@ public class Main {
         delay(1000);
         System.out.printf("    %s <<<\n", arrayPlayers[1].getPlayerName().toUpperCase());
         delay(1000);
+        clearTerminal();
+        printVersusScreen();
+        delay(1000);
         System.out.println("\n>>>>> GAME BEGINS!!! <<<<<\n");
         delay(1000);
 
@@ -658,5 +661,36 @@ public class Main {
             System.out.printf("PKMN Trainer %s's %s fainted!\n", 
             player.getPlayerName(), monster.getNama());
         }
+    }
+    
+    public static void printVersusScreen() {
+    	System.out.println("\n====================================================================================================");
+    	delay(100);
+    	System.out.println("MMMMMMMMMMMMMMMWkk/''''''''''''\\lKWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWKxc'''''''.,ckXWMMMMMMMMMMMMMMMM");
+    	delay(100);
+    	System.out.println("MMMMMMMMMMMMMMMNoc             .NMNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMXl.            'lKWMMMMMMMMMMMMMM");
+    	delay(100);
+    	System.out.println("MMMMMMMMMMMMMMMWk'             .cKMMM0lcdKMMWOlcxNMWX0dccccccxNMMMWO,               ,OWMMMMMMMMMMMMM");
+    	delay(100);
+    	System.out.println("MMMMMMMMMMMMMMMMWO:.          ,kNMMMWo   xMMMx  ,KMk''       ;KMMMWKdlc              cXMMMMMMMMMMMMM");
+    	delay(100);
+    	System.out.println("MMMMMMMMMMMMMMMWKo,.         :0WMMMMMx.  .xNx.  ,KMx.  .,;;;lOWMMMMMMMN              .xWMMMMMMMMMMMM");
+    	delay(100);
+    	System.out.println("MMMMMMMMMMMMMMWNd.          'OWMMMMMMNx.  .I.  .xNMx.       .c0WMMMMMMWO           .;cxNMMMMMMMMMMMM");
+    	delay(100);
+    	System.out.println("MMMMMMMMMMMWXkl;'           .,dNMMMMMMNl   I   cNMMKdc,,,,.   oWWWWMWKo'           .;okKWMMMMMMMMMMM");
+    	delay(100);
+    	System.out.println("MMMMMMMMMWKd,                .oNMMMMMMMK:.   .:OWMWO;'''''    oXd:xko                 .':d0NWMMMMMMM");
+    	delay(100);
+    	System.out.println("MMMMMMMW0o'                  cXNkllxXWMMK;   oNWMMWd.        :OXXx/     .,.               .,lONMMMMM");
+    	delay(100);
+    	System.out.println("MMMNKko:.                    cKd.   ,OWMWOc:l0MMMMMKxddddddkXMMW0c    KXl/           .I.     .;dKWMM");
+    	delay(100);
+    	System.out.println("MNk:.       //               lKo.    ;KMMMMMMMMMMMMMMMMMMMMMMMMMMc     ';;           'k0dc'.    'l0W");
+    	delay(100);
+    	System.out.println("MO'       //                 cNXl.   .OMMMMMMMMMMMMMMMMMMMMMMMMMMMMMc    '            cNMWKd,.    ;0");
+    	delay(100);
+    	System.out.println("====================================================================================================");
+    	delay(100);
     }
 }
